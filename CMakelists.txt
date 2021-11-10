@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.14)
+
+# 项目名称为：Ai天宇平台（aitianyu platform）
+# Project Name: AiTianyu Platform
+project(aitianyu platform)

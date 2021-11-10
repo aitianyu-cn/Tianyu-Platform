@@ -1,0 +1,8 @@
+# 忽略用于MacOS的配置文件
+# ignore configure file of MacOS
+*.DS_Store
+
+# 忽略用于IDE、编写环境的配置文档以及输出库
+# ignore output library and configure folder of both IDE and editor.
+.vs/*
+out/*
