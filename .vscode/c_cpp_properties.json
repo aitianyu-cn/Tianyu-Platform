@@ -1,6 +1,21 @@
 {
     "configurations": [
         {
+            "name": "Apple",
+            "includePath": [
+                "${workspaceFolder}/dty-native/*"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "macos-clang-x64"
+        },
+        {
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/dty-native/*"
