@@ -18,16 +18,22 @@ namespace dty
 {
     namespace io
     {
-        _interface IFileReader
+        _interface IDispose
         {
-
-        };
-        _interface IFileWriter
-        {
-
+            __PUB__ virtual void Dispose() = 0;
         };
 
-        _interface IFileStream : public IFileReader, public IFileWriter
+        _interface IReader : public virtual IDispose
+        {
+            __PUB__ virtual bool __VARIABLE__ Open(string __VARIABLE__ filePath) = 0;
+        };
+        _interface IWriter : public virtual IDispose
+        {
+            __PUB__ virtual bool __VARIABLE__ Flush() = 0;
+            __PUB__ virtual bool __VARIABLE__ Close() = 0;
+        };
+
+        _interface IStream : public IReader, public IWriter
         {
 
         };

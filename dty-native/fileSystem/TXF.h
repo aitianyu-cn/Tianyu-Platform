@@ -1,5 +1,5 @@
 /**
- * @file TXF.h(fileSystem)
+ * @file txf.h(fileSystem)
  * @author senyun.yao
  * @brief Description for Tianyu eXtened File
  * @version 0.1
@@ -8,6 +8,9 @@
  * @copyright aitianyu.cn Copyright (c) 2021
  * 
  */
+
+#ifndef __DTY_NATIVE_FILESYSTEM_TXF_H__
+#define __DTY_NATIVE_FILESYSTEM_TXF_H__
 
 #include"./utilize.h"
 
@@ -90,3 +93,5 @@ namespace dty
         }
     }
 }
+
+#endif // !__DTY_NATIVE_FILESYSTEM_TXF_H__
