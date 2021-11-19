@@ -6,3 +6,12 @@
 # ignore output library and configure folder of both IDE and editor.
 .vs/*
 out/*
+
+# Visual Studio
+*.log
+*.obj
+*.tlog
+*.pdb
+
+dty-native/ide-support/DTY_Platform_VS/.vs/DTY_Platform_VS/*
+# Visual Studio End

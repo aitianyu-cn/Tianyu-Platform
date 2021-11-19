@@ -23,7 +23,6 @@ namespace dty::collection
 {
     class String : public virtual IEquatable<String>,
         public virtual ICompareable<String>,
-        public virtual ICollection<char>,
         public virtual ICloneable<String>
     {
         __PUB__ String();
@@ -37,11 +36,12 @@ namespace dty::collection
         __PUB__ virtual ~String() override;
 
 #pragma region Tianyu String Function
-        __PUB__ int32 __VARIABLE__  Lenght();
-        __PUB__ bool  __VARIABLE__  InsertAt(int32 __VARIABLE__ index, char __REFERENCE__ obj);
-        __PUB__ bool  __VARIABLE__  RemoveAt(int32 __VARIABLE__ index);
-        __PUB__ void  __VARIABLE__  Clear();
-        __PUB__ char  __REFERENCE__ operator[](int32 __VARIABLE__ index);
+        __PUB__ int32                __VARIABLE__ Lenght();
+        __PUB__ bool                 __VARIABLE__ IsEmpty();
+        __PUB__ bool                 __VARIABLE__ InsertAt(int32 __VARIABLE__ index, char __REFERENCE__ obj);
+        __PUB__ bool                 __VARIABLE__ RemoveAt(int32 __VARIABLE__ index);
+        __PUB__ void                 __VARIABLE__ Clear();
+        __PUB__ char                 __VARIABLE__ operator[](int32 __VARIABLE__ index);
 
         __PUB__ bool                 __VARIABLE__ EndWith(char __REFERENCE__ ch);
         __PUB__ bool                 __VARIABLE__ EndWith(String __REFERENCE__ str);
@@ -88,6 +88,7 @@ namespace dty::collection
         __PUB__ void                 __VARIABLE__ TrimEnd(char __VARIABLE__ ch);
         __PUB__ void                 __VARIABLE__ TrimEnd(char __VARIABLE__ ch[], int32 __VARIABLE__ length);
 
+        __PUB__ Array<char> __REFERENCE__ ToArray();
 #if __cplusplus >= 201103
         __PUB__ bool   __VARIABLE__ Contains(std::initializer_list<String __REFERENCE__> strs);
 #endif // !__cplusplus >= 201103
@@ -95,21 +96,6 @@ namespace dty::collection
         __PUB__ String __REFERENCE__ operator =(String __REFERENCE__ source);
         __PUB__ String __REFERENCE__ operator =(const string __VARIABLE__ source);
         __PUB__ operator string();
-#pragma endregion
-
-#pragma region Tianyu IList Interface
-        __PUB__ virtual int32       __VARIABLE__  Count() override;
-        __PUB__ virtual bool        __VARIABLE__  IsEmpty() override;
-        __PUB__ virtual Array<char> __REFERENCE__ ToArray() override;
-
-        __PUB__ virtual Iterator<char>    __REFERENCE__ GetIterator() override;
-
-        __PUB__ virtual void               __VARIABLE__ ForEach(fnForEach __VARIABLE__ foreachFunc) override;
-        __PUB__ virtual SmartPointer<char> __VARIABLE__ Map(int32 __REFERENCE__ resultLength, fnMapping __VARIABLE__ foreachFunc) override;
-        __PUB__ virtual SmartPointer<char> __VARIABLE__ Filter(int32 __REFERENCE__ resultLength, fnMapping __VARIABLE__ foreachFunc) override;
-        __PUB__ virtual char               __VARIABLE__ Find(fnMapping __VARIABLE__ foreachFunc) override;
-        __PUB__ virtual int32              __VARIABLE__ FindIndex(fnMapping __VARIABLE__ foreachFunc) override;
-        __PUB__ virtual void               __VARIABLE__ Every(fnMapping __VARIABLE__ foreachFunc) override;
 #pragma endregion
 
 #pragma region Tianyu IEquatable Interface
@@ -120,8 +106,6 @@ namespace dty::collection
 
 #pragma region Tianyu ICompareable Interface
         __PUB__ virtual CompareResult __VARIABLE__ CompareTo(String __REFERENCE__ other) override;
-        __PUB__ virtual bool          __VARIABLE__ operator ==(String __REFERENCE__ other) override;
-        __PUB__ virtual bool          __VARIABLE__ operator !=(String __REFERENCE__ other) override;
         __PUB__ virtual bool          __VARIABLE__ operator <(String __REFERENCE__ other) override;
         __PUB__ virtual bool          __VARIABLE__ operator >(String __REFERENCE__ other) override;
         __PUB__ virtual bool          __VARIABLE__ operator <=(String __REFERENCE__ other) override;
@@ -130,21 +114,6 @@ namespace dty::collection
 
 #pragma region Tianyu ICloneable Interface
         __PUB__ virtual SmartPointer<String> __VARIABLE__ Clone() override;
-#pragma endregion
-
-#pragma region Iterator for Tianyu String
-        __PRI__ class StringIterator : public Iterator<char>
-        {
-            __PRI__ string __VARIABLE__ _SourceString;
-
-            __PUB__ StringIterator();
-            __PUB__ virtual ~StringIterator() override;
-
-            __PUB__ virtual void               __VARIABLE__ Reset() override;
-            __PUB__ virtual SmartPointer<char> __VARIABLE__ Current() override;
-            __PUB__ virtual SmartPointer<char> __VARIABLE__ Next() override;
-            __PUB__ virtual SmartPointer<char> __VARIABLE__ End() override;
-        };
 #pragma endregion
 
 #pragma region Statics for Tianyu String

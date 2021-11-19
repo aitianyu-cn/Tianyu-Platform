@@ -60,81 +60,29 @@ namespace dty::collection
      * 
      */
     template<class _Key, class _Value>
-    _interface IDictionary 
-        : public virtual ICollection<KeyValuePair<_Key, _Value>>
+    class Dictionary
     {
-        __PUB__ virtual bool  __VARIABLE__  Add(KeyValuePair<_Key, _Value> __REFERENCE__ elem) = 0;
-        __PUB__ virtual bool  __VARIABLE__  AddRange(ICollection<KeyValuePair<_Key, _Value>> __REFERENCE__ range) = 0;
-        __PUB__ virtual void  __VARIABLE__  Clear() = 0;
-        __PUB__ virtual bool  __VARIABLE__  Remove(KeyValuePair<_Key, _Value> __REFERENCE__ elem) = 0;
-        __PUB__ virtual bool  __VARIABLE__  Contains(KeyValuePair<_Key, _Value> __REFERENCE__ elem) = 0;
-        __PUB__ virtual int32 __VARIABLE__  IndexOf(KeyValuePair<_Key, _Value> __REFERENCE__ elem) = 0;
-        
-        __PUB__ virtual KeyValuePair<_Key, _Value>  __REFERENCE__ operator[](int32 __VARIABLE__ index) = 0;
-        /**
-         * @brief Add a new record to Dictionary instance from specified key and value.
-         * 
-         * @param key added key
-         * @param value added value
-         * @return {bool}return true if the key is added successful, and false not.
-         */
-        __PUB__ virtual bool __VARIABLE__ Add(_Key __REFERENCE__ key, _Value __REFERENCE__ value) = 0;
-        /**
-         * @brief Remove a specified key from the dictionary instance.
-         * 
-         * @param key the key does need to be removed
-         * @return {bool}return true if the key is removed and false not.
-         */
-        __PUB__ virtual bool __VARIABLE__ Remove(_Key __REFERENCE__ key) = 0;
-        /**
-         * @brief Update a existed key to set a new value.
-         * 
-         * @param key the key does need to be added
-         * @param value the new value of the key
-         * @return {bool} return true if the key is existed and update successful and false not.
-         */
-        __PUB__ virtual bool __VARIABLE__ Update(_Key __REFERENCE__ key, _Value __REFERENCE__ value) = 0;
-        /**
-         * @brief Add a value of the key, if the key is existed, then update the value.
-         * 
-         * @param key the key does need to be added or updated
-         * @param value new value
-         */
-        __PUB__ virtual void __VARIABLE__ AddOrUpdate(_Key __REFERENCE__ key, _Value __REFERENCE__ value) = 0;
-        /**
-         * @brief Check the specified key whether is exist.
-         * 
-         * @param key checked key
-         * @return {bool} return true if the key is found and false is not found.
-         */
-        __PUB__ virtual bool   __VARIABLE__  ContainsKey(_Key __REFERENCE__ key) = 0;
+        __PUB__ int32 __VARIABLE__ Count();
+        __PUB__ void  __VARIABLE__ Clear();
+        __PUB__ bool  __VARIABLE__ IsFixedSize();
+        __PUB__ bool  __VARIABLE__ IsReadOnly();
 
-        /**
-         * @brief Operator overried to use an indexer to get a value of the key.
-         * 
-         * @param key the key does needs to be find
-         * @return {_Value} return a value reference of the found key, the return is unstabled for the key is not found.
-         */
-        __PUB__ virtual _Value __REFERENCE__ operator[](_Key __REFERENCE__ key) = 0;
+        __PUB__ bool  __VARIABLE__ Add(KeyValuePair<_Key, _Value> __REFERENCE__ elem);
+        __PUB__ bool  __VARIABLE__ Add(_Key __REFERENCE__ key, _Value __REFERENCE__ value);
+        __PUB__ bool  __VARIABLE__ AddRange(ICollection<KeyValuePair<_Key, _Value>> __REFERENCE__ range);
+        __PUB__ void  __VARIABLE__ AddOrUpdate(_Key __REFERENCE__ key, _Value __REFERENCE__ value);
+        __PUB__ bool  __VARIABLE__ Contains(KeyValuePair<_Key, _Value> __REFERENCE__ elem);
+        __PUB__ bool  __VARIABLE__ ContainsKey(_Key __REFERENCE__ key);
+        __PUB__ bool  __VARIABLE__ Remove(_Key __REFERENCE__ key);
+        __PUB__ bool  __VARIABLE__ Remove(KeyValuePair<_Key, _Value> __REFERENCE__ elem);
+        __PUB__ int32 __VARIABLE__ IndexOf(KeyValuePair<_Key, _Value> __REFERENCE__ elem);
+        __PUB__ bool  __VARIABLE__ Update(_Key __REFERENCE__ key, _Value __REFERENCE__ value);
 
-        /**
-         * @brief Get the Key Iterator object
-         * 
-         * @return {Iterator} return a iterator reference of the keys
-         */
-        __PUB__ virtual Iterator<_Key>   __REFERENCE__ GetKeyIterator() = 0;
-        /**
-         * @brief Get the Value Iterator object
-         * 
-         * @return {Iterator} return a iterator reference of the values 
-         */
-        __PUB__ virtual Iterator<_Value> __REFERENCE__ GetValueIterator() = 0;
-    };
+        __PUB__ _Value                      __REFERENCE__ operator[](_Key __REFERENCE__ key);
+        __PUB__ KeyValuePair<_Key, _Value>  __REFERENCE__ operator[](int32 __VARIABLE__ index);
 
-    template<typename K, typename V>
-    class Dictionary : public virtual IDictionary<K, V>
-    {
-
+        __PUB__ Iterator<_Key>   __REFERENCE__ GetKeyIterator();
+        __PUB__ Iterator<_Value> __REFERENCE__ GetValueIterator();
     };
 }
 
