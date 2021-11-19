@@ -12,5 +12,11 @@
     "C_Cpp.vcFormat.space.betweenEmptyBraces": true,
     "C_Cpp.vcFormat.space.afterComma": true,
     "C_Cpp.formatting": "vcFormat",
-    "cmake.configureOnOpen": false
+    "cmake.configureOnOpen": false,
+    "files.associations": {
+        "utilize.h": "cpp",
+        "exception": "cpp",
+        "__config": "cpp",
+        "string": "cpp"
+    }
 }
