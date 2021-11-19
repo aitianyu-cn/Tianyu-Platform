@@ -13,6 +13,7 @@
 #define __DTY_NATIVE_SMARTPOINTER_H__
 
 #include"./utilize.h"
+#include"./exception/generic.h"
 
 namespace dty
 {
@@ -28,14 +29,6 @@ namespace dty
 
         __PRI__ SPType __VARIABLE__ _SmartPointerType;
 
-        __PRI__ void __VARIABLE__ Move(SmartPointer<T> __REFERENCE__ sp)
-        {
-            this->_Pointer = sp._Pointer;
-            this->_Size = sp._Size;
-
-            sp._Pointer = null;
-            sp._Size = 0;
-        }
         __PRI__ void __VARIABLE__ Release()
         {
             if (null == this->_Pointer)
@@ -90,17 +83,29 @@ namespace dty
             this->_Pointer = pointer;
             this->_Size = size;
         }
-        __PUB__ explicit SmartPointer(SmartPointer<T> __REFERENCE__ sp)
-            : _SmartPointerType(sp._SmartPointerType),
-            _Pointer(null),
-            _Size(0)
+        __PUB__ explicit SmartPointer(T __POINTER__ pointer, bool __VARIABLE__ weak)
+            : SmartPointer<T>(pointer)
         {
-            if (SPType::STRONG == this->_SmartPointerType)
-                this->Move(sp);
-            else
+            if (weak)
+                this->_SmartPointerType = SPType::WEAK;
+        }
+        __PUB__ explicit SmartPointer(T __POINTER__ pointer, int32 __VARIABLE__ size, bool __VARIABLE__ weak)
+            : SmartPointer<T>(pointer, size)
+        {
+            if (weak)
+                this->_SmartPointerType = SPType::WEAK;
+        }
+        __PUB__ SmartPointer(const SmartPointer<T> __REFERENCE__ sp)
+            : _SmartPointerType(sp._SmartPointerType),
+            _Pointer(sp._Pointer),
+            _Size(sp._Size)
+        {
+            if (SPType::STRONG == sp._SmartPointerType)
             {
-                _Pointer = sp._Pointer;
-                _Size = sp.size;
+                // --dty-cpp-lint: unsafe-convert-constRef_to_Ref
+                SmartPointer<T>& spMove = (SmartPointer<T> __REFERENCE__)sp;
+                spMove._Pointer = null;
+                spMove._Size = 0;
             }
         }
 
@@ -115,6 +120,10 @@ namespace dty
             return null == this->_Pointer;
         }
 
+        __PUB__ int32  __VARIABLE__  Size()
+        {
+            return this->_Size;
+        }
         __PUB__ uint64 __VARIABLE__  operator __REFERENCE__()
         {
             if (this->IsNull())
@@ -154,39 +163,31 @@ namespace dty
             return (this->_Pointer)[index];
         }
 
-        __PUB__ SmartPointer<T> __REFERENCE__ operator=(SmartPointer<T> __REFERENCE__ source)
+        __PUB__ SmartPointer<T> __VARIABLE__ GetWeak()
         {
-            if (!this->IsSame(source))
+            return __PTR_TO_VAR__ this;
+        }
+        __PUB__ bool            __VARIABLE__ Move(SmartPointer<T> __REFERENCE__ sp)
+        {
+            if (SPType::STRONG != sp._SmartPointerType)
+                return false;
+
+            if (SPType::STRONG == this->_SmartPointerType && null != this-> _Pointer)
             {
-                if (SPType::WEAK == this->_SmartPointerType)
-                {
-                    this->_Pointer = source._Pointer;
-                    this->_Size = source._Size;
-                }
+                if (1 < this->_Size)
+                    delete[] this->_Pointer;
                 else
-                {
-                    this->Release();
-                    this->_SmartPointerType = source._SmartPointerType;
-                    if (SPType::STRONG == this->_SmartPointerType)
-                        this->Move(source);
-                    else
-                    {
-                        this->_Pointer = source._Pointer;
-                        this->_Size = source._Size;
-                    }
-                }
+                    delete this->_Pointer;
             }
 
-            return (__PTR_TO_REF__ this);
-        }
-        __PUB__ SmartPointer<T> __VARIABLE__  GetWeak()
-        {
-            SmartPointer<T> weakPointer;
-            weakPointer._SmartPointerType = SPType::WEAK;
-            weakPointer._Pointer = this->_Pointer;
-            weakPointer._SmartPointerType = this->_Size;
+            this->_SmartPointerType = sp._SmartPointerType;
+            this->_Pointer = sp._Pointer;
+            this->_Size = sp._Size;
 
-            return weakPointer;
+            sp._Pointer = null;
+            sp._Size = 0;
+
+            return true;
         }
 
         __PUB__ bool __VARIABLE__ operator ==(SmartPointer<T> __REFERENCE__ other)

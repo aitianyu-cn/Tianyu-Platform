@@ -22,7 +22,7 @@
   */
 namespace dty::model::doc
 {
-    enum TianyuDOMNodeType
+    enum class TianyuDOMNodeType : int32
     {
         UNDEFINED = -1,
         BOOL = 2,
@@ -88,12 +88,10 @@ namespace dty::model::doc
         __PRI__ string __VARIABLE__ _Value;
         __PRI__ int32  __VARIABLE__ _Length;
 
-        __PRI__ TianyuDOMString(string __VARIABLE__ str);
         __PRI__ TianyuDOMString(const string __VARIABLE__ str);
         __PUB__ virtual ~TianyuDOMString() override;
 
         __PUB__ int32 __VARIABLE__ Length();
-        __PUB__ void  __VARIABLE__ SetString(string __VARIABLE__ newStr);
         __PUB__ void  __VARIABLE__ SetString(const string __VARIABLE__ newStr);
 
 #pragma region Tianyu DOM node base

@@ -19,6 +19,6 @@ string TianyuDOMNode::ToString() { return new char[1]{ '\0' }; }
 
 dty::SmartPointer<IDOMNode> TianyuDOMNode::NewNullNode()
 {
-
+	return SmartPointer<IDOMNode>();
 }
 

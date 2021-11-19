@@ -160,36 +160,6 @@ constexpr auto null = nullptr;
 
 namespace dty
 {
-    bool __VARIABLE__ BytesToByte(byte __POINTER__ _pointer, int32 __VARIABLE__ _length, byte __REFERENCE__ _outValue, int32 __VARIABLE__ _startIndex = 0);
-    bool __VARIABLE__ BytesToSByte(byte __POINTER__ _pointer, int32 __VARIABLE__ _length, sbyte __REFERENCE__ _outValue, int32 __VARIABLE__ _startIndex = 0);
-    bool __VARIABLE__ BytesToInt16(byte __POINTER__ _pointer, int32 __VARIABLE__ _length, int16 __REFERENCE__ _outValue, int32 __VARIABLE__ _startIndex = 0);
-    bool __VARIABLE__ BytesToUInt16(byte __POINTER__ _pointer, int32 __VARIABLE__ _length, uint16 __REFERENCE__ _outValue, int32 __VARIABLE__ _startIndex = 0);
-    bool __VARIABLE__ BytesToInt32(byte __POINTER__ _pointer, int32 __VARIABLE__ _length, int32 __REFERENCE__ _outValue, int32 __VARIABLE__ _startIndex = 0);
-    bool __VARIABLE__ BytesToUInt32(byte __POINTER__ _pointer, int32 __VARIABLE__ _length, uint32 __REFERENCE__ _outValue, int32 __VARIABLE__ _startIndex = 0);
-    bool __VARIABLE__ BytesToInt64(byte __POINTER__ _pointer, int32 __VARIABLE__ _length, int64 __REFERENCE__ _outValue, int32 __VARIABLE__ _startIndex = 0);
-    bool __VARIABLE__ BytesToUInt64(byte __POINTER__ _pointer, int32 __VARIABLE__ _length, uint64 __REFERENCE__ _outValue, int32 __VARIABLE__ _startIndex = 0);
-    bool __VARIABLE__ BytesToFloat(byte __POINTER__ _pointer, int32 __VARIABLE__ _length, float __REFERENCE__ _outValue, int32 __VARIABLE__ _startIndex = 0);
-    bool __VARIABLE__ BytesToDouble(byte __POINTER__ _pointer, int32 __VARIABLE__ _length, double __REFERENCE__ _outValue, int32 __VARIABLE__ _startIndex = 0);
-    bool __VARIABLE__ BytesToChar(byte __POINTER__ _pointer, int32 __VARIABLE__ _length, char __REFERENCE__ _outValue, int32 __VARIABLE__ _startIndex = 0);
-    bool __VARIABLE__ BytesToUChar(byte __POINTER__ _pointer, int32 __VARIABLE__ _length, uchar __REFERENCE__ _outValue, int32 __VARIABLE__ _startIndex = 0);
-    bool __VARIABLE__ BytesToTYChar(byte __POINTER__ _pointer, int32 __VARIABLE__ _length, tychar __REFERENCE__ _outValue, int32 __VARIABLE__ _startIndex = 0);
-    bool __VARIABLE__ BytesToTYUChar(byte __POINTER__ _pointer, int32 __VARIABLE__ _length, tyuchar __REFERENCE__ _outValue, int32 __VARIABLE__ _startIndex = 0);
-
-    bool __VARIABLE__ GetBytes(byte __VARIABLE__ _value, byte __POINTER__ _buffer, int32 __VARIABLE__ _bufferLength, int32 __VARIABLE__ _startIndex = 0);
-    bool __VARIABLE__ GetBytes(sbyte __VARIABLE__ _value, byte __POINTER__ _buffer, int32 __VARIABLE__ _bufferLength, int32 __VARIABLE__ _startIndex = 0);
-    bool __VARIABLE__ GetBytes(int16 __VARIABLE__ _value, byte __POINTER__ _buffer, int32 __VARIABLE__ _bufferLength, int32 __VARIABLE__ _startIndex = 0);
-    bool __VARIABLE__ GetBytes(uint16 __VARIABLE__ _value, byte __POINTER__ _buffer, int32 __VARIABLE__ _bufferLength, int32 __VARIABLE__ _startIndex = 0);
-    bool __VARIABLE__ GetBytes(int32 __VARIABLE__ _value, byte __POINTER__ _buffer, int32 __VARIABLE__ _bufferLength, int32 __VARIABLE__ _startIndex = 0);
-    bool __VARIABLE__ GetBytes(uint32 __VARIABLE__ _value, byte __POINTER__ _buffer, int32 __VARIABLE__ _bufferLength, int32 __VARIABLE__ _startIndex = 0);
-    bool __VARIABLE__ GetBytes(int64 __VARIABLE__ _value, byte __POINTER__ _buffer, int32 __VARIABLE__ _bufferLength, int32 __VARIABLE__ _startIndex = 0);
-    bool __VARIABLE__ GetBytes(uint64 __VARIABLE__ _value, byte __POINTER__ _buffer, int32 __VARIABLE__ _bufferLength, int32 __VARIABLE__ _startIndex = 0);
-    bool __VARIABLE__ GetBytes(char __VARIABLE__ _value, byte __POINTER__ _buffer, int32 __VARIABLE__ _bufferLength, int32 __VARIABLE__ _startIndex = 0);
-    bool __VARIABLE__ GetBytes(uchar __VARIABLE__ _value, byte __POINTER__ _buffer, int32 __VARIABLE__ _bufferLength, int32 __VARIABLE__ _startIndex = 0);
-    bool __VARIABLE__ GetBytes(tychar __VARIABLE__ _value, byte __POINTER__ _buffer, int32 __VARIABLE__ _bufferLength, int32 __VARIABLE__ _startIndex = 0);
-    bool __VARIABLE__ GetBytes(tyuchar __VARIABLE__ _value, byte __POINTER__ _buffer, int32 __VARIABLE__ _bufferLength, int32 __VARIABLE__ _startIndex = 0);
-    bool __VARIABLE__ GetBytes(float __VARIABLE__ _value, byte __POINTER__ _buffer, int32 __VARIABLE__ _bufferLength, int32 __VARIABLE__ _startIndex = 0);
-    bool __VARIABLE__ GetBytes(double __VARIABLE__ _value, byte __POINTER__ _buffer, int32 __VARIABLE__ _bufferLength, int32 __VARIABLE__ _startIndex = 0);
-
     _interface IBaseTypeConverter
     {
         __PUB__ virtual object __VARIABLE__ TryConvert(byte __POINTER__ obj, int32 __VARIABLE__ objSize) = 0;

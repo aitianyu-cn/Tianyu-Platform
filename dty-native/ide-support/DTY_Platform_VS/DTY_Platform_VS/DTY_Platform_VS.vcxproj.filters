@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="头文件\collection">
+      <UniqueIdentifier>{b166af23-6f68-4844-9760-74e481df1ce2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\cpf">
+      <UniqueIdentifier>{fc9964b0-39a8-40d9-8787-c148e9430cd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\exception">
+      <UniqueIdentifier>{c8ede05e-9a29-4b75-bcd1-1a2289c3cdfd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\fileSystem">
+      <UniqueIdentifier>{3105f214-5a05-4252-a926-8b6cef6650a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\io">
+      <UniqueIdentifier>{a2f21bff-8172-4677-8429-ab1e300e76f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\model">
+      <UniqueIdentifier>{6b6f9fc6-2b52-46dc-92d4-fa4d0dd6c07b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\vm">
+      <UniqueIdentifier>{c08950fe-40fe-40f2-bcd0-54700b04c9c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\cpf\apple">
+      <UniqueIdentifier>{5c709896-a48f-42da-b8c5-c29866b320ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\vm\controller">
+      <UniqueIdentifier>{4d10fabc-e255-42b3-9dfd-0022cd4a2bac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\vm\file">
+      <UniqueIdentifier>{b2bb09f1-58b1-4c40-80df-f7c8fd228b8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\vm\runner">
+      <UniqueIdentifier>{3e5706bd-fe20-4921-a452-e19363fa954c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\collection\src.string">
+      <UniqueIdentifier>{71ce71b6-4b6f-4043-a17b-8cefbf4b40a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\model\src.dom">
+      <UniqueIdentifier>{8b2ca52c-6b5f-4afe-a0b1-da10f8e8b63e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\collection\src.string\acTrie.cpp">
+      <Filter>头文件\collection\src.string</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\collection\src.string\string.cpp">
+      <Filter>头文件\collection\src.string</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\collection\src.string\sunday.cpp">
+      <Filter>头文件\collection\src.string</Filter>
+    </ClCompile>
+    <ClCompile Include="源.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\configure.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\crossPlatform.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\external_apis.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\international.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\libloader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\log.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\security.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\smartPointer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\utilize.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\collection\clone.h">
+      <Filter>头文件\collection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\collection\collections.h">
+      <Filter>头文件\collection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\collection\dictionary.h">
+      <Filter>头文件\collection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\collection\list.h">
+      <Filter>头文件\collection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\collection\string.h">
+      <Filter>头文件\collection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpf\linuxAPI.h">
+      <Filter>头文件\cpf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpf\macAPI.h">
+      <Filter>头文件\cpf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpf\winAPI.h">
+      <Filter>头文件\cpf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpf\apple\ios.h">
+      <Filter>头文件\cpf\apple</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpf\apple\iosm.h">
+      <Filter>头文件\cpf\apple</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpf\apple\macos.h">
+      <Filter>头文件\cpf\apple</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\exception\collection.h">
+      <Filter>头文件\exception</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\exception\fileSystem.h">
+      <Filter>头文件\exception</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\exception\generic.h">
+      <Filter>头文件\exception</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\exception\io.h">
+      <Filter>头文件\exception</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\exception\model.h">
+      <Filter>头文件\exception</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\exception\utilize.h">
+      <Filter>头文件\exception</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\fileSystem\txf.h">
+      <Filter>头文件\fileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\fileSystem\tyj.h">
+      <Filter>头文件\fileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\fileSystem\utilize.h">
+      <Filter>头文件\fileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\io\iobase.h">
+      <Filter>头文件\io</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\model\dom.h">
+      <Filter>头文件\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\vm\tianyuVM.h">
+      <Filter>头文件\vm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\vm\utilize.h">
+      <Filter>头文件\vm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\vm\vmExtAPIs.h">
+      <Filter>头文件\vm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\vm\runner\definition.h">
+      <Filter>头文件\vm\runner</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\vm\runner\processCenter.h">
+      <Filter>头文件\vm\runner</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\vm\runner\threadRunner.h">
+      <Filter>头文件\vm\runner</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\vm\runner\vmRunner.h">
+      <Filter>头文件\vm\runner</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

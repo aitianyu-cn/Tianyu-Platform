@@ -12,7 +12,6 @@
 #ifndef __DTY_NATIVE_EXCEPTION_GENERIC_H__
 #define __DTY_NATIVE_EXCEPTION_GENERIC_H__
 
-#include"./utilize.h"
 #include"../collection/collections.h"
 #include<exception>
 
@@ -21,6 +20,8 @@ namespace dty::except
     class Exception : public std::exception,
         public virtual collection::IEquatable<Exception>
     {
+        __PRI__ string __VARIABLE__ _Msg;
+
         __PUB__ Exception();
         __PUB__ Exception(const string __VARIABLE__ msg);
 
