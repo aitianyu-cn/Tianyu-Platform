@@ -63,6 +63,14 @@ namespace dty::collection
     _interface IDictionary 
         : public virtual ICollection<KeyValuePair<_Key, _Value>>
     {
+        __PUB__ virtual bool  __VARIABLE__  Add(KeyValuePair<_Key, _Value> __REFERENCE__ elem) = 0;
+        __PUB__ virtual bool  __VARIABLE__  AddRange(ICollection<KeyValuePair<_Key, _Value>> __REFERENCE__ range) = 0;
+        __PUB__ virtual void  __VARIABLE__  Clear() = 0;
+        __PUB__ virtual bool  __VARIABLE__  Remove(KeyValuePair<_Key, _Value> __REFERENCE__ elem) = 0;
+        __PUB__ virtual bool  __VARIABLE__  Contains(KeyValuePair<_Key, _Value> __REFERENCE__ elem) = 0;
+        __PUB__ virtual int32 __VARIABLE__  IndexOf(KeyValuePair<_Key, _Value> __REFERENCE__ elem) = 0;
+        
+        __PUB__ virtual KeyValuePair<_Key, _Value>  __REFERENCE__ operator[](int32 __VARIABLE__ index) = 0;
         /**
          * @brief Add a new record to Dictionary instance from specified key and value.
          * 
@@ -121,6 +129,12 @@ namespace dty::collection
          * @return {Iterator} return a iterator reference of the values 
          */
         __PUB__ virtual Iterator<_Value> __REFERENCE__ GetValueIterator() = 0;
+    };
+
+    template<typename K, typename V>
+    class Dictionary : public virtual IDictionary<K, V>
+    {
+
     };
 }
 

@@ -1,0 +1,530 @@
+[GarbageCollect]
+OopMap需要提供Index索引表与Pointer索引表
+
+对象图：
+    IndexHashTable[Hash Table - 64]：按照哈希值进行排序，链表中从后向前排列，用于提供按照索引的对象检索
+    PointerSortedList[Linked List]：按照内存对应的64位无符号整数大小进行排列，用于提供对象指针有序的检索
+
+索引表：
+    IndexFreeTable[Linked List]：按照大小从小到大排列，用于提供唯一的顺序的对象序列号，数据绑定依据
+
+关系表：
+    RelationTable[Linked List]：按照加入时间从后向前排列，用于提供对象关系说明与有效性验证，作为GC依据
+
+快  表：
+    IPFastCache[Arrays]：经过排序的数组，大小不超过128个元素，提供二分查找，用于快速获取经常使用的对象
+
+01、申请内存(AllocateMemory)
+    - 申请对象序列号(ApplyOopIndex)
+    - 检查大小堆[内存回收](Collect)
+    - 分配内存(malloc_inside)
+    - 插入对象图(IncreaseOopMap)
+    - 快表替换(FastCacheReplace)
+    - 大小堆处理
+
+02、释放内存(ReleaseMemory)
+    - 无操作（不推荐的行为）
+
+03、注册关系（指针）(RegisterRelation)
+    - 检索引用者状态(ReadPointerIndex-此方法通过范围检索 速度较慢 需要进行整个索引表的搜索)
+    - 插入关系
+
+04、注册关系（索引）(RegisterRelation)
+    - 检索引用者状态(ReadPointerIndex-此方法通过范围检索（Cache命中） 速度较慢 需要进行整个索引表的搜索（Cache替换）)
+    - 插入关系
+
+05、注销关系(LogoutRelation)
+    - 检索引用者状态(ReadPointerIndex-此方法通过范围检索（Cache命中） 速度较慢 需要进行整个索引表的搜索（Cache替换）)
+    - 移除关系
+
+06、请求内存相关数据(AcquireObject)
+    - 检索Cache快表
+    - 检索对象图
+
+07、静态绑定（索引）(ConstBind)
+    - 检索内存相关数据(AcquireObject)
+    - 创建绑定
+
+08、静态绑定（地址）(ConstBind)
+    - 检索内存相关数据(AcquireObject)
+    - 创建绑定
+
+09、重绑定(ConstRebind)
+    - 检索内存相关数据(AcquireObject)
+    - 创建绑定
+
+10、绑定注销(RemoveBind)
+    - 检索内存相关数据(AcquireObject)
+    - 取消注册
+
+11、检索引用数(AcquireRefCount)
+    - 检索引用表
+
+12、垃圾回收(Collect)
+    - 检索引用表中的外部引用键
+    - 深度优先遍历整个对象图标记使用
+    - 遍历整个对象图释放所有标记为未使用的对象(DecreaseOopMap, FastCacheRemove, RecyleOopIndex)
+
+内存创建操作
+{
+    ##########################################################################
+    内存创建操作算法
+    --------------------------------------------------------------------------
+    内存对齐算法：
+    #if __cplusplus > 201103
+        constexpr size_t ALIGN_8(size_t size)
+        {
+            return ((size + 7) & ~7);
+        }
+    #else
+    #define ALIGN_8(size)	(((size) + 7) & ~7)
+    #endif
+
+    object AllocateMemory(size_t size)
+    {
+        if (0 == size)
+            return null;
+
+        // 判断当前入点为大堆或小堆
+
+        if (_CurrectSize < _GCTriggerSize)
+            Collect();
+        while (_CurrectSize < _GCTriggerSize)
+            _GCTriggerSize *= (_GCStep + 1);
+
+        uint32 asize = ALIGN_8(size);
+        uint64 index = ApplyOopIndex();
+        if (0 < index && 0xFFFFFFFFFFFFFFFFUL > index)
+        {
+            /*
+             * 创建内存 增加对象图 记录对象大小
+            */
+            uint8 count = 0;
+            object obj = null;
+            while(null == obj && count < 10)
+            {
+                obj = malloc(size);
+                count++;
+            }
+            if (null != obj)
+            {
+                IncreaseOopMap(index, obj, (uint32)asize, (uint32)size);
+                if (_BigHeapBoundary >= asize)
+                {
+                    _BigHeapCount++;
+                    _BigHeapSize += asize;
+                }
+                return obj;   
+            }
+        }
+        return null;
+    }
+    ##########################################################################
+}
+
+地址查询操作
+{
+    ##########################################################################
+    新增：
+        内存访问映射表（Index-Pointer Cache）
+        快表大小：
+            #if __cplusplus >= 201103
+                constexpr uint8 __IPCacheSize__ = 128;
+            #else
+            #define __IPCacheSize__ 128
+            #endif
+        数据结构：
+        struct i_p_cache
+        {
+            uint64 Index;
+            object Pointer;
+            uint32 HitCount;
+        }IndexPointerCache;
+        声明：
+        IndexPointerCache   _IPCache[__IPCacheSize__];
+        uint8               _IPCacheCount;
+
+    ##########################################################################
+    内存映射快表算法
+    --------------------------------------------------------------------------
+
+    Init_FastCache()
+    {
+        for (uint8 i = 0; i < __IPCacheSize__; i++)
+            _IPCache[i] = {0, 0, 0};
+        _IPCacheCount = 0;
+    }
+    object AcquireFastCache(uint64 pointer_id)
+    {
+        object result = null;
+        // 快表查询
+        int low = 0;
+        int high = __IPCacheSize__ - 1;
+        while(low <= high)
+        {
+            int middle = (low + high) / 2;
+            if(pointer_id == _IPCache[middle]) // 命中
+            {
+                _IPCache[middle].HitCount = 
+                    __UINSIGNED_INT_8_MAX__ > _IPCache[middle].HitCount ?
+                    _IPCache[middle].HitCount + 1;
+                    _IPCache[middle].HitCount;  // 命中次数+1
+                return _IPCache[middle].Pointer;
+            }
+            if(value > array[middle])
+                low = middle + 1;
+            if(value < array[middle])
+                high = middle - 1;
+        }
+        return result;
+    }
+    void FastCacheReplace(object obj, uint64 pointer_id)
+    {
+        if (__IPCacheSize__ > _IPCacheCount)
+        {
+            // 当前无需替换 直接加入
+            for (uint8 i = 0; i < _IPCacheCount; i++)
+            {
+                if (_IPCache[i].Index > pointer_id)
+                {
+                    for (uint8 j = _IPCacheCount; j > i; j--)
+                    {
+                        _IPCache[j].Index = _IPCache[j - 1].Index;
+                        _IPCache[j].Pointer = _IPCache[j - 1].Pointer;
+                        _IPCache[j].HitCount = _IPCache[j - 1].HitCount;
+                    }
+                    _IPCache[i] = {pointer_id, obj, 1};
+                    _IPCacheCount++;
+                    return;
+                }
+            }
+            // 当前增加记录需要添加在末尾
+            _IPCache[_IPCacheCount] = {pointer_id, obj, 1};
+            _IPCacheCount++;
+            return;
+        }
+        else
+        {
+            // 当前需要替换 首先找到最少命中数据
+            uint8 min_hit = 0;
+            for (uint8 i = 0; i < __IPCacheSize__; i++)
+                if (_IPCache[i].HitCount < _IPCache[min_hit].HitCount)
+                    min_hit = i;
+            // 判断移除节点和当前添加节点之间的大小关系
+            if (_IPCache[min_hit].Index < pointer_id)
+            {
+                // 移除点小于添加节点 直接向前移动覆盖
+                for (int i = min_hit; i < _IPCacheCount - 1; i++)
+                {
+                    if (_IPCache[i + 1].Index > pointer_id)
+                    {
+                        // 当前位置即为插入位置
+                        _IPCache[i] = {pointer_id, obj, 1};
+                        _IPCacheCount++;
+                        return;
+                    }
+                    _IPCache[i].Index = _IPCache[i + 1].Index;
+                    _IPCache[i].Pointer = _IPCache[i + 1].Pointer;
+                    _IPCache[i].HitCount = _IPCache[i + 1].HitCount;
+                }
+                // 新节点大于全部段 直接放入最后
+                _IPCache[_IPCacheCount] = {pointer_id, obj, 1};
+                _IPCacheCount++;
+                return;
+            }
+            else
+            {
+                // 当前移除点大于添加节点 直接添加向后移动覆盖即可
+                for (int i = min_hit; i > 0; i--)
+                {
+                    if (_IPCache[i - 1].Index < pointer_id)
+                    {
+                        // 当前位置即为插入位置
+                        _IPCache[i] = {pointer_id, obj, 1};
+                        _IPCacheCount++;
+                        return;
+                    }
+                    _IPCache[i].Index = _IPCache[i - 1].Index;
+                    _IPCache[i].Pointer = _IPCache[i - 1].Pointer;
+                    _IPCache[i].HitCount = _IPCache[i - 1].HitCount;
+                }
+                // 新节点小于全部段 直接放入开头
+                _IPCache[0] = {pointer_id, obj, 1};
+                _IPCacheCount++;
+                return;
+            }
+        }
+    }
+
+    ##########################################################################
+    对象图查询算法
+    --------------------------------------------------------------------------
+    #if __cplusplus >= 201103
+        constexpr uint8 __OOPMAP_HASHSIZE__ = 83;
+    #else
+    #define __OOPMAP_HASHSIZE__ 83
+    #endif
+
+    数据结构：
+        对象结构：
+        struct ob_n
+        {
+            uint64          _Index;           // 对象分配表索引
+            object          _RealPointer;     // 对象分配的实际地址
+            object          _ConstBinder;     // 当前对象被引用的静态指针的地址
+            struct r_t_r*   _References;      // 当前对象的子引用链
+            uint32          _RefCount;        // 当前对象被引用的次数
+            uint32          _ActuallySize;    // 当前对象所占用内存的实际大小
+            uint32          _ObjectSize;      // 当前对象的实际大小
+            bool            _ConstBindState;  // 当前对象的静态绑定标识
+            bool            _UsingLabel;      // 当前对象连接根标识
+        }ObjectNode;
+
+        索引哈希表：
+        struct i_h
+        {
+            uint64 _Index;
+            struct ob_n* _Data;
+
+            struct i_h* _Next;
+        }OopIndexHash;
+        地址哈希表：
+        struct p_h
+        {
+            object _Pointer;
+            struct ob_n* _Data;
+            
+            struct p_h* _Next;
+        }OopPointerHash;
+        
+    OopIndexHash ObjectIndexTable[__OOPMAP_HASHSIZE__];
+    OopPointerHash ObjectPointerTable[__OOPMAP_HASHSIZE__];
+    Init_OopMap()
+    {
+        for (uint8 i = 0; i < __OOPMAP_HASHSIZE__; i++)
+        {
+            ObjectIndexTable[i]._Index = 0;
+            ObjectIndexTable[i]._Data = null;
+            ObjectIndexTable[i]._Next = null;
+            ObjectPointerTable[i]._Pointer = null;
+            ObjectPointerTable[i]._Data = null;
+            ObjectPointerTable[i]._Next = null;
+        }
+    }
+    object AcquireOopMap(uint64 pointer_id)
+    {
+        if (0 == pointer_id)
+            return null;
+        OopIndexHash* hash = ObjectIndexTable + (pointer_id % __OOPMAP_HASHSIZE__);
+        while(null != hash->_Next)
+        {
+            if (hash->_Next->_Index == pointer_id)
+                return hash->_Next->_Data->_RealPointer;
+            hash = hash->_Next;
+        }
+        return null;
+    }
+    uint64 AcquireOopMap(object obj)
+    {
+        if (null == obj)
+            return 0;
+        OopPointerHash* hash = ObjectPointerTable + (((uint64)obj) % __OOPMAP_HASHSIZE__);
+        while(null != hash->_Next)
+        {
+            if (hash->_Next->_Pointer == obj)
+                return hash->_Next->_Data->_Index;
+            hash = hash->_Next;
+        }
+        return 0xFFFFFFFFFFFFFFFFUL;
+    }
+    void IncreaseOopMap(uint64 pointer_id, object obj, uint32 asize, uint32 osize)
+    {
+        ObjectNode* node = (ObjectNode*)malloc(sizeof(ObjectNode));
+        node->_Index = pointer_id;
+        node->_RealPointer = obj;
+        node->_ConstBinder = null;
+        node->_References = (RelationTableReferers*)malloc(sizeof(RelationTableReferers));
+        node->_References->_Referers = 0xFFFFFFFFFFFFFFFFUL;
+        node->_References->_Next = null;
+        node._RefCount = 0;
+        node._ActuallySize = asize;
+        node._ObjectSize = osize;
+        node._ConstBindState = false;
+        node._UsingLabel = false;
+
+        OopIndexHash* ihash = (OopIndexHash*)malloc(sizeof(OopIndexHash));
+        ihash->_Index = pointer_id;
+        ihash->_Data = node;
+
+        OopPointerHash* phash = (OopPointerHash*)malloc(sizeof(OopPointerHash));
+        phash->_Pointer = obj;
+        phash->_Data = node;
+
+        OopIndexHash* ihtemp = ObjectIndexTable + (pointer_id % __OOPMAP_HASHSIZE__);
+        ihash->_Next = ihtemp->_Next;
+        ihtemp->_Next = ihash;
+
+        OopPointerHash* phtemp = ObjectPointerTable + (((uint64)obj) % __OOPMAP_HASHSIZE__);
+        phash->_Next = phtemp->_Next;
+        phtemp->_Next = phash;
+    }
+    void DecreaseOopMap(uint64 pointer_id)
+    {
+        ObjectNode* node = null;
+        ObjectIndexTable* ihash = ObjectIndexTable + (((uint64)obj) % __OOPMAP_HASHSIZE__);
+        while(null != ihash->_Next)
+        {
+            if (ihash->_Next->_Index == pointer_id)
+            {
+                node = ihash->_Next->_Data;
+                ObjectIndexTable* del = ihash->_Next;
+                ihash->_Next = ihash->_Next->_Next;
+                free(del);
+                break;
+            }
+            ihash = ihash->_Next;
+        }
+        if (null != node)
+        {
+            OopPointerHash* phash = ObjectPointerTable + (((uint64)node->_RealPointer) % __OOPMAP_HASHSIZE__);
+            while(null != hash->_Next)
+            {
+                if (hash->_Next->_Pointer == obj)
+                {
+                    node = hash->_Next->_Data;
+                    ObjectPointerTable* del = phash->_Next;
+                    phash->_Next = phash->_Next->_Next;
+                    free(del);
+                    break;
+                }
+                hash = hash->_Next;
+            }
+            free(node->_RealPointer);
+            free(node);
+        }
+    }
+
+    --------------------------------------------------------------------------
+    object AcquireAddress(uint64 pointer_id)
+    {
+        object result = AcquireFastCache(pointer_id);
+        if (null == result)
+        {
+            result = AcquireOopMap(pointer_id);
+            if (null != result)
+                FastCacheReplace(result, pointer_id);
+        }
+        return result;
+    }
+
+    ##########################################################################
+}
+
+标签分配操作
+{
+    ##########################################################################
+    标签分配算法
+    --------------------------------------------------------------------------
+
+    [FreeTable]
+
+    Init_FreeTable()
+    {
+        [FreeTable]._Start = 1;
+        [FreeTable]._SegmentLength = 0xFFFFFFFFFFFFFFFEUL;
+        [FreeTable]._Next = null;
+    }
+
+    uint64 ApplyOopIndex()
+    {
+        uint64 result = 0;
+        [temp] = [FreeTable];
+        if(null != [temp]->_Next)
+        {
+            result = [temp]->_Next->_Start;
+            if (1 == [temp]->_Next->_Start)
+            {
+                [del] = [temp]->_Next;
+                [temp]->_Next = [temp]->_Next->_Next;
+                free(del);
+            }
+            else
+            {
+                ([temp]->_Start)++;
+                ([temp]->_SegmentLength)--;
+            }
+        }
+        return result;
+    }
+
+    void RecyleOopIndex(uint64 index)
+    {
+        uint64 index_up = index + 1;
+        uint64 index_down = index;
+        [temp] = [FreeTable];
+        while(null != [temp]->_Next)
+        {
+            // 满足上界 当前索引号可以添加在指定索引段的头部
+            if (index_up == [temp]->_Next->_Start)
+            {
+                [temp]->_Next->_Start = index;
+                ([temp]->_Next->_SegmentLength)++;
+                break;
+            }
+            // 满足下界 当前索引号是指定索引段的尾部
+            else if (index_down == [temp]->_Next->_Start + _SegmentLength)
+            {
+                ([temp]->_Next->_SegmentLength)++;
+                break;
+            }
+            // 若添加索引段小于后部索引段 创建一个新的索引段
+            else if (index < [temp]->_Next->_Start)
+            {
+                [new_segment] = ({FreeTable}*)malloc(sizeof({FreeTable}));
+                [new_segment]->_Start = index;
+                [new_segment]->_SegmentLength = 1;
+                [new_segment]->_Next = [temp]->_Next;
+                [temp]->_Next = [new_segment];
+                break;
+            }
+            [temp] = [temp]->_Next;
+        }
+        // 添加成功后向后合并 只对修改段进行判断 不进行多次判断
+        [currect] = [temp]->_Next;
+        if (null != [currect]->_Next) // 判断关联段是否存在后续段
+        {
+            // 检测后续段开头是否等于当前段结尾
+            if ([currect]->_Start + [currect]->_SegmentLength == [currect]->_Next->_Start)
+            {
+                // 当前段结尾与后续段结尾相接 进行合并
+                ([currect]->_SegmentLength) += ([currect]->_Next->_SegmentLength);
+                [del] = [currect]->_Next;
+                [currect]->_Next = [currect]->_Next->_Next;
+                free(del);
+            }
+        }
+    }
+    ##########################################################################
+}
+
+
+##########################################################################
+外部关系表操作算法
+--------------------------------------------------------------------------
+
+[_SPRelations]
+
+Init_SPRelation()
+{
+    [_SPRelations]->_RefIndex = 0; // 0索引指向null指针对象
+    [_SPRelations]->_SPPointer = null; // 强制对象为null对象
+    [_SPRelations]->_Next = null;
+}
+
+uint64 RegisterRelation(object obj, object ref_obj)
+{
+    // 注册关系首先验证 SP 指针对象
+
+}
+
+##########################################################################

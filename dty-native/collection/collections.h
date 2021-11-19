@@ -51,6 +51,8 @@ namespace dty::collection
     template<class Elem>
     _interface IEquatable
     {
+        __PUB__ virtual ~IEquatable() = 0;
+
         /**
          * @brief 返回一个boolean表示当前实例于指定的对象是否相等
          * 
@@ -82,13 +84,16 @@ namespace dty::collection
     template<class Elem>
     _interface ICompareable
     {
+        __PUB__ virtual ~ICompareable() = 0;
+
         /**
          * @brief 判断当前实例与指定对象之间的大小关系
          * 
          * @param other 指定的对象
          * @return {CompareResult} 比较的结果
          */
-        __PUB__ virtual CompareResult __VARIABLE__ CompareTo(Elem __REFERENCE__ other) = 0;/**
+        __PUB__ virtual CompareResult __VARIABLE__ CompareTo(Elem __REFERENCE__ other) = 0;
+        /**
          * @brief 相等判断运算符重载
          * 
          * @param other 被比较的对象
@@ -135,27 +140,30 @@ namespace dty::collection
     template<class Elem>
     abstract class Iterator
     {
+        __PUB__ virtual ~Iterator() = 0;
 
-        __PUB__ virtual void __VARIABLE__  Reset() = 0;
-        __PUB__ virtual Elem __REFERENCE__ Current() = 0;
-        __PUB__ virtual Elem __REFERENCE__ Next() = 0;
-        __PUB__ virtual Elem __VARIABLE__  End() = 0;
+        __PUB__ virtual void __VARIABLE__ Reset() = 0;
+        __PUB__ virtual SmartPointer<Elem> __VARIABLE__  Current() = 0;
+        __PUB__ virtual SmartPointer<Elem> __VARIABLE__  Next() = 0;
+        __PUB__ virtual SmartPointer<Elem> __VARIABLE__  End() = 0;
     };
 
     template<class Elem>
     _interface IEnumerable
     {
+        __PUB__ virtual ~IEnumerable() = 0;
+
         __PUB__ typedef void __VARIABLE__ (__POINTER__ fnForEach)(Elem __REFERENCE__ elem);
         __PUB__ typedef bool __VARIABLE__ (__POINTER__ fnMapping)(Elem __REFERENCE__ elem);
 
         __PUB__ virtual Iterator<Elem> __REFERENCE__ GetIterator() = 0;
 
         __PUB__ virtual void  __VARIABLE__ ForEach(fnForEach __VARIABLE__ foreachFunc) = 0;
-        __PUB__ virtual Elem  __POINTER__  Map(int32 __REFERENCE__ resultLength, fnMapping __VARIABLE__ foreachFunc) = 0;
-        __PUB__ virtual Elem  __POINTER__  Filter(int32 __REFERENCE__ resultLength, fnMapping __VARIABLE__ foreachFunc) = 0;
-        __PUB__ virtual Elem  __VARIABLE__ Find(fnMapping __VARIABLE__ foreachFunc) = 0;
-        __PUB__ virtual int32 __VARIABLE__ FindIndex(fnMapping __VARIABLE__ foreachFunc) = 0;
-        __PUB__ virtual void  __VARIABLE__ Every(fnMapping __VARIABLE__ foreachFunc) = 0;
+        __PUB__ virtual SmartPointer<Elem> __VARIABLE__  Map(int32 __REFERENCE__ resultLength, fnMapping __VARIABLE__ foreachFunc) = 0;
+        __PUB__ virtual SmartPointer<Elem> __VARIABLE__  Filter(int32 __REFERENCE__ resultLength, fnMapping __VARIABLE__ foreachFunc) = 0;
+        __PUB__ virtual Elem               __VARIABLE__ Find(fnMapping __VARIABLE__ foreachFunc) = 0;
+        __PUB__ virtual int32              __VARIABLE__ FindIndex(fnMapping __VARIABLE__ foreachFunc) = 0;
+        __PUB__ virtual void               __VARIABLE__ Every(fnMapping __VARIABLE__ foreachFunc) = 0;
     };
 
     __PREDEFINE__ template<class Elem> _interface ICollection;
@@ -163,7 +171,7 @@ namespace dty::collection
     template<class Elem>
     class Array final : public IEnumerable<Elem>
     {
-        __PRI__ Elem  __POINTER__  _Array;
+        __PRI__ SmartPointer<Elem> __VARIABLE__  _Array;
         __PRI__ int32 __VARIABLE__ _Count;
 
         __PUB__ Array();
@@ -180,18 +188,11 @@ namespace dty::collection
     template<class Elem>
     _interface ICollection : public virtual IEnumerable<Elem>
     {
+        __PUB__ virtual ~ICollection() = 0;
+
         __PUB__ virtual int32       __VARIABLE__  Count() = 0;
         __PUB__ virtual bool        __VARIABLE__  IsEmpty() = 0;
         __PUB__ virtual Array<Elem> __REFERENCE__ ToArray() = 0;
-
-        __PUB__ virtual void  __VARIABLE__  Clear() = 0;
-        __PUB__ virtual bool  __VARIABLE__  Add(Elem __REFERENCE__ elem) = 0;
-        __PUB__ virtual bool  __VARIABLE__  AddRange(ICollection<Elem> __REFERENCE__ range) = 0;
-        __PUB__ virtual bool  __VARIABLE__  Remove(Elem __REFERENCE__ elem) = 0;
-        __PUB__ virtual bool  __VARIABLE__  Contains(Elem __REFERENCE__ elem) = 0;
-        __PUB__ virtual int32 __VARIABLE__  IndexOf(Elem __REFERENCE__ elem) = 0;
-
-        __PUB__ virtual Elem  __REFERENCE__ operator[](int32 __VARIABLE__ index) = 0;
     };
 }
 
