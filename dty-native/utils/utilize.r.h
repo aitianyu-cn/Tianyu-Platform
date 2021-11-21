@@ -1,9 +1,5 @@
 /**
-<<<<<<< HEAD
  * @file utilize.r.h(utils)
-=======
- * @file utilize.r.h
->>>>>>> 9b36b39a005fa7e04980ede7b5ad97c376bc863a
  * @author senyun.yao
  * @brief 用于天宇平台的公用组件核心
  * @brief AiTianyu Platform Public Common Core
@@ -14,13 +10,8 @@
  *
  */
 
-<<<<<<< HEAD
 #ifndef __DTY_NATIVE_UTILS_UTILIZE_R_H__
 #define __DTY_NATIVE_UTILS_UTILIZE_R_H__
-=======
-#ifndef __DTY_NATIVE_UTILIZE_H__
-#define __DTY_NATIVE_UTILIZE_H__
->>>>>>> 9b36b39a005fa7e04980ede7b5ad97c376bc863a
 
 #ifndef __cplusplus
 #error only develop for C++
@@ -228,8 +219,4 @@ namespace dty
     };
 }
 
-<<<<<<< HEAD
 #endif // !__DTY_NATIVE_UTILS_UTILIZE_R_H__
-=======
-#endif // !__DTY_NATIVE_UTILIZE_H__
->>>>>>> 9b36b39a005fa7e04980ede7b5ad97c376bc863a

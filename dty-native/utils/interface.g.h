@@ -1,5 +1,4 @@
 /**
-<<<<<<< HEAD:dty-native/utils/interface.g.h
  * @file compare.g.h(utils)
  * @author senyun.yao
  * @brief
@@ -12,20 +11,6 @@
 
 #ifndef __DTY_NATIVE_UTILS_INTERFACE_G_H__
 #define __DTY_NATIVE_UTILS_INTERFACE_G_H__
-=======
- * @file compare.h(collection)
- * @author your name (you@domain.com)
- * @brief 
- * @version 0.1
- * @date 2021-11-19
- * 
- * @copyright Copyright (c) 2021
- * 
- */
-
-#ifndef __DTY_NATIVE_COLLECTION_COMPARE_H__
-#define __DTY_NATIVE_COLLECTION_COMPARE_H__
->>>>>>> 9b36b39a005fa7e04980ede7b5ad97c376bc863a:dty-native/.old/collection/compare.h
 
 #include"./utilize.r.h"
 
@@ -63,8 +48,4 @@ namespace dty::collection
     };
 }
 
-<<<<<<< HEAD:dty-native/utils/interface.g.h
 #endif // !__DTY_NATIVE_UTILS_INTERFACE_G_H__
-=======
-#endif // !__DTY_NATIVE_COLLECTION_COMPARE_H__
->>>>>>> 9b36b39a005fa7e04980ede7b5ad97c376bc863a:dty-native/.old/collection/compare.h
