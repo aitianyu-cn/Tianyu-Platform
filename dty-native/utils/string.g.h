@@ -1,19 +1,20 @@
 /**
- * @file string.h(collection)
+ * @file string.g.h(utils)
  * @author senyun.yao
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2021-11-17
- * 
+ *
  * @copyright aitianyu.cn Copyright (c) 2021
- * 
+ *
  */
 
-#ifndef __DTY_NATIVE_COLLECTION_STRING_H__
-#define __DTY_NATIVE_COLLECTION_STRING_H__
+#ifndef __DTY_NATIVE_UTILS_STRING_G_H__
+#define __DTY_NATIVE_UTILS_STRING_G_H__
 
-#include"./collections.h"
-#include"./clone.h"
+#include"./interface.g.h"
+#include"./smartPointer.g.h"
+#include"./iterator.g.h"
 #include<string>
 #if __cplusplus >= 201103
 #include<initializer_list>
@@ -22,13 +23,12 @@
 namespace dty::collection
 {
     class String : public virtual IEquatable<String>,
-        public virtual ICompareable<String>,
-        public virtual ICloneable<String>
+        public virtual ICompareable<String>
     {
         __PUB__ String();
         __PUB__ String(const char   __VARIABLE__ item, int32 __VARIABLE__ repeat);
-        __PUB__ String(const string __VARIABLE__ str,  int32 __VARIABLE__ length);
-        __PUB__ String(const string __VARIABLE__ str,  int32 __VARIABLE__ startIndex, int32 __VARIABLE__ endIndex);
+        __PUB__ String(const string __VARIABLE__ str, int32 __VARIABLE__ length);
+        __PUB__ String(const string __VARIABLE__ str, int32 __VARIABLE__ startIndex, int32 __VARIABLE__ endIndex);
 
         __PUB__ explicit String(String __REFERENCE__ str);
         __PUB__ explicit String(const string __VARIABLE__ str);
@@ -80,13 +80,13 @@ namespace dty::collection
         __PUB__ SmartPointer<String> __VARIABLE__ ToUpper();
         __PUB__ void                 __VARIABLE__ Trim();
         __PUB__ void                 __VARIABLE__ Trim(char __VARIABLE__ ch);
-        __PUB__ void                 __VARIABLE__ Trim(char __VARIABLE__ ch[], int32 __VARIABLE__ length);
+        __PUB__ void                 __VARIABLE__ Trim(char __VARIABLE__ ch [], int32 __VARIABLE__ length);
         __PUB__ void                 __VARIABLE__ TrimStart();
         __PUB__ void                 __VARIABLE__ TrimStart(char __VARIABLE__ ch);
-        __PUB__ void                 __VARIABLE__ TrimStart(char __VARIABLE__ ch[], int32 __VARIABLE__ length);
+        __PUB__ void                 __VARIABLE__ TrimStart(char __VARIABLE__ ch [], int32 __VARIABLE__ length);
         __PUB__ void                 __VARIABLE__ TrimEnd();
         __PUB__ void                 __VARIABLE__ TrimEnd(char __VARIABLE__ ch);
-        __PUB__ void                 __VARIABLE__ TrimEnd(char __VARIABLE__ ch[], int32 __VARIABLE__ length);
+        __PUB__ void                 __VARIABLE__ TrimEnd(char __VARIABLE__ ch [], int32 __VARIABLE__ length);
 
         __PUB__ Array<char> __REFERENCE__ ToArray();
 #if __cplusplus >= 201103
@@ -112,10 +112,6 @@ namespace dty::collection
         __PUB__ virtual bool          __VARIABLE__ operator >=(String __REFERENCE__ other) override;
 #pragma endregion
 
-#pragma region Tianyu ICloneable Interface
-        __PUB__ virtual SmartPointer<String> __VARIABLE__ Clone() override;
-#pragma endregion
-
 #pragma region Statics for Tianyu String
         __PUB__ static SmartPointer<String> __VARIABLE__ Empty;
 
@@ -132,4 +128,4 @@ namespace dty::collection
     };
 }
 
-#endif // !__DTY_NATIVE_COLLECTION_STRING_H__
+#endif // !__DTY_NATIVE_UTILS_STRING_G_H__

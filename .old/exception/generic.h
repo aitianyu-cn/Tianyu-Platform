@@ -12,7 +12,7 @@
 #ifndef __DTY_NATIVE_EXCEPTION_GENERIC_H__
 #define __DTY_NATIVE_EXCEPTION_GENERIC_H__
 
-#include"../collection/collections.h"
+#include"../collection/compare.h"
 #include<exception>
 
 namespace dty::except
@@ -50,7 +50,7 @@ namespace dty::except
         __PUB__ virtual uint64 __VARIABLE__ GetExceptionId() override;
         __PUB__ virtual const char __POINTER__ what() const noexcept override;
 
-        __PUB__ virtual string __VARIABLE__ ToString() noexcept;
+        __PUB__ virtual string __VARIABLE__ ToString() noexcept override;
 #pragma endregion
     };
 
@@ -65,7 +65,7 @@ namespace dty::except
         __PUB__ virtual uint64 __VARIABLE__ GetExceptionId() override;
         __PUB__ virtual const char __POINTER__ what() const noexcept override;
 
-        __PUB__ virtual string __VARIABLE__ ToString() noexcept;
+        __PUB__ virtual string __VARIABLE__ ToString() noexcept override;
 #pragma endregion
     };
 
@@ -80,7 +80,7 @@ namespace dty::except
         __PUB__ virtual uint64 __VARIABLE__ GetExceptionId() override;
         __PUB__ virtual const char __POINTER__ what() const noexcept override;
 
-        __PUB__ virtual string __VARIABLE__ ToString() noexcept;
+        __PUB__ virtual string __VARIABLE__ ToString() noexcept override;
 #pragma endregion
     };
 
@@ -95,7 +95,7 @@ namespace dty::except
         __PUB__ virtual uint64 __VARIABLE__ GetExceptionId() override;
         __PUB__ virtual const char __POINTER__ what() const noexcept override;
 
-        __PUB__ virtual string __VARIABLE__ ToString() noexcept;
+        __PUB__ virtual string __VARIABLE__ ToString() noexcept override;
 #pragma endregion
     };
 
@@ -110,7 +110,7 @@ namespace dty::except
         __PUB__ virtual uint64 __VARIABLE__ GetExceptionId() override;
         __PUB__ virtual const char __POINTER__ what() const noexcept override;
 
-        __PUB__ virtual string __VARIABLE__ ToString() noexcept;
+        __PUB__ virtual string __VARIABLE__ ToString() noexcept override;
 #pragma endregion
     };
 
@@ -125,7 +125,7 @@ namespace dty::except
         __PUB__ virtual uint64 __VARIABLE__ GetExceptionId() override;
         __PUB__ virtual const char __POINTER__ what() const noexcept override;
 
-        __PUB__ virtual string __VARIABLE__ ToString() noexcept;
+        __PUB__ virtual string __VARIABLE__ ToString() noexcept override;
 #pragma endregion
     };
 }
