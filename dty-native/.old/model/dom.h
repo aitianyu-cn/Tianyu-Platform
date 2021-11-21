@@ -189,8 +189,7 @@ namespace dty::model::doc
         __PUB__ friend class TianyuDOMNode;
     };
 
-    class TianyuDOMArray final : public TianyuDOMNode,
-        public collection::ICollection<IDOMNode>
+    class TianyuDOMArray final : public TianyuDOMNode
     {
 #pragma region Tianyu DOM node base
         __PUB__ virtual TianyuDOMNodeType __VARIABLE__ GetDOMType() override;
@@ -213,7 +212,7 @@ namespace dty::model::doc
 
         __PUB__ virtual void  __VARIABLE__  Clear() = 0;
         __PUB__ virtual bool  __VARIABLE__  Add(IDOMNode __REFERENCE__ elem) = 0;
-        __PUB__ virtual bool  __VARIABLE__  AddRange(ICollection<IDOMNode> __REFERENCE__ range) = 0;
+        __PUB__ virtual bool  __VARIABLE__  AddRange(dty::collection::Array<IDOMNode> __REFERENCE__ range) = 0;
         __PUB__ virtual bool  __VARIABLE__  Remove(IDOMNode __REFERENCE__ elem) = 0;
         __PUB__ virtual bool  __VARIABLE__  Contains(IDOMNode __REFERENCE__ elem) = 0;
         __PUB__ virtual int32 __VARIABLE__  IndexOf(IDOMNode __REFERENCE__ elem) = 0;
@@ -224,8 +223,7 @@ namespace dty::model::doc
         __PUB__ friend class TianyuDOMNode;
     };
 
-    class TianyuDOMObject final : public TianyuDOMNode,
-        public collection::IDictionary<collection::String, IDOMNode>
+    class TianyuDOMObject final : public TianyuDOMNode
     {
 #pragma region Tianyu DOM node base
         __PUB__ virtual TianyuDOMNodeType __VARIABLE__ GetDOMType() override;

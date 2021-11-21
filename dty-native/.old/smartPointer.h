@@ -165,7 +165,7 @@ namespace dty
 
         __PUB__ SmartPointer<T> __VARIABLE__ GetWeak()
         {
-            return __PTR_TO_VAR__ this;
+            return SmartPointer<T>(this->_Pointer, this->_Size, true);
         }
         __PUB__ bool            __VARIABLE__ Move(SmartPointer<T> __REFERENCE__ sp)
         {

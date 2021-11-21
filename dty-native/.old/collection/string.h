@@ -12,7 +12,7 @@
 #ifndef __DTY_NATIVE_COLLECTION_STRING_H__
 #define __DTY_NATIVE_COLLECTION_STRING_H__
 
-#include"./collections.h"
+#include"./compare.h"
 #include"./clone.h"
 #include<string>
 #if __cplusplus >= 201103
