@@ -1,5 +1,5 @@
 /**
- * @file compare.g.h(utils)
+ * @file compare.r.h(utils)
  * @author senyun.yao
  * @brief
  * @version 0.1
@@ -9,14 +9,14 @@
  *
  */
 
-#ifndef __DTY_NATIVE_UTILS_INTERFACE_G_H__
-#define __DTY_NATIVE_UTILS_INTERFACE_G_H__
+#ifndef __DTY_NATIVE_UTILS_INTERFACE_R_H__
+#define __DTY_NATIVE_UTILS_INTERFACE_R_H__
 
 #include"./utilize.r.h"
 
 namespace dty::collection
 {
-    enum CompareResult
+    enum class CompareResult : int32
     {
         LESS = -1,
         EQUAL = 0,
@@ -26,7 +26,7 @@ namespace dty::collection
     template<class Elem>
     _interface IEquatable
     {
-        __PUB__ virtual ~IEquatable() = 0;
+        __PUB__ virtual ~IEquatable() {};
 
         __PUB__ virtual bool __VARIABLE__ Equals(Elem __REFERENCE__ other) = 0;
         __PUB__ virtual bool __VARIABLE__ operator ==(Elem __REFERENCE__ other) = 0;
@@ -36,7 +36,7 @@ namespace dty::collection
     template<class Elem>
     _interface ICompareable
     {
-        __PUB__ virtual ~ICompareable() = 0;
+        __PUB__ virtual ~ICompareable() {};
 
         __PUB__ virtual CompareResult __VARIABLE__ CompareTo(Elem __REFERENCE__ other) = 0;
         __PUB__ virtual bool __VARIABLE__ operator ==(Elem __REFERENCE__ other) = 0;
@@ -48,4 +48,4 @@ namespace dty::collection
     };
 }
 
-#endif // !__DTY_NATIVE_UTILS_INTERFACE_G_H__
+#endif // !__DTY_NATIVE_UTILS_INTERFACE_R_H__

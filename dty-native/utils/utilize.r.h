@@ -17,8 +17,8 @@
 #error only develop for C++
 #endif // !__cplusplus
 
-#if __cplusplus < 201100
-#error library needs C++11 or later
+#if __cplusplus < 201700
+#error library needs C++17 or later
 #endif
 
  // 字符类型有符号数最小值
@@ -164,59 +164,7 @@ constexpr auto null = nullptr;
 
 namespace dty
 {
-    _interface IBaseTypeConverter
-    {
-        __PUB__ virtual object __VARIABLE__ TryConvert(byte __POINTER__ obj, int32 __VARIABLE__ objSize) = 0;
-        __PUB__ virtual object __VARIABLE__ TryConvert(byte __POINTER__ obj, int32 __VARIABLE__ objSize, int32 __VARIABLE__ startIndex) = 0;
-    };
 
-    template <int32 _Size>
-    class BaseType
-    {
-        __PRO__ byte  __POINTER__  _Obj;
-        __PRO__ int32 __VARIABLE__ _Size;
-
-        __PUB__ explicit BaseType();
-        __PUB__ explicit BaseType(BaseType<_Size> __REFERENCE__ other);
-        __PUB__ virtual ~BaseType();
-
-        __PRI__ void _Destroy();
-
-        __PUB__ int32 __VARIABLE__ Size();
-
-        __PUB__ virtual byte   __VARIABLE__ ToByte();
-        __PUB__ virtual sbyte  __VARIABLE__ ToSByte();
-        __PUB__ virtual int16  __VARIABLE__ ToInt16();
-        __PUB__ virtual uint16 __VARIABLE__ ToUInt16();
-        __PUB__ virtual int32  __VARIABLE__ ToInt32();
-        __PUB__ virtual uint32 __VARIABLE__ ToUInt32();
-        __PUB__ virtual int64  __VARIABLE__ ToInt64();
-        __PUB__ virtual uint64 __VARIABLE__ ToUInt64();
-        __PUB__ virtual float  __VARIABLE__ ToFloat();
-        __PUB__ virtual double __VARIABLE__ ToDouble();
-        __PUB__ virtual char   __VARIABLE__ ToChar();
-        __PUB__ virtual uchar  __VARIABLE__ ToUChar();
-        __PUB__ virtual string __VARIABLE__ ToString() const;
-        __PUB__ virtual object __VARIABLE__ ToObject();
-
-        __PUB__ virtual byte   __VARIABLE__ ToByte(int32 __VARIABLE__ startIndex);
-        __PUB__ virtual sbyte  __VARIABLE__ ToSByte(int32 __VARIABLE__ startIndex);
-        __PUB__ virtual int16  __VARIABLE__ ToInt16(int32 __VARIABLE__ startIndex);
-        __PUB__ virtual uint16 __VARIABLE__ ToUInt16(int32 __VARIABLE__ startIndex);
-        __PUB__ virtual int32  __VARIABLE__ ToInt32(int32 __VARIABLE__ startIndex);
-        __PUB__ virtual uint32 __VARIABLE__ ToUInt32(int32 __VARIABLE__ startIndex);
-        __PUB__ virtual int64  __VARIABLE__ ToInt64(int32 __VARIABLE__ startIndex);
-        __PUB__ virtual uint64 __VARIABLE__ ToUInt64(int32 __VARIABLE__ startIndex);
-        __PUB__ virtual float  __VARIABLE__ ToFloat(int32 __VARIABLE__ startIndex);
-        __PUB__ virtual double __VARIABLE__ ToDouble(int32 __VARIABLE__ startIndex);
-        __PUB__ virtual char   __VARIABLE__ ToChar(int32 __VARIABLE__ startIndex);
-        __PUB__ virtual uchar  __VARIABLE__ ToUChar(int32 __VARIABLE__ startIndex);
-        __PUB__ virtual string __VARIABLE__ ToString(int32 __VARIABLE__ startIndex) const;
-        __PUB__ virtual object __VARIABLE__ ToObject(int32 __VARIABLE__ startIndex);
-        __PUB__ virtual object __VARIABLE__ ToObject(int32 __VARIABLE__ startIndex, IBaseTypeConverter __REFERENCE__ converter);
-
-        __PUB__ BaseType __REFERENCE__ operator=(BaseType<_Size> __REFERENCE__ other);
-    };
 }
 
 #endif // !__DTY_NATIVE_UTILS_UTILIZE_R_H__

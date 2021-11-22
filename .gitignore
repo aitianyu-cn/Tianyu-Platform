@@ -13,5 +13,7 @@ out/*
 *.tlog
 *.pdb
 
-dty-native/ide-support/DTY_Platform_VS/.vs/DTY_Platform_VS/*
+dty-native/.ide_helper/vs/.vs
+dty-native/.ide_helper/vs/x64
+dty-native/.ide_helper/vs/vs/x64
 # Visual Studio End

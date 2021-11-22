@@ -38,10 +38,10 @@ namespace dty::collection
             : NeedFree(needFree)
         {
             if (null == elems)
-                throw new dty::except::ArgumentNullException();
+                throw dty::except::ArgumentNullException();
 
             if (0 >= length || length > size)
-                throw new dty::except::ArgumentOutOfRangeException();
+                throw dty::except::ArgumentOutOfRangeException();
 
             this->Elems = elems;
             this->Length = length;
@@ -69,7 +69,7 @@ namespace dty::collection
         __PUB__ Elem  __REFERENCE__ operator[](int32 __VARIABLE__ index)
         {
             if (index >= this->Length)
-                throw new dty::except::ArgumentOutOfRangeException();
+                throw dty::except::ArgumentOutOfRangeException();
 
             return this->Elems[index];
         }
@@ -91,10 +91,10 @@ namespace dty::collection
             : _NeedFree(needFree), _Current(0)
         {
             if (null == pointer)
-                throw new dty::except::ArgumentNullException();
+                throw dty::except::ArgumentNullException();
 
             if (0 >= size)
-                throw new dty::except::ArgumentOutOfRangeException();
+                throw dty::except::ArgumentOutOfRangeException();
 
             this->_Pointer = pointer;
             this->_Size = size;
@@ -107,7 +107,7 @@ namespace dty::collection
             if (1 == this->_Size)
                 delete this->_Pointer;
             else
-                delete [] this->_Pointer
+                delete[] this->_Pointer;
         }
 
         __PUB__ void               __VARIABLE__ Reset()
@@ -118,10 +118,12 @@ namespace dty::collection
         {
             return SmartPointer<Elem>((this->_Pointer) + this->_Current, 1, true);
         }
-        __PUB__ void               __VARIABLE__ Next()
+        __PUB__ SmartPointer<Elem> __VARIABLE__ Next()
         {
             if (this->_Current < this->_Size - 1)
-                ++(this->Current);
+                ++(this->_Current);
+
+            return SmartPointer<Elem>((this->_Pointer) + this->_Current, 1, true);
         }
         __PUB__ SmartPointer<Elem> __VARIABLE__ End()
         {
@@ -205,10 +207,10 @@ namespace dty::collection
             : _NeedFree(needFree)
         {
             if (null == arraySrc)
-                throw new dty::except::ArgumentNullException();
+                throw dty::except::ArgumentNullException();
 
             if (0 >= count)
-                throw new dty::except::ArgumentOutOfRangeException();
+                throw dty::except::ArgumentOutOfRangeException();
 
             this->_Array = arraySrc;
             this->_Count = count;

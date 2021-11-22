@@ -12,7 +12,7 @@
 #ifndef __DTY_NATIVE_UTILS_STRING_G_H__
 #define __DTY_NATIVE_UTILS_STRING_G_H__
 
-#include"./interface.g.h"
+#include"./interface.r.h"
 #include"./smartPointer.g.h"
 #include"./iterator.g.h"
 #include<string>
@@ -20,10 +20,10 @@
 #include<initializer_list>
 #endif // !__cplusplus >= 201103
 
-namespace dty::collection
+namespace dty
 {
-    class String : public virtual IEquatable<String>,
-        public virtual ICompareable<String>
+    class String : public virtual collection::IEquatable<String>,
+        public virtual collection::ICompareable<String>
     {
         __PUB__ String();
         __PUB__ String(const char   __VARIABLE__ item, int32 __VARIABLE__ repeat);
@@ -88,7 +88,7 @@ namespace dty::collection
         __PUB__ void                 __VARIABLE__ TrimEnd(char __VARIABLE__ ch);
         __PUB__ void                 __VARIABLE__ TrimEnd(char __VARIABLE__ ch [], int32 __VARIABLE__ length);
 
-        __PUB__ Array<char> __REFERENCE__ ToArray();
+        __PUB__ collection::Array<char> __REFERENCE__ ToArray();
 #if __cplusplus >= 201103
         __PUB__ bool   __VARIABLE__ Contains(std::initializer_list<String __REFERENCE__> strs);
 #endif // !__cplusplus >= 201103
@@ -105,7 +105,8 @@ namespace dty::collection
 #pragma endregion
 
 #pragma region Tianyu ICompareable Interface
-        __PUB__ virtual CompareResult __VARIABLE__ CompareTo(String __REFERENCE__ other) override;
+        __PUB__ virtual collection::CompareResult __VARIABLE__ CompareTo(String __REFERENCE__ other) override;
+
         __PUB__ virtual bool          __VARIABLE__ operator <(String __REFERENCE__ other) override;
         __PUB__ virtual bool          __VARIABLE__ operator >(String __REFERENCE__ other) override;
         __PUB__ virtual bool          __VARIABLE__ operator <=(String __REFERENCE__ other) override;

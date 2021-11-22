@@ -65,7 +65,7 @@ namespace dty
         __PUB__ explicit SmartPointer(T __POINTER__ pointer)
         {
             if (null == pointer)
-                throw new dty::except::NullPointerException();
+                throw dty::except::NullPointerException();
 
             this->_SmartPointerType = SPType::STRONG;
             this->_Pointer = pointer;
@@ -74,10 +74,10 @@ namespace dty
         __PUB__ explicit SmartPointer(T __POINTER__ pointer, int32 __VARIABLE__ size)
         {
             if (null == pointer)
-                throw new dty::except::NullPointerException();
+                throw dty::except::NullPointerException();
 
             if (0 >= size)
-                throw new dty::except::IndexOutOfRangeException();
+                throw dty::except::IndexOutOfRangeException();
 
             this->_SmartPointerType = SPType::STRONG;
             this->_Pointer = pointer;
@@ -134,31 +134,31 @@ namespace dty
         __PUB__ T      __REFERENCE__ operator __POINTER__()
         {
             if (null == this->_Pointer)
-                throw new dty::except::NullPointerException();
+                throw dty::except::NullPointerException();
 
             return __PTR_TO_REF__(this->_Pointer);
         }
         __PUB__ T      __POINTER__   operator ->()
         {
             if (null == this->_Pointer)
-                throw new dty::except::NullPointerException();
+                throw dty::except::NullPointerException();
 
             return this->_Pointer;
         }
         __PUB__ T      __POINTER__   operator ->() const
         {
             if (null == this->_Pointer)
-                throw new dty::except::NullPointerException();
+                throw dty::except::NullPointerException();
 
             return this->_Pointer;
         }
         __PUB__ T      __REFERENCE__ operator[] (int32 __VARIABLE__ index)
         {
             if (null == this->_Pointer)
-                throw new dty::except::NullPointerException();
+                throw dty::except::NullPointerException();
 
             if (0 > index || this->_Size <= index)
-                throw new dty::except::ArgumentOutOfRangeException();
+                throw dty::except::ArgumentOutOfRangeException();
 
             return (this->_Pointer)[index];
         }
@@ -196,7 +196,7 @@ namespace dty
             {
                 return (__PTR_TO_REF__ this->_Pointer) == (__PTR_TO_REF__ other._Pointer);
             }
-            catch (const std::exception& e)
+            catch (std::exception)
             {
                 return this->_Pointer == other._Pointer;
             }
@@ -208,7 +208,31 @@ namespace dty
             {
                 return (__PTR_TO_REF__ this->_Pointer) != (__PTR_TO_REF__ other._Pointer);
             }
-            catch (const std::exception& e)
+            catch (std::exception)
+            {
+                return this->_Pointer != other._Pointer;
+            }
+
+        }
+        __PUB__ bool __VARIABLE__ operator ==(SmartPointer<T> __VARIABLE__ other)
+        {
+            try
+            {
+                return (__PTR_TO_REF__ this->_Pointer) == (__PTR_TO_REF__ other._Pointer);
+            }
+            catch (std::exception)
+            {
+                return this->_Pointer == other._Pointer;
+            }
+
+        }
+        __PUB__ bool __VARIABLE__ operator !=(SmartPointer<T> __VARIABLE__ other)
+        {
+            try
+            {
+                return (__PTR_TO_REF__ this->_Pointer) != (__PTR_TO_REF__ other._Pointer);
+            }
+            catch (std::exception)
             {
                 return this->_Pointer != other._Pointer;
             }
