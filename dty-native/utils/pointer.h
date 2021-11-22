@@ -1,5 +1,5 @@
 /**
- * @file smartPointer.g.h(utils)
+ * @file pointer.h(utils)
  * @author senyun.yao
  * @brief
  * @version 0.1
@@ -9,11 +9,11 @@
  *
  */
 
-#ifndef __DTY_NATIVE_UTILS_SMARTPOINTER_G_H__
-#define __DTY_NATIVE_UTILS_SMARTPOINTER_G_H__
+#ifndef __DTY_NATIVE_UTILS_SMARTPOINTER_H__
+#define __DTY_NATIVE_UTILS_SMARTPOINTER_H__
 
-#include"./utilize.r.h"
-#include"./error.g.h"
+#include"./utilize.h"
+#include"./error.h"
 
 namespace dty
 {
@@ -241,4 +241,4 @@ namespace dty
     };
 }
 
-#endif // !__DTY_NATIVE_UTILS_SMARTPOINTER_G_H__
+#endif // !__DTY_NATIVE_UTILS_SMARTPOINTER_H__

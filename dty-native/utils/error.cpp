@@ -1,4 +1,4 @@
-#include"./error.g.h"
+#include"./error.h"
 #include<string>
 
 using namespace dty::except;

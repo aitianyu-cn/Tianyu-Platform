@@ -1,5 +1,5 @@
 /**
- * @file string.g.h(utils)
+ * @file string.h(utils)
  * @author senyun.yao
  * @brief
  * @version 0.1
@@ -9,12 +9,11 @@
  *
  */
 
-#ifndef __DTY_NATIVE_UTILS_STRING_G_H__
-#define __DTY_NATIVE_UTILS_STRING_G_H__
+#ifndef __DTY_NATIVE_UTILS_STRING_H__
+#define __DTY_NATIVE_UTILS_STRING_H__
 
-#include"./interface.r.h"
-#include"./smartPointer.g.h"
-#include"./iterator.g.h"
+#include"./pointer.h"
+#include"./array.h"
 #include<string>
 #if __cplusplus >= 201103
 #include<initializer_list>
@@ -129,4 +128,4 @@ namespace dty
     };
 }
 
-#endif // !__DTY_NATIVE_UTILS_STRING_G_H__
+#endif // !__DTY_NATIVE_UTILS_STRING_H__

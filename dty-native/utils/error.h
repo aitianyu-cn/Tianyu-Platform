@@ -9,10 +9,10 @@
  *
  */
 
-#ifndef __DTY_NATIVE_UTILS_ERROR_G_H__
-#define __DTY_NATIVE_UTILS_ERROR_G_H__
+#ifndef __DTY_NATIVE_UTILS_ERROR_H__
+#define __DTY_NATIVE_UTILS_ERROR_H__
 
-#include "./interface.r.h"
+#include "./utilize.h"
 #include <exception>
 
 namespace dty::except
@@ -122,4 +122,4 @@ namespace dty::except
 	};
 }
 
-#endif // !__DTY_NATIVE_UTILS_ERROR_G_H__
+#endif // !__DTY_NATIVE_UTILS_ERROR_H__

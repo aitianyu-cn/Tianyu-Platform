@@ -1,5 +1,5 @@
 /**
- * @file iterator.g.h(utils)
+ * @file iterator.h(utils)
  * @author senyun.yao
  * @brief collection base for tianyu platform
  * @version 0.1
@@ -9,11 +9,11 @@
  *
  */
 
-#ifndef __DTY_NATIVE_UTILS_ITERATOR_G_H__
-#define __DTY_NATIVE_UTILS_ITERATOR_G_H__
+#ifndef __DTY_NATIVE_UTILS_ITERATOR_H__
+#define __DTY_NATIVE_UTILS_ITERATOR_H__
 
-#include"./utilize.r.h"
-#include"./smartPointer.g.h"
+#include"./utilize.h"
+#include"./pointer.h"
 
  /**
   * @brief Tianyu Collection Namespace
@@ -107,7 +107,7 @@ namespace dty::collection
             if (1 == this->_Size)
                 delete this->_Pointer;
             else
-                delete[] this->_Pointer;
+                delete [] this->_Pointer;
         }
 
         __PUB__ void               __VARIABLE__ Reset()
@@ -195,57 +195,6 @@ namespace dty::collection
             return -1;
         }
     };
-
-    template<class Elem>
-    class Array final
-    {
-        __PRI__ Elem  __POINTER__  _Array;
-        __PRI__ int32 __VARIABLE__ _Count;
-        __PRI__ bool  __VARIABLE__ _NeedFree;
-
-        __PUB__ Array(Elem __POINTER__ arraySrc, int32 __VARIABLE__ count, bool __VARIABLE__ needFree = true)
-            : _NeedFree(needFree)
-        {
-            if (null == arraySrc)
-                throw dty::except::ArgumentNullException();
-
-            if (0 >= count)
-                throw dty::except::ArgumentOutOfRangeException();
-
-            this->_Array = arraySrc;
-            this->_Count = count;
-        }
-        __PUB__ ~Array()
-        {
-            if (!this->_NeedFree)
-                return;
-
-            if (1 == this->_Count)
-                delete this->_Array;
-            else
-                delete [] this->_Array;
-        }
-
-        __PUB__ bool           __VARIABLE__  IsNull()
-        {
-            return null == this->_Array;
-        }
-        __PUB__ int32          __VARIABLE__  Size()
-        {
-            return this->_Count;
-        }
-        __PUB__ Elem           __REFERENCE__ operator[](int32 __VARIABLE__ index)
-        {
-            if (index >= this->_Count)
-                throw dty::except::ArgumentOutOfRangeException();
-
-            return this->_Array[index];
-        }
-        __PUB__ Iterator<Elem> __POINTER__   GetIterator()
-        {
-            return new SmartPointer<Iterator<Elem>>(new Iterator<Elem>(this->_Array, this->_Count));
-        }
-    };
 }
 
-#endif // !__DTY_NATIVE_UTILS_ITERATOR_G_H__
+#endif // !__DTY_NATIVE_UTILS_ITERATOR_H__

@@ -1,5 +1,5 @@
 /**
- * @file crossPlatform.h(utils)
+ * @file cross_platform.h(utils)
  * @author senyun.yao
  * @brief
  * @version 0.1
@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef __DTY_NATIVE_CROSSPLATFORM_H__
-#define __DTY_NATIVE_CROSSPLATFORM_H__
+#ifndef __DTY_NATIVE_CROSS_PLATFORM_H__
+#define __DTY_NATIVE_CROSS_PLATFORM_H__
 
  /**
   * Environment Defs:
@@ -134,4 +134,4 @@
 #include"./cpf/linuxAPI.h"
 #endif // !__DTY_LMX == 1
 
-#endif // !__DTY_NATIVE_CROSSPLATFORM_H__
+#endif // !__DTY_NATIVE_CROSS_PLATFORM_H__

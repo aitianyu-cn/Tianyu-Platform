@@ -1,5 +1,5 @@
 /**
- * @file utilize.r.h(utils)
+ * @file utilize.h(utils)
  * @author senyun.yao
  * @brief 用于天宇平台的公用组件核心
  * @brief AiTianyu Platform Public Common Core
@@ -10,8 +10,8 @@
  *
  */
 
-#ifndef __DTY_NATIVE_UTILS_UTILIZE_R_H__
-#define __DTY_NATIVE_UTILS_UTILIZE_R_H__
+#ifndef __DTY_NATIVE_UTILS_UTILIZE_H__
+#define __DTY_NATIVE_UTILS_UTILIZE_H__
 
 #ifndef __cplusplus
 #error only develop for C++
@@ -164,7 +164,50 @@ constexpr auto null = nullptr;
 
 namespace dty
 {
+    _interface IObjectConverter
+    {
+        __PUB__ virtual object __VARIABLE__ TryConvert(byte __POINTER__ obj, int32 __VARIABLE__ objSize) = 0;
+        __PUB__ virtual object __VARIABLE__ TryConvert(byte __POINTER__ obj, int32 __VARIABLE__ objSize, int32 __VARIABLE__ startIndex) = 0;
+    };
+    _interface IStringConverter
+    {
+        __PUB__ virtual string __VARIABLE__ TryConvert(byte __POINTER__ obj, int32 __VARIABLE__ objSize) const = 0;
+        __PUB__ virtual string __VARIABLE__ TryConvert(byte __POINTER__ obj, int32 __VARIABLE__ objSize, int32 __VARIABLE__ startIndex) const = 0;
+    };
 
+    namespace collection
+    {
+        enum class CompareResult : int32
+        {
+            LESS = -1,
+            EQUAL = 0,
+            GREAT = 1
+        };
+
+        template<class Elem>
+        _interface IEquatable
+        {
+            __PUB__ virtual ~IEquatable() { };
+
+            __PUB__ virtual bool __VARIABLE__ Equals(Elem __REFERENCE__ other) = 0;
+            __PUB__ virtual bool __VARIABLE__ operator ==(Elem __REFERENCE__ other) = 0;
+            __PUB__ virtual bool __VARIABLE__ operator !=(Elem __REFERENCE__ other) = 0;
+        };
+
+        template<class Elem>
+        _interface ICompareable
+        {
+            __PUB__ virtual ~ICompareable() { };
+
+            __PUB__ virtual CompareResult __VARIABLE__ CompareTo(Elem __REFERENCE__ other) = 0;
+            __PUB__ virtual bool __VARIABLE__ operator ==(Elem __REFERENCE__ other) = 0;
+            __PUB__ virtual bool __VARIABLE__ operator !=(Elem __REFERENCE__ other) = 0;
+            __PUB__ virtual bool __VARIABLE__ operator <(Elem __REFERENCE__ other) = 0;
+            __PUB__ virtual bool __VARIABLE__ operator >(Elem __REFERENCE__ other) = 0;
+            __PUB__ virtual bool __VARIABLE__ operator <=(Elem __REFERENCE__ other) = 0;
+            __PUB__ virtual bool __VARIABLE__ operator >=(Elem __REFERENCE__ other) = 0;
+        };
+    }
 }
 
-#endif // !__DTY_NATIVE_UTILS_UTILIZE_R_H__
+#endif // !__DTY_NATIVE_UTILS_UTILIZE_H__
