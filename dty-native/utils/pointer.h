@@ -239,6 +239,14 @@ namespace dty
 
         }
     };
+
+    using bool_ptr = SmartPointer<bool>;
+    using short_ptr = SmartPointer<int16>;
+    using int_ptr = SmartPointer<int32>;
+    using long_ptr = SmartPointer<int64>;
+    using float_ptr = SmartPointer<float>;
+    using double_ptr = SmartPointer<double>;
+    using string_sp = SmartPointer<char>;
 }
 
 #endif // !__DTY_NATIVE_UTILS_SMARTPOINTER_H__

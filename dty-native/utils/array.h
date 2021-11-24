@@ -66,6 +66,15 @@ namespace dty::collection
             return new SmartPointer<Iterator<Elem>>(new Iterator<Elem>(this->_Array, this->_Count));
         }
     };
+
+    using ByteArray = Array<byte>;
+    using BoolArray = Array<bool>;
+    using ShortArray = Array<int16>;
+    using IntArray = Array<int32>;
+    using LongArray = Array<int64>;
+    using FloatArray = Array<float>;
+    using DoubleArray = Array<double>;
+    using CharArray = Array<char>;
 }
 
 #endif // !__DTY_NATIVE_UTILS_ARRAY_H__

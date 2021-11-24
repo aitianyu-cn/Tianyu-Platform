@@ -165,3 +165,19 @@ uint64 ArgumentOutOfRangeException::GetExceptionId()
     return DTY_Generic_ArgumentOutOfRangeException;
 }
 #pragma endregion
+
+#pragma region Tianyu Not Implementation Exception
+NotImplementationException::NotImplementationException()
+    : Exception()
+{
+
+}
+NotImplementationException::~NotImplementationException()
+{
+
+}
+uint64 NotImplementationException::GetExceptionId()
+{
+    return DTY_Generic_NotImplementationException;
+}
+#pragma endregion

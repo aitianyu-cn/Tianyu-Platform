@@ -175,6 +175,20 @@ namespace dty
         __PUB__ virtual string __VARIABLE__ TryConvert(byte __POINTER__ obj, int32 __VARIABLE__ objSize, int32 __VARIABLE__ startIndex) const = 0;
     };
 
+    template<typename _Key, typename _Val>
+    class KeyValuePair final
+    {
+        __PUB__ _Key __VARIABLE__ Key;
+        __PUB__ _Val __VARIABLE__ Value;
+
+        __PUB__ KeyValuePair(_Key key, _Val val)
+            : Key(key), Value(val)
+        {
+
+        }
+        __PUB__ ~KeyValuePair() { }
+    };
+
     namespace collection
     {
         enum class CompareResult : int32
