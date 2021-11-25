@@ -39,26 +39,23 @@ namespace dty::collection
             this->_Array = arraySrc;
             this->_Count = count;
 
-            // record the instance reference only when 
-            // the lifecycle of current pointer is mananged by Array
-            if (this->_NeedFree)
-                this->_Reference = new int32(1);
+            // record the instance reference
+            // it works only when the lifecycle of current pointer is mananged by Array
+            // other wise this is a counter only
+            this->_Reference = new int32(1);
         }
         __PUB__ Array(const Array<Elem> __REFERENCE__ arr)
             : _Array(arr._Array), _Count(arr._Count), _Reference(arr._Reference), _NeedFree(arr._NeedFree)
         {
-            if (this->_NeedFree)
-                (__PTR_TO_VAR__(this->_Reference)) += 1;
+            (__PTR_TO_VAR__(this->_Reference)) += 1;
         }
         __PUB__ ~Array()
         {
-            if (!this->_NeedFree)
-                return;
-
             if (1 == (__PTR_TO_VAR__(this->_Reference)))
             {
-                delete [] this->_Array;
                 delete this->_Reference;
+                if (this->_NeedFree)
+                    delete [] this->_Array;
             }
             else
                 (__PTR_TO_VAR__(this->_Reference)) -= 1;
@@ -87,11 +84,11 @@ namespace dty::collection
 #ifdef __DTY_UNSAFE_MODE__
         __PUB__ void           __VARIABLE__   SetNoDelete()
         {
-
+            this->_NeedFree = false;
         }
         __PUB__ void           __VARIABLE__   SetNeedDelete()
         {
-
+            this->_NeedFree = true;
         }
 #endif // !__DTY_UNSAFE_MODE__
     };
