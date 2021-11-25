@@ -84,5 +84,7 @@
     "C_Cpp.formatting": "vcFormat",
     "editor.detectIndentation": false,
     "editor.tabSize": 4,
-    "editor.insertSpaces": true
+    "editor.insertSpaces": true,
+    "vsicons.associations.files": [],
+    "vsicons.associations.folders": []
 }

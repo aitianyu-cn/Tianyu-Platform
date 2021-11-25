@@ -21,7 +21,18 @@
 #error library needs C++17 or later
 #endif
 
- // 字符类型有符号数最小值
+ // 天宇开发模式标志
+#define __DTY_DEV_MODE__    1
+
+#ifdef __DTY_DEV_MODE__
+ /**
+  * @brief 该标识指示当前天库是否可以支持不安全的内存操作 
+  * @brief The flag that allow unsafe memory operations in Tianyu Library when it is defined
+  */
+#define __DTY_UNSAFE_MODE__ "Tianyu Library Unsafe Mode"
+#endif // !__DTY_DEV_MODE__
+
+  // 字符类型有符号数最小值
 #define __SIGNED_CHAR_MIN__     (-128)
 // 字符类型有符号数最大值
 #define __SIGNED_CHAR_MAX__     127

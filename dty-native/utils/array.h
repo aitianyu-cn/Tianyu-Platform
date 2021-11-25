@@ -17,14 +17,18 @@
 namespace dty::collection
 {
     template<class Elem>
+    using ArrayIterator_SP = SmartPointer<Iterator<Elem>>;
+
+    template<class Elem>
     class Array final
     {
         __PRI__ Elem  __POINTER__  _Array;
         __PRI__ int32 __VARIABLE__ _Count;
+        __PRI__ int32 __POINTER__  _Reference;
         __PRI__ bool  __VARIABLE__ _NeedFree;
 
         __PUB__ Array(Elem __POINTER__ arraySrc, int32 __VARIABLE__ count, bool __VARIABLE__ needFree = true)
-            : _NeedFree(needFree)
+            : _Reference(null), _NeedFree(needFree)
         {
             if (null == arraySrc)
                 throw dty::except::ArgumentNullException();
@@ -34,37 +38,62 @@ namespace dty::collection
 
             this->_Array = arraySrc;
             this->_Count = count;
+
+            // record the instance reference only when 
+            // the lifecycle of current pointer is mananged by Array
+            if (this->_NeedFree)
+                this->_Reference = new int32(1);
+        }
+        __PUB__ Array(const Array<Elem> __REFERENCE__ arr)
+            : _Array(arr._Array), _Count(arr._Count), _Reference(arr._Reference), _NeedFree(arr._NeedFree)
+        {
+            if (this->_NeedFree)
+                (__PTR_TO_VAR__(this->_Reference)) += 1;
         }
         __PUB__ ~Array()
         {
             if (!this->_NeedFree)
                 return;
 
-            if (1 == this->_Count)
-                delete this->_Array;
-            else
+            if (1 == (__PTR_TO_VAR__(this->_Reference)))
+            {
                 delete [] this->_Array;
+                delete this->_Reference;
+            }
+            else
+                (__PTR_TO_VAR__(this->_Reference)) -= 1;
         }
 
-        __PUB__ bool           __VARIABLE__  IsNull()
+        __PUB__ bool           __VARIABLE__   IsNull()
         {
             return null == this->_Array;
         }
-        __PUB__ int32          __VARIABLE__  Size()
+        __PUB__ int32          __VARIABLE__   Size()
         {
             return this->_Count;
         }
-        __PUB__ Elem           __REFERENCE__ operator[](int32 __VARIABLE__ index)
+        __PUB__ Elem           __REFERENCE__  operator[](int32 __VARIABLE__ index)
         {
             if (index >= this->_Count)
                 throw dty::except::ArgumentOutOfRangeException();
 
             return this->_Array[index];
         }
-        __PUB__ Iterator<Elem> __POINTER__   GetIterator()
+        __PUB__ Iterator<Elem> __VARIABLE__   GetIterator()
         {
-            return new SmartPointer<Iterator<Elem>>(new Iterator<Elem>(this->_Array, this->_Count));
+            return Iterator<Elem>(this->_Array, this->_Count);
         }
+
+#ifdef __DTY_UNSAFE_MODE__
+        __PUB__ void           __VARIABLE__   SetNoDelete()
+        {
+
+        }
+        __PUB__ void           __VARIABLE__   SetNeedDelete()
+        {
+
+        }
+#endif // !__DTY_UNSAFE_MODE__
     };
 
     using ByteArray = Array<byte>;
