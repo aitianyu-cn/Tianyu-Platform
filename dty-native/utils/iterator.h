@@ -83,12 +83,13 @@ namespace dty::collection
 
         __PRI__ Elem  __POINTER__  _Pointer;
         __PRI__ int32 __VARIABLE__ _Size;
-        __PRI__ bool  __VARIABLE__ _NeedFree;
-
         __PRI__ int32 __VARIABLE__ _Current;
 
+        __PRI__ bool  __VARIABLE__ _NeedFree;
+        __PRI__ int32 __POINTER__  _Reference;
+
         __PUB__ explicit Iterator(Elem __POINTER__ pointer, int32 __VARIABLE__ size, bool __VARIABLE__ needFree = false)
-            : _NeedFree(needFree), _Current(0)
+            : _Current(0), _NeedFree(needFree), _Reference(null)
         {
             if (null == pointer)
                 throw dty::except::ArgumentNullException();
@@ -98,16 +99,31 @@ namespace dty::collection
 
             this->_Pointer = pointer;
             this->_Size = size;
+
+            // record the instance reference only when 
+            // the lifecycle of current pointer is mananged by iterator
+            if (this->_NeedFree)
+                this->_Reference = new int32(1);
+        }
+        __PUB__ Iterator(const Iterator<Elem> __REFERENCE__ it)
+            : _Pointer(it._Pointer), _Size(it._Size), _Current(0),
+            _NeedFree(it._NeedFree), _Reference(it._Reference)
+        {
+            if (this->_NeedFree)
+                (__PTR_TO_VAR__(this->_Reference)) += 1;
         }
         __PUB__ ~Iterator()
         {
             if (!this->_NeedFree)
                 return;
 
-            if (1 == this->_Size)
-                delete this->_Pointer;
-            else
+            if (1 == (__PTR_TO_VAR__(this->_Reference)))
+            {
                 delete [] this->_Pointer;
+                delete this->_Reference;
+            }
+            else
+                (__PTR_TO_VAR__(this->_Reference)) -= 1;
         }
 
         __PUB__ void               __VARIABLE__ Reset()

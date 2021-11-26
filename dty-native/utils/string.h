@@ -51,7 +51,7 @@ namespace dty
         __PUB__ bool   __VARIABLE__ EndWith(const char __VARIABLE__ ch);
         __PUB__ bool   __VARIABLE__ EndWith(String __REFERENCE__ str);
         __PUB__ bool   __VARIABLE__ Contains(const char __VARIABLE__ str);
-        __PUB__ bool   __VARIABLE__ Contains(String __REFERENCE__ str); // 需要Sunday算法
+        __PUB__ bool   __VARIABLE__ Contains(const String __REFERENCE__ str); // 需要Sunday算法
         __PUB__ int32  __VARIABLE__ IndexOf(const char __VARIABLE__ ch);
         __PUB__ int32  __VARIABLE__ IndexOf(const char __VARIABLE__ ch, int32 __VARIABLE__ startIndex);
         __PUB__ int32  __VARIABLE__ IndexOf(const char __VARIABLE__ ch, int32 __VARIABLE__ startIndex, int32 __VARIABLE__ endIndex);
@@ -106,7 +106,7 @@ namespace dty
         __PUB__ String __VARIABLE__ operator+(const char   __VARIABLE__  ch);
 
 #if __cplusplus >= 201103
-        __PUB__ bool   __VARIABLE__ Contains(std::initializer_list<String __REFERENCE__> strs);  // 需要Sunday算法
+        __PUB__ bool   __VARIABLE__ Contains(std::initializer_list<String> strs);
 #endif // !__cplusplus >= 201103
 
         __PUB__ String __VARIABLE__ operator =(String __REFERENCE__ source);
@@ -134,14 +134,17 @@ namespace dty
         __PUB__ static String __VARIABLE__ Empty;
 
 #if __cplusplus >= 201103
-        __PUB__ static String __VARIABLE__ Concat(std::initializer_list<String __REFERENCE__> strs);
-        __PUB__ static String __VARIABLE__ Join(const char __VARIABLE__ joinChar, std::initializer_list<String __REFERENCE__> strs);
-        __PUB__ static String __VARIABLE__ Join(const char __VARIABLE__ joinChar, std::initializer_list<string __POINTER__> strs);
+        __PUB__ static String __VARIABLE__ Concat(std::initializer_list<String> __VARIABLE__ strs);
+        __PUB__ static String __VARIABLE__ Join(const char __VARIABLE__ joinChar, std::initializer_list<String> strs);
+        __PUB__ static String __VARIABLE__ Join(const char __VARIABLE__ joinChar, std::initializer_list<string> strs);
+        __PUB__ static String __VARIABLE__ Join(const char __VARIABLE__ joinChar, std::initializer_list<String> strs, bool __VARIABLE__ forceEmpty);
+        __PUB__ static String __VARIABLE__ Join(const char __VARIABLE__ joinChar, std::initializer_list<string> strs, bool __VARIABLE__ forceEmpty);
 #endif // !__cplusplus >= 201103
         __PUB__ static String __VARIABLE__ Concat(String __REFERENCE__ str0, String __REFERENCE__ str1);
         __PUB__ static String __VARIABLE__ Concat(String __REFERENCE__ str0, String __REFERENCE__ str1, String __REFERENCE__ str2);
         __PUB__ static String __VARIABLE__ Join(const char __VARIABLE__ joinChar, String __REFERENCE__ str1, String __REFERENCE__ str2);
-        __PUB__ static String __VARIABLE__ Join(const char __VARIABLE__ joinChar, string __POINTER__ str1, int32 __VARIABLE__ length1, string __POINTER__ str2, int32 __VARIABLE__ length2);
+        __PUB__ static String __VARIABLE__ Join(const char __VARIABLE__ joinChar, String __REFERENCE__ str1, String __REFERENCE__ str2, bool __VARIABLE__ forceEmpty);
+        __PUB__ static String __VARIABLE__ Join(const char __VARIABLE__ joinChar, string __VARIABLE__ str1, int32 __VARIABLE__ length1, string __VARIABLE__ str2, int32 __VARIABLE__ length2);
 #pragma endregion
 
         __PRI__ void __VARIABLE__ Release();
