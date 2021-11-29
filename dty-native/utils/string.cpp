@@ -250,7 +250,7 @@ bool dty::String::Contains(const char ch)
     return false;
 }
 
-bool dty::String::Contains(String& str)
+bool dty::String::Contains(const String& str)
 {
     // Todo
     throw dty::except::NotImplementationException();
@@ -940,5 +940,289 @@ dty::String dty::String::Join(const char joinChar, dty::String& str1, dty::Strin
     if ('\0' == joinChar)
         throw dty::except::ArgumentException();
 
+    int32 newLen = str1._StringLength + str2._StringLength + 1;
+    string newStr = new char[newLen + 1];
+    int32 newStrI = 0;
+    for (int32 i = 0; i < str1._StringLength; ++i, ++newStrI)
+        newStr[newStrI] = str1._StringValue[i];
+    newStr[newStrI++] = joinChar;
+    for (int32 i = 0; i < str2._StringLength; ++i, ++newStrI)
+        newStr[newStrI] = str2._StringValue[i];
+    newStr[newStrI] = '\0';
 
+    return dty::String(newStr, newLen, true);
+}
+
+dty::String dty::String::Join(const char joinChar, dty::String& str1, dty::String& str2, bool forceEmpty)
+{
+    if ('\0' == joinChar)
+        throw dty::except::ArgumentException();
+
+    if (!forceEmpty)
+    {
+        if (0 == str1._StringLength && 0 == str2._StringLength)
+            return dty::String::Empty;
+
+        if (0 == str1._StringLength && 0 != str2._StringLength)
+            return str2;
+
+        if (0 == str2._StringLength && 0 != str1._StringLength)
+            return str1;
+    }
+
+    return dty::String::Join(joinChar, str1, str2);
+}
+
+dty::String dty::String::Join(const char joinChar, string str1, int32 length1, string str2, int32 length2)
+{
+    if ('\0' == joinChar)
+        throw dty::except::ArgumentException();
+
+    if (null == str1 || null == str2)
+        throw dty::except::ArgumentNullException();
+
+    if (0 > length1 || 0 > length2)
+        throw dty::except::ArgumentOutOfRangeException();
+
+    int32 acturLen1 = strlen(str1);
+    int32 acturLen2 = strlen(str2);
+
+    if (acturLen1 < length1 || acturLen2 < length2)
+        throw dty::except::ArgumentOutOfRangeException();
+
+    int32 newLen = length1 + length2 + 1;
+    string newStr = new char[newLen + 1];
+    int32 newStrI = 0;
+    for (int32 i = 0; i < length1; ++i, ++newStrI)
+        newStr[newStrI] = str1[i];
+    newStr[newStrI++] = joinChar;
+    for (int32 i = 0; i < length2; ++i, ++newStrI)
+        newStr[newStrI] = str2[i];
+    newStr[newStrI] = '\0';
+
+    return dty::String(newStr, newLen, true);
+}
+
+#if __cplusplus >= 201103
+bool dty::String::Contains(std::initializer_list<dty::String> strs)
+{
+    if (0 == strs.size())
+        return false;
+
+    bool contains = false;
+    for (const dty::String* it = strs.begin(); it != strs.end() && !contains; ++it)
+        contains = this->Contains(__PTR_TO_REF__ it);
+
+    return contains;
+}
+
+dty::String dty::String::Concat(std::initializer_list<dty::String> strs)
+{
+    int32 totalLen = 0;
+    for (const dty::String* it = strs.begin(); it != strs.end(); ++it)
+        totalLen += it->_StringLength;
+
+    if (0 == totalLen)
+        return dty::String::Empty;
+
+    string newStr = new char[totalLen + 1];
+    int32 newStrI = 0;
+    for (const dty::String* it = strs.begin(); it != strs.end(); ++it)
+        for (int32 i = 0; i < it->_StringLength; ++i, ++newStrI)
+            newStr[newStrI] = it->_StringValue[i];
+
+    newStr[newStrI] = '\0';
+
+    return dty::String(newStr, totalLen, true);
+}
+
+dty::String dty::String::Join(const char joinChar, std::initializer_list<dty::String> strs)
+{
+    if ('\0' == joinChar)
+        throw dty::except::ArgumentException();
+
+    if (0 == strs.size())
+        return dty::String::Empty;
+
+    int32 totalLen = 0;
+    int32 joinCharCount = strs.size() - 1;
+    for (const dty::String* it = strs.begin(); it != strs.end(); ++it)
+        totalLen += it->_StringLength;
+
+    string newStr = new char[totalLen + joinCharCount + 1];
+    int32 newStrI = 0;
+    for (const dty::String* it = strs.begin(); it != strs.end(); ++it)
+    {
+        for (int32 i = 0; i < it->_StringLength; ++i, ++newStrI)
+            newStr[newStrI] = it->_StringValue[i];
+        if (0 != joinCharCount)
+        {
+            newStr[newStrI++] = joinChar;
+            --joinCharCount;
+        }
+    }
+
+    return dty::String(newStr, totalLen + joinCharCount, true);
+}
+
+dty::String dty::String::Join(const char joinChar, std::initializer_list<string> strs)
+{
+    if ('\0' == joinChar)
+        throw dty::except::ArgumentException();
+
+    if (0 == strs.size())
+        return dty::String::Empty;
+
+    int32 totalLen = 0;
+    int32 totalCount = 0;
+    for (const string* it = strs.begin(); it != strs.end(); ++it)
+        if (null != (__PTR_TO_VAR__ it))
+        {
+            totalLen += strlen(__PTR_TO_VAR__ it);
+            ++totalCount;
+        }
+
+    if (0 == totalCount)
+        return dty::String::Empty;
+
+    int32 joinCharCount = totalCount - 1;
+    string newStr = new char[totalLen + joinCharCount + 1];
+    int32 newStrI = 0;
+    for (const string* it = strs.begin(); it != strs.end(); ++it)
+    {
+        const string itv = (__PTR_TO_VAR__ it);
+        if (null == itv)
+            continue;
+        int32 len = strlen(itv);
+        for (int32 i = 0; i < len; ++i, ++newStrI)
+            newStr[newStrI] = itv[i];
+        if (0 != joinCharCount)
+        {
+            newStr[newStrI++] = joinChar;
+            --joinCharCount;
+        }
+    }
+
+    return dty::String(newStr, totalLen + joinCharCount, true);
+}
+
+dty::String dty::String::Join(const char joinChar, std::initializer_list<dty::String> strs, bool forceEmpty)
+{
+    if (forceEmpty)
+        return dty::String::Join(joinChar, strs);
+
+    if ('\0' == joinChar)
+        throw dty::except::ArgumentException();
+
+    if (0 == strs.size())
+        return dty::String::Empty;
+
+    dty::String* firstFact = null;
+    int32 totalLen = 0;
+    int32 totalCount = 0;
+    for (const dty::String* it = strs.begin(); it != strs.end(); ++it)
+        if (0 != it->_StringLength)
+        {
+            totalLen += it->_StringLength;
+            ++totalCount;
+            if (null == firstFact)
+                firstFact = (dty::String __POINTER__)it;
+        }
+
+    if (0 == totalCount)
+        return dty::String::Empty;
+
+    if (1 == totalCount)
+        return null != firstFact
+        ? (__PTR_TO_VAR__ firstFact)
+        : throw dty::except::Exception();
+
+    int32 joinCharCount = totalCount - 1;
+    string newStr = new char[totalLen + joinCharCount + 1];
+    int32 newStrI = 0;
+    for (const dty::String* it = strs.begin(); it != strs.end(); ++it)
+    {
+        if (0 != it->_StringLength)
+        {
+            for (int32 i = 0; i < it->_StringLength; ++i, ++newStrI)
+                newStr[newStrI] = it->_StringValue[i];
+
+            if (0 != joinCharCount)
+            {
+                newStr[newStrI++] = joinChar;
+                --joinCharCount;
+            }
+        }
+    }
+
+    newStr[newStrI] = '\0';
+
+    return dty::String(newStr, totalLen + joinCharCount, true);
+}
+
+dty::String dty::String::Join(const char joinChar, std::initializer_list<string> strs, bool forceEmpty)
+{
+    if (forceEmpty)
+        return dty::String::Join(joinChar, strs);
+
+    if ('\0' == joinChar)
+        throw dty::except::ArgumentException();
+
+    if (0 == strs.size())
+        return dty::String::Empty;
+
+    dty::int_ptr eachLen(new int32[strs.size()], (int32)strs.size());
+    string firstFact = null;
+    int32 totalLen = 0;
+    int32 totalCount = 0;
+    int32 i = 0;
+    for (const string* it = strs.begin(); it != strs.end(); ++it, ++i)
+    {
+        eachLen[i] = strlen(__PTR_TO_VAR__ it);
+        if (0 != eachLen[i])
+        {
+            totalLen += eachLen[i];
+            ++totalCount;
+            if (null == firstFact)
+                firstFact = __PTR_TO_VAR__ it;
+        }
+    }
+
+    if (0 == totalCount)
+        return dty::String::Empty;
+
+    if (1 == totalCount)
+        return null != firstFact
+        ? dty::String(firstFact)
+        : throw dty::except::Exception();
+
+    int32 joinCharCount = totalCount - 1;
+    string newStr = new char[totalLen + joinCharCount + 1];
+    int32 newStrI = 0;
+    i = 0;
+    for (const string* it = strs.begin(); it != strs.end(); ++it, ++i)
+    {
+        if (0 != eachLen[i])
+        {
+            for (int32 i = 0; i < eachLen[i]; ++i, ++newStrI)
+                newStr[newStrI] = (__PTR_TO_VAR__ it)[i];
+
+            if (0 != joinCharCount)
+            {
+                newStr[newStrI++] = joinChar;
+                --joinCharCount;
+            }
+        }
+    }
+
+    newStr[newStrI] = '\0';
+
+    return dty::String(newStr, totalLen + joinCharCount, true);
+}
+#endif
+
+std::ostream& dty::operator<<(std::ostream& os, const dty::String& str)
+{
+    os << str._StringValue;
+    return os;
 }

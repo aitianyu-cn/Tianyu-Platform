@@ -96,6 +96,12 @@ namespace dty
                 this->_SmartPointerType = SPType::WEAK;
         }
         __PUB__ SmartPointer(const SmartPointer<T> __REFERENCE__ sp)
+#if defined(__DTY_SMART_POINTER_COPY_WEAK_MODE__) && defined(__DTY_UNSAFE_MODE__)
+            : _SmartPointerType(SPType::WEAK),
+            _Pointer(sp._Pointer),
+            _Size(sp._Size)
+        { }
+#else
             : _SmartPointerType(sp._SmartPointerType),
             _Pointer(sp._Pointer),
             _Size(sp._Size)
@@ -108,6 +114,7 @@ namespace dty
                 spMove._Size = 0;
             }
         }
+#endif // !__DTY_SMART_POINTER_COPY_WEAK_MODE__
 
         __PUB__ virtual ~SmartPointer()
         {

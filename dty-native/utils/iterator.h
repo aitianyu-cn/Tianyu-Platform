@@ -83,31 +83,52 @@ namespace dty::collection
 
         __PRI__ Elem  __POINTER__  _Pointer;
         __PRI__ int32 __VARIABLE__ _Size;
-        __PRI__ bool  __VARIABLE__ _NeedFree;
-
         __PRI__ int32 __VARIABLE__ _Current;
 
+        __PRI__ bool  __VARIABLE__ _NeedFree;
+        __PRI__ int32 __POINTER__  _Reference;
+
         __PUB__ explicit Iterator(Elem __POINTER__ pointer, int32 __VARIABLE__ size, bool __VARIABLE__ needFree = false)
-            : _NeedFree(needFree), _Current(0)
+            : _Current(0), _NeedFree(needFree), _Reference(null)
         {
-            if (null == pointer)
+            if (null == pointer && 0 != size)
                 throw dty::except::ArgumentNullException();
 
-            if (0 >= size)
+            if (0 > size)
                 throw dty::except::ArgumentOutOfRangeException();
 
             this->_Pointer = pointer;
             this->_Size = size;
+
+            // record the instance reference only when 
+            // the lifecycle of current pointer is mananged by iterator
+            if (this->_NeedFree && 0 < size)
+                this->_Reference = new int32(1);
+        }
+        __PUB__ Iterator(const Iterator<Elem> __REFERENCE__ it)
+            : _Pointer(it._Pointer), _Size(it._Size), _Current(0),
+            _NeedFree(it._NeedFree), _Reference(it._Reference)
+        {
+            if (this->_NeedFree && 0 < it._Size)
+                (__PTR_TO_VAR__(this->_Reference)) += 1;
         }
         __PUB__ ~Iterator()
         {
-            if (!this->_NeedFree)
+            if (!this->_NeedFree || 0 == this->_Size)
                 return;
 
-            if (1 == this->_Size)
-                delete this->_Pointer;
-            else
+            if (1 == (__PTR_TO_VAR__(this->_Reference)))
+            {
                 delete [] this->_Pointer;
+                delete this->_Reference;
+            }
+            else
+                (__PTR_TO_VAR__(this->_Reference)) -= 1;
+        }
+
+        __PUB__ int32              __VARIABLE__ Size()
+        {
+            return this->_Size;
         }
 
         __PUB__ void               __VARIABLE__ Reset()
@@ -116,10 +137,16 @@ namespace dty::collection
         }
         __PUB__ SmartPointer<Elem> __VARIABLE__ Current()
         {
+            if (0 == this->Size())
+                return SmartPointer<Elem>();
+
             return SmartPointer<Elem>((this->_Pointer) + this->_Current, 1, true);
         }
         __PUB__ SmartPointer<Elem> __VARIABLE__ Next()
         {
+            if (0 == this->Size())
+                return SmartPointer<Elem>();
+
             if (this->_Current < this->_Size - 1)
                 ++(this->_Current);
 
@@ -127,12 +154,17 @@ namespace dty::collection
         }
         __PUB__ SmartPointer<Elem> __VARIABLE__ End()
         {
+            if (0 == this->Size())
+                return SmartPointer<Elem>();
+
             return SmartPointer<Elem>((this->_Pointer) + this->_Size - 1, 1, true);
         }
 
-
         __PUB__ void               __VARIABLE__ ForEach(fnItemMap __VARIABLE__ fnForEach)
         {
+            if (0 == this->Size())
+                return;
+
             for (int32 i = 0; i < this->_Size; ++i)
                 fnForEach(this->_Pointer[i]);
         }
@@ -146,6 +178,9 @@ namespace dty::collection
         }
         __PUB__ FilterResult<Elem> __VARIABLE__ Filter(fnItemCheck __VARIABLE__ fnForEach)
         {
+            if (0 == this->Size())
+                return FilterResult<Elem>();
+
             Elem __POINTER__ results = new Elem[this->_Size];
             int32 length = 0;
 
@@ -163,6 +198,9 @@ namespace dty::collection
         }
         __PUB__ FilterResult<Elem> __VARIABLE__ Every(fnItemCheck __VARIABLE__ fnForEach)
         {
+            if (0 == this->Size())
+                return FilterResult<Elem>();
+
             Elem __POINTER__ results = new Elem[this->_Size];
             int32 length = 0;
 
