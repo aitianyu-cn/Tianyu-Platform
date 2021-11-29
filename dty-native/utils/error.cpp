@@ -181,3 +181,19 @@ uint64 NotImplementationException::GetExceptionId()
     return DTY_Generic_NotImplementationException;
 }
 #pragma endregion
+
+#pragma region Tianyu Operation Not Support Exception
+OperationNotSupportException::OperationNotSupportException()
+    : Exception()
+{
+
+}
+OperationNotSupportException::~OperationNotSupportException()
+{
+
+}
+uint64 OperationNotSupportException::GetExceptionId()
+{
+    return DTY_Generic_OperationNotSupportException;
+}
+#pragma endregion
