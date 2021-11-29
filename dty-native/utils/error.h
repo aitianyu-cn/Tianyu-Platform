@@ -27,6 +27,8 @@ namespace dty::except
     constexpr uint64 __VARIABLE__ DTY_Generic_ArgumentException = 0x1000000000000001ULL;
     constexpr uint64 __VARIABLE__ DTY_Generic_ArgumentNullException = 0x1000000000000002ULL;
     constexpr uint64 __VARIABLE__ DTY_Generic_ArgumentOutOfRangeException = 0x1000000000000003ULL;
+
+    constexpr uint64 __VARIABLE__ DTY_Generic_OperationNotSupportException = 0x2000000000000001ULL;
 #pragma endregion
 
     class Exception : public std::exception,
@@ -127,6 +129,17 @@ namespace dty::except
         __PUB__ NotImplementationException();
 
         __PUB__ virtual ~NotImplementationException() override;
+
+#pragma region Tianyu Exception Base Function
+        __PUB__ virtual uint64 __VARIABLE__ GetExceptionId() override;
+#pragma endregion
+    };
+
+    class OperationNotSupportException : public Exception
+    {
+        __PUB__ OperationNotSupportException();
+
+        __PUB__ virtual ~OperationNotSupportException() override;
 
 #pragma region Tianyu Exception Base Function
         __PUB__ virtual uint64 __VARIABLE__ GetExceptionId() override;

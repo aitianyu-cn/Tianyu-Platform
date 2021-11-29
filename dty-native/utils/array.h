@@ -17,9 +17,6 @@
 namespace dty::collection
 {
     template<class Elem>
-    using ArrayIterator_SP = SmartPointer<Iterator<Elem>>;
-
-    template<class Elem>
     class Array final
     {
         __PRI__ Elem  __POINTER__  _Array;
@@ -30,10 +27,10 @@ namespace dty::collection
         __PUB__ Array(Elem __POINTER__ arraySrc, int32 __VARIABLE__ count, bool __VARIABLE__ needFree = true)
             : _Reference(null), _NeedFree(needFree)
         {
-            if (null == arraySrc)
+            if (null == arraySrc && 0 != count)
                 throw dty::except::ArgumentNullException();
 
-            if (0 >= count)
+            if (0 > count)
                 throw dty::except::ArgumentOutOfRangeException();
 
             this->_Array = arraySrc;
@@ -42,15 +39,20 @@ namespace dty::collection
             // record the instance reference
             // it works only when the lifecycle of current pointer is mananged by Array
             // other wise this is a counter only
-            this->_Reference = new int32(1);
+            if (0 != count)
+                this->_Reference = new int32(1);
         }
         __PUB__ Array(const Array<Elem> __REFERENCE__ arr)
             : _Array(arr._Array), _Count(arr._Count), _Reference(arr._Reference), _NeedFree(arr._NeedFree)
         {
-            (__PTR_TO_VAR__(this->_Reference)) += 1;
+            if (0 != arr._Count)
+                (__PTR_TO_VAR__(this->_Reference)) += 1;
         }
         __PUB__ ~Array()
         {
+            if (0 == this->_Count)
+                return;
+
             if (1 == (__PTR_TO_VAR__(this->_Reference)))
             {
                 delete this->_Reference;
