@@ -21,7 +21,7 @@ namespace dty
         __PUB__ StringBuilder();
         __PUB__ ~StringBuilder();
 
-        __PUB__ SmartPointer<String> __VARIABLE__ ToString();
+        __PUB__ String __VARIABLE__ ToString();
     };
 }
 
