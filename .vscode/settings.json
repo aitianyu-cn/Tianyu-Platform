@@ -11,6 +11,8 @@
     "C_Cpp.vcFormat.space.beforeEmptySquareBrackets": true,
     "C_Cpp.vcFormat.space.betweenEmptyBraces": true,
     "C_Cpp.vcFormat.space.afterComma": true,
+    "C_Cpp.default.cppStandard": "c++14",
+    "C_Cpp.default.cStandard": "c11",
     "cmake.configureOnOpen": false,
     "files.associations": {
         "utilize.h": "cpp",

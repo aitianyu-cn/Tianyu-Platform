@@ -197,3 +197,19 @@ uint64 OperationNotSupportException::GetExceptionId()
     return DTY_Generic_OperationNotSupportException;
 }
 #pragma endregion
+
+#pragma region Tianyu Operation Failed Exception
+OperationFailedException::OperationFailedException()
+    : Exception()
+{
+
+}
+OperationFailedException::~OperationFailedException()
+{
+
+}
+uint64 OperationFailedException::GetExceptionId()
+{
+    return DTY_Generic_OperationFailedException;
+}
+#pragma endregion
