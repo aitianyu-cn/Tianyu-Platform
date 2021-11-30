@@ -55,7 +55,7 @@ namespace dty
 #pragma endregion
 
         __PRI__ T     __POINTER__  _Pointer;
-        __PRI__ int32 __VARIABLE__ _Size;
+        __PRI__ int64 __VARIABLE__ _Size;
 
         __PUB__ explicit SmartPointer()
             : _SmartPointerType(SPType::STRONG),
@@ -71,7 +71,7 @@ namespace dty
             this->_Pointer = pointer;
             this->_Size = 1;
         }
-        __PUB__ explicit SmartPointer(T __POINTER__ pointer, int32 __VARIABLE__ size)
+        __PUB__ explicit SmartPointer(T __POINTER__ pointer, int64 __VARIABLE__ size)
         {
             if (null == pointer)
                 throw dty::except::NullPointerException();
@@ -89,7 +89,7 @@ namespace dty
             if (weak)
                 this->_SmartPointerType = SPType::WEAK;
         }
-        __PUB__ explicit SmartPointer(T __POINTER__ pointer, int32 __VARIABLE__ size, bool __VARIABLE__ weak)
+        __PUB__ explicit SmartPointer(T __POINTER__ pointer, int64 __VARIABLE__ size, bool __VARIABLE__ weak)
             : SmartPointer<T>(pointer, size)
         {
             if (weak)
@@ -127,7 +127,7 @@ namespace dty
             return null == this->_Pointer;
         }
 
-        __PUB__ int32  __VARIABLE__  Size()
+        __PUB__ int64  __VARIABLE__  Size() const
         {
             return this->_Size;
         }
@@ -159,7 +159,17 @@ namespace dty
 
             return this->_Pointer;
         }
-        __PUB__ T      __REFERENCE__ operator[] (int32 __VARIABLE__ index)
+        __PUB__ T      __REFERENCE__ operator[] (int64 __VARIABLE__ index)
+        {
+            if (null == this->_Pointer)
+                throw dty::except::NullPointerException();
+
+            if (0 > index || this->_Size <= index)
+                throw dty::except::ArgumentOutOfRangeException();
+
+            return (this->_Pointer)[index];
+        }
+        __PUB__ T      __REFERENCE__ operator[] (int64 __VARIABLE__ index) const
         {
             if (null == this->_Pointer)
                 throw dty::except::NullPointerException();
@@ -177,6 +187,9 @@ namespace dty
         __PUB__ bool            __VARIABLE__ Move(SmartPointer<T> __REFERENCE__ sp)
         {
             if (SPType::STRONG != sp._SmartPointerType)
+                return false;
+
+            if (this->_Pointer == sp._Pointer)
                 return false;
 
             if (SPType::STRONG == this->_SmartPointerType && null != this->_Pointer)
@@ -247,9 +260,10 @@ namespace dty
         }
     };
 
+    using byte_ptr = SmartPointer<byte>;
     using bool_ptr = SmartPointer<bool>;
     using short_ptr = SmartPointer<int16>;
-    using int_ptr = SmartPointer<int32>;
+    using int_ptr = SmartPointer<int64>;
     using long_ptr = SmartPointer<int64>;
     using float_ptr = SmartPointer<float>;
     using double_ptr = SmartPointer<double>;

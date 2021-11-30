@@ -62,9 +62,6 @@
 //
 #define _interface abstract class
 
-// C语言编译模式 标志 用于标识所修饰的元素以C语言的方式进行编译
-#define __CMODE__ extern "C"
-
 constexpr auto null = nullptr;
 
 namespace dty

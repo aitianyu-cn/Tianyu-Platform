@@ -87,9 +87,20 @@
 // 传入实例标志 标志 用于标识方法的传入参数为当前操作的实例（用于C语言的模拟OO）
 #define __INSTE__
 
-#pragma region 基础数据类型重定义
-// 无符号字符 数据类型
-typedef      unsigned char __VARIABLE__ uchar;
+
+#ifdef __cplusplus
+ // C语言编译模式 标志 用于标识所修饰的元素以C语言的方式进行编译
+#define __CMODE__ extern "C"
+#endif // !__cplusplus
+
+#ifdef __cplusplus
+__CMODE__
+{
+#endif // !__cplusplus && __CMODE__ {
+
+    #pragma region 基础数据类型重定义
+    // 无符号字符 数据类型
+    typedef      unsigned char __VARIABLE__ uchar;
 // 有符号字节 数据类型
 typedef        signed char __VARIABLE__ sbyte;
 // 无符号字节 数据类型
@@ -123,8 +134,12 @@ typedef               char __VARIABLE__ error;
 
 #pragma endregion
 
+#ifdef __cplusplus
+}
+#endif // !__cplusplus }
+
 #ifndef __cplusplus
 #define NULL ((void __POINTER__)0)
-#endif // !__cplusplus
+#endif // !__cplusplus }
 
 #endif // !__DTY_NATIVE_UTILS_UTILIZE_C_H__
