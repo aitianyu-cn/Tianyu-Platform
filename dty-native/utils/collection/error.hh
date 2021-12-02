@@ -12,7 +12,7 @@
 #ifndef __DTY_NATIVE_UTILS_COLLECTION_ERROR_H__
 #define __DTY_NATIVE_UTILS_COLLECTION_ERROR_H__
 
-#include"../error.h"
+#include"../error.hpp"
 
 namespace dty::collection::except
 {

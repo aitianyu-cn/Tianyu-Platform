@@ -1,5 +1,5 @@
 /**
- * @file error.h(utils)
+ * @file error.hpp(utils)
  * @author senyun.yao
  * @brief
  * @version 0.1
@@ -9,10 +9,10 @@
  *
  */
 
-#ifndef __DTY_NATIVE_UTILS_ERROR_H__
-#define __DTY_NATIVE_UTILS_ERROR_H__
+#ifndef __DTY_NATIVE_UTILS_ERROR_H_PLUS_PLUS__
+#define __DTY_NATIVE_UTILS_ERROR_H_PLUS_PLUS__
 
-#include "./utilize.h"
+#include "../utilize.hh"
 #include <exception>
 
 namespace dty::except
@@ -160,4 +160,4 @@ namespace dty::except
     };
 }
 
-#endif // !__DTY_NATIVE_UTILS_ERROR_H__
+#endif // !__DTY_NATIVE_UTILS_ERROR_H_PLUS_PLUS__
