@@ -1,8 +1,9 @@
 /**
- * @file utilize.h(utils)
+ * @file utilize.hh(utils)
  * @author senyun.yao
  * @brief 用于天宇平台的公用组件核心
  * @brief AiTianyu Platform Public Common Core
+ *
  * @version 0.1
  * @date 2021-11-09
  *
@@ -10,8 +11,8 @@
  *
  */
 
-#ifndef __DTY_NATIVE_UTILS_UTILIZE_H__
-#define __DTY_NATIVE_UTILS_UTILIZE_H__
+#ifndef __DTY_NATIVE_UTILS_UTILIZE_HH__
+#define __DTY_NATIVE_UTILS_UTILIZE_HH__
 
 #ifndef __cplusplus
 #error only develop for C++
@@ -19,6 +20,8 @@
 
  // 天宇开发模式标志
 #define __DTY_DEV_MODE__    1
+
+#include"./utilize.h"
 
 #ifdef __DTY_DEV_MODE__
  /**
@@ -33,8 +36,6 @@
 #error library needs C++17 or later
 #endif
 #endif // !__DTY_DEV_MODE__
-
-#include"./utilize.c.h"
 
 // 公有访问权标志 指示修饰的函数与属性外部可访问
 #define __PUB__ public:
@@ -126,4 +127,4 @@ namespace dty
     }
 }
 
-#endif // !__DTY_NATIVE_UTILS_UTILIZE_H__
+#endif // !__DTY_NATIVE_UTILS_UTILIZE_HH__

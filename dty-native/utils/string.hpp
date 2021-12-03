@@ -1,5 +1,5 @@
 /**
- * @file string.h(utils)
+ * @file string.hpp(utils)
  * @author senyun.yao
  * @brief
  * @version 0.1
@@ -9,11 +9,11 @@
  *
  */
 
-#ifndef __DTY_NATIVE_UTILS_STRING_H__
-#define __DTY_NATIVE_UTILS_STRING_H__
+#ifndef __DTY_NATIVE_UTILS_STRING_H_PLUS_PLUS__
+#define __DTY_NATIVE_UTILS_STRING_H_PLUS_PLUS__
 
-#include"./pointer.h"
-#include"./array.h"
+#include"./pointer.hpp"
+#include"./array.hpp"
 #include<string>
 #include<ostream>
 #if __cplusplus >= 201103
@@ -156,4 +156,4 @@ namespace dty
     std::ostream __REFERENCE__ operator<<(std::ostream __REFERENCE__ os, const String __REFERENCE__ str);
 }
 
-#endif // !__DTY_NATIVE_UTILS_STRING_H__
+#endif // !__DTY_NATIVE_UTILS_STRING_H_PLUS_PLUS__

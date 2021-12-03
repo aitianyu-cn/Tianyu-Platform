@@ -1,5 +1,5 @@
 /**
- * @file array_dynamic.h(utils)
+ * @file array_dynamic.hpp(utils)
  * @author senyun.yao
  * @brief
  * @version 0.1
@@ -9,14 +9,13 @@
  *
  */
 
-#ifndef __DTY_NATIVE_UTILS_DYNAMIC_ARRAY_H__
-#define __DTY_NATIVE_UTILS_DYNAMIC_ARRAY_H__
+#ifndef __DTY_NATIVE_UTILS_DYNAMIC_ARRAY_H_PLUS_PLUS__
+#define __DTY_NATIVE_UTILS_DYNAMIC_ARRAY_H_PLUS_PLUS__
 
-#include"./iterator.h"
+#include"./iterator.hpp"
 
 namespace dty::collection
 {
-    constexpr int32 __VARIABLE__ __DynamicArrayBaseSize = 8;
     template<class Elem>
     class DynamicArray final
     {
@@ -31,8 +30,8 @@ namespace dty::collection
         __PRI__ bool  __VARIABLE__ _NeedFree;
 
         __PUB__ DynamicArray()
-            : _Array(new (Elem __POINTER__)[1]), _ArraySize(new int32(__DynamicArrayBaseSize)), _Reference(new int32(1)),
-            _InitSize(__DynamicArrayBaseSize), _Count(new int32(0)), _LimitSize(-1), _NeedFree(true)
+            : _Array(new (Elem __POINTER__)[1]), _ArraySize(new int32(DynamicArray<Elem>::ListDefaultSize)), _Reference(new int32(1)),
+            _InitSize(DynamicArray<Elem>::ListDefaultSize), _Count(new int32(0)), _LimitSize(-1), _NeedFree(true)
         {
             this->_Array[0] = new Elem[this->__GetArraySize()];
         }
@@ -41,7 +40,7 @@ namespace dty::collection
             if (0 >= initSize)
                 throw dty::except::ArgumentOutOfRangeException();
 
-            initSize = __DynamicArrayBaseSize > initSize ? __DynamicArrayBaseSize : initSize;
+            initSize = DynamicArray<Elem>::ListDefaultSize > initSize ? DynamicArray<Elem>::ListDefaultSize : initSize;
 
             this->__InitData(initSize, true, -1);
 
@@ -52,7 +51,7 @@ namespace dty::collection
             if (0 >= initSize || 0 >= limitSize)
                 throw dty::except::ArgumentException();
 
-            initSize = __DynamicArrayBaseSize > initSize ? __DynamicArrayBaseSize : initSize;
+            initSize = DynamicArray<Elem>::ListDefaultSize > initSize ? DynamicArray<Elem>::ListDefaultSize : initSize;
             if (limitSize < initSize)
                 throw dty::except::ArgumentException();
 
@@ -68,7 +67,7 @@ namespace dty::collection
             if (0 >= length)
                 throw dty::except::ArgumentOutOfRangeException();
 
-            int32 __VARIABLE__ initSize = __DynamicArrayBaseSize > length ? __DynamicArrayBaseSize : length;
+            int32 __VARIABLE__ initSize = DynamicArray<Elem>::ListDefaultSize > length ? DynamicArray<Elem>::ListDefaultSize : length;
 
             this->__InitData(initSize, needFree, -1);
 
@@ -86,7 +85,7 @@ namespace dty::collection
             if (0 >= initSize || 0 >= limitSize)
                 throw dty::except::ArgumentException();
 
-            int32 __VARIABLE__ initSize = __DynamicArrayBaseSize > initSize ? __DynamicArrayBaseSize : initSize;
+            int32 __VARIABLE__ initSize = DynamicArray<Elem>::ListDefaultSize > initSize ? DynamicArray<Elem>::ListDefaultSize : initSize;
             if (limitSize < initSize)
                 throw dty::except::ArgumentException();
 
@@ -175,7 +174,41 @@ namespace dty::collection
         {
             (__PTR_TO_VAR__(this->_Count)) = count;
         }
+        __PRI__ void  __VARIABLE__ __SetCapacity(int32 __VARIABLE__ capacity)
+        {
+            (__PTR_TO_VAR__(this->_ArraySize)) = capacity;
+        }
+
+        __PRI__ const int32 ListDefaultSize = 8;
+        __PRI__ const int32 ListDefaultGrow = 8;
+        __PRI__ static int32 ListGrowth(Elem __DPOINTER__ source, int32 __VARIABLE__ currentSize, int32 __VARIABLE__ minGrowth)
+        {
+            int32 newSize = DynamicArray<Elem>::ListDefaultGrowth(currentSize);
+            if (newSize < minGrowth)
+                newSize = minGrowth + (minGrowth >> 1);
+
+            Elem __POINTER__ newList = new Elem[newSize];
+            for (int32 i = 0; i < currentSize; ++i)
+                newList[i] = source[0][i];
+
+            Elem __POINTER__ oldList = source[0];
+            source[0] = newList;
+
+            delete [] oldList;
+
+            return newSize;
+        }
+        __PRI__ static int32 ListDefaultGrowth(int32 __VARIABLE__ currentSize)
+        {
+            if (this->_MaxSize == this->_ArraySize)
+                throw dty::collection::except::CollectionOverMaxSizeException();
+
+            int32 growth = currentSize >> 2;
+            growth = DynamicArray<Elem>::ListDefaultGrow > growth ? DynamicArray<Elem>::ListDefaultGrow : growth;
+
+            return currentSize + growth >= this->_MaxSize ? this->_MaxSize : currentSize + growth;
+        }
     };
 }
 
-#endif // !__DTY_NATIVE_UTILS_DYNAMIC_ARRAY_H__
+#endif // !__DTY_NATIVE_UTILS_DYNAMIC_ARRAY_H_PLUS_PLUS__
