@@ -1,4 +1,4 @@
-#include"./string.h"
+#include"./string.hpp"
 
 dty::String dty::String::Empty = dty::String();
 
@@ -1171,7 +1171,7 @@ dty::String dty::String::Join(const char joinChar, std::initializer_list<string>
     if (0 == strs.size())
         return dty::String::Empty;
 
-    dty::int_ptr eachLen(new int32[strs.size()], (int32)strs.size());
+    dty::int_ptr eachLen(new int32[strs.size()], (int64)strs.size());
     string firstFact = null;
     int32 totalLen = 0;
     int32 totalCount = 0;
