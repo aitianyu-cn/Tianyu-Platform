@@ -9,10 +9,10 @@
  *
  */
 
-#ifndef __DTY_NATIVE_UTILS_ARRAY_H__
-#define __DTY_NATIVE_UTILS_ARRAY_H__
+#ifndef __DTY_NATIVE_UTILS_ARRAY_H_PLUS_PLUS__
+#define __DTY_NATIVE_UTILS_ARRAY_H_PLUS_PLUS__
 
-#include"./iterator.h"
+#include"./iterator.hpp"
 
 namespace dty::collection
 {
@@ -105,4 +105,4 @@ namespace dty::collection
     using CharArray = Array<char>;
 }
 
-#endif // !__DTY_NATIVE_UTILS_ARRAY_H__
+#endif // !__DTY_NATIVE_UTILS_ARRAY_H_PLUS_PLUS__

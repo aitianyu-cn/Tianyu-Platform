@@ -1,5 +1,5 @@
 /**
- * @file iterator.h(utils)
+ * @file iterator.hpp(utils)
  * @author senyun.yao
  * @brief collection base for tianyu platform
  * @version 0.1
@@ -9,11 +9,11 @@
  *
  */
 
-#ifndef __DTY_NATIVE_UTILS_ITERATOR_H__
-#define __DTY_NATIVE_UTILS_ITERATOR_H__
+#ifndef __DTY_NATIVE_UTILS_ITERATOR_H_PLUS_PLUS__
+#define __DTY_NATIVE_UTILS_ITERATOR_H_PLUS_PLUS__
 
-#include"./utilize.h"
-#include"./pointer.h"
+#include"../utilize.hh"
+#include"./pointer.hpp"
 
  /**
   * @brief Tianyu Collection Namespace
@@ -235,4 +235,4 @@ namespace dty::collection
     };
 }
 
-#endif // !__DTY_NATIVE_UTILS_ITERATOR_H__
+#endif // !__DTY_NATIVE_UTILS_ITERATOR_H_PLUS_PLUS__

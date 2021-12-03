@@ -122,16 +122,4 @@
 #error Unknown OS is not supported for Tianyu Platform
 #endif // !!defined(__DTY_WIN) && !defined(__DTY_APF) && !defined(__DTY_LNX)
 
-#if __DTY_WIN == 1
-#include"./cpf/winAPI.h"
-#endif // !__DTY_WIN == 1
-
-#if __DTY_APF == 1
-#include"./cpf/macAPI.h"
-#endif // !__DTY_APF == 1
-
-#if __DTY_LNX == 1
-#include"./cpf/linuxAPI.h"
-#endif // !__DTY_LMX == 1
-
 #endif // !__DTY_NATIVE_CROSS_PLATFORM_H__

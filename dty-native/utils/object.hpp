@@ -1,5 +1,5 @@
 /**
- * @file object.h(utils)
+ * @file object.hpp(utils)
  * @author senyun.yao
  * @brief
  * @version 0.1
@@ -9,11 +9,11 @@
  *
  */
 
-#ifndef __DTY_NATIVE_UTILS_OBJECTTYPE_H__
-#define __DTY_NATIVE_UTILS_OBJECTTYPE_H__
+#ifndef __DTY_NATIVE_UTILS_OBJECTTYPE_H_PLUS_PLUS__
+#define __DTY_NATIVE_UTILS_OBJECTTYPE_H_PLUS_PLUS__
 
-#include"./utilize.h"
-#include"./error.h"
+#include"../utilize.hh"
+#include"./error.hpp"
 
 namespace dty
 {
@@ -503,4 +503,4 @@ namespace dty
     using Int64 = Object<8>;
 }
 
-#endif // !__DTY_NATIVE_UTILS_OBJECTTYPE_H__
+#endif // !__DTY_NATIVE_UTILS_OBJECTTYPE_H_PLUS_PLUS__

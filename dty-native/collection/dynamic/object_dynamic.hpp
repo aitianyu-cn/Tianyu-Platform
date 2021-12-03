@@ -1,5 +1,5 @@
 /**
- * @file object_dynamic.h(utils)
+ * @file object_dynamic.hpp(utils)
  * @author senyun.yao
  * @brief
  * @version 0.1
@@ -9,12 +9,12 @@
  *
  */
 
-#ifndef __DTY_NATIVE_UTILS_DYNAMIC_OBJECT_H__
-#define __DTY_NATIVE_UTILS_DYNAMIC_OBJECT_H__
+#ifndef __DTY_NATIVE_UTILS_DYNAMIC_OBJECT_H_PLUS_PLUS__
+#define __DTY_NATIVE_UTILS_DYNAMIC_OBJECT_H_PLUS_PLUS__
 
-#include"./utilize.h"
-#include"./pointer.h"
-#include"./string.h"
+#include"./utilize.hh"
+#include"./pointer.hpp"
+#include"./string.hpp"
 
 namespace dty
 {
@@ -66,4 +66,4 @@ namespace dty
     };
 }
 
-#endif // !__DTY_NATIVE_UTILS_DYNAMIC_OBJECT_H__
+#endif // !__DTY_NATIVE_UTILS_DYNAMIC_OBJECT_H_PLUS_PLUS__

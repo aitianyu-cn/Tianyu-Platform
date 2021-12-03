@@ -442,9 +442,18 @@ namespace dty::collection
         {
             return List<T>::ListGrowth(source, currentSize, 0);
         }
-        __PRI__ static int32 ListGrowth(T __DPOINTER__ source, int32 __VARIABLE__ currentSize, int32 __VARIABLE__ minGrowth)
+        __PRI__ static int32 ListGrowth(T __DPOINTER__ source, int32 __VARIABLE__ currentSize, int32 __VARIABLE__ minGrowth, int32 __VARIABLE__ maxSize)
         {
             int32 newSize = List<T>::ListDefaultGrowth(currentSize);
+
+            if (-1 != maxSize && newSize > maxSize)
+            {
+                if (currentSize < maxSize)
+                    newSize = maxSize;
+                else
+                    throw dty::collection::except::CollectionOverMaxSizeException();
+            }
+
             if (newSize < minGrowth)
                 newSize = minGrowth + (minGrowth >> 1);
 
@@ -477,13 +486,10 @@ namespace dty::collection
         };
 #else
         {
-            if (this->_MaxSize == this->_ArraySize)
-                throw dty::collection::except::CollectionOverMaxSizeException();
-
             int32 growth = currentSize >> 2;
             growth = List<T>::ListDefaultGrow > growth ? List<T>::ListDefaultGrow : growth;
 
-            return currentSize + growth >= this->_MaxSize ? this->_MaxSize : currentSize + growth;
+            return currentSize + growth;
         }
 #endif // !__DTY_DEEP_LEARNING_MODE__
 #pragma endregion

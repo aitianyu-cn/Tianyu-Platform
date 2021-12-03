@@ -1,5 +1,5 @@
 /**
- * @file utilize.c.h(utils)
+ * @file utilize.h(utils)
  * @author senyun.yao
  * @brief
  * @version 0.1
@@ -9,8 +9,8 @@
  *
  */
 
-#ifndef __DTY_NATIVE_UTILS_UTILIZE_C_H__
-#define __DTY_NATIVE_UTILS_UTILIZE_C_H__
+#ifndef __DTY_NATIVE_UTILS_UTILIZE_H__
+#define __DTY_NATIVE_UTILS_UTILIZE_H__
 
  // 字符类型有符号数最小值
 #define __SIGNED_CHAR_MIN__     (-128)
@@ -132,6 +132,14 @@ typedef     unsigned short __VARIABLE__ tyuchar;
 // 错误类型 数据类型
 typedef               char __VARIABLE__ error;
 
+#ifndef __cplusplus
+// 布尔类型 数据类型
+typedef      unsigned char __VARIABLE__ bool;
+
+#define TRUE ((bool)1)
+#define TRUE ((bool)0)
+#endif // !__cplusplus }
+
 #pragma endregion
 
 #ifdef __cplusplus
@@ -140,6 +148,8 @@ typedef               char __VARIABLE__ error;
 
 #ifndef __cplusplus
 #define NULL ((void __POINTER__)0)
+
+typedef
 #endif // !__cplusplus }
 
-#endif // !__DTY_NATIVE_UTILS_UTILIZE_C_H__
+#endif // !__DTY_NATIVE_UTILS_UTILIZE_H__
