@@ -1,5 +1,5 @@
 /**
- * @file encoding_gbk.hpp(utils/text)
+ * @file encoding_gbk.hpp(text)
  * @author senyun.yao
  * @brief
  * @version 0.1
@@ -18,7 +18,20 @@ namespace dty::text
 {
     class GBKEncoding final : public Encoding
     {
+        __PUB__ GBKEncoding();
+        __PUB__ virtual ~GBKEncoding() override;
 
+#pragma region  Encoding Base Functions
+        __PUB__ virtual string __VARIABLE__ GetName() const override;
+
+        __PUB__ virtual byte_ptr __VARIABLE__ GetBytes(byte_ptr __VARIABLE__ bytes) override;
+        __PUB__ virtual byte_ptr __VARIABLE__ GetBytes(byte_ptr __VARIABLE__ bytes, EncodingType __VARIABLE__ codeType) override;
+        __PUB__ virtual byte_ptr __VARIABLE__ GetBytes(String __VARIABLE__ str) override;
+        __PUB__ virtual byte_ptr __VARIABLE__ GetBytes(String __VARIABLE__ str, EncodingType __VARIABLE__ codeType) override;
+
+        __PUB__ virtual String __VARIABLE__ GetString(byte_ptr __VARIABLE__ bytes) override;
+        __PUB__ virtual String __VARIABLE__ GetString(String __VARIABLE__ str) override;
+#pragma endregion
     };
 }
 

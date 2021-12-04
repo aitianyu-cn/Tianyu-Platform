@@ -76,11 +76,32 @@ namespace dty::collection
     };
 
     template<class Elem>
-    class Iterator final
+    abstract class IteratorBase
     {
         __PUB__ typedef void __VARIABLE__(__POINTER__ fnItemMap)(Elem __REFERENCE__ elem);
         __PUB__ typedef bool __VARIABLE__(__POINTER__ fnItemCheck)(Elem __REFERENCE__ elem);
 
+        __PUB__ IteratorBase() { }
+        __PUB__ virtual ~IteratorBase() { }
+
+        __PUB__ virtual int32              __VARIABLE__ Size() = 0;
+
+        __PUB__ virtual void               __VARIABLE__ Reset() = 0;
+        __PUB__ virtual SmartPointer<Elem> __VARIABLE__ Current() = 0;
+        __PUB__ virtual SmartPointer<Elem> __VARIABLE__ Next() = 0;
+        __PUB__ virtual SmartPointer<Elem> __VARIABLE__ End() = 0;
+
+        __PUB__ virtual void               __VARIABLE__ ForEach(IteratorBase<Elem>::fnItemMap __VARIABLE__ fnForEach) = 0;
+        __PUB__ virtual Elem               __POINTER__  Some(IteratorBase<Elem>::fnItemCheck __VARIABLE__ fnForEach) = 0;
+        __PUB__ virtual FilterResult<Elem> __VARIABLE__ Filter(IteratorBase<Elem>::fnItemCheck __VARIABLE__ fnForEach) = 0;
+        __PUB__ virtual FilterResult<Elem> __VARIABLE__ Every(IteratorBase<Elem>::fnItemCheck __VARIABLE__ fnForEach) = 0;
+        __PUB__ virtual Elem               __POINTER__  Find(IteratorBase<Elem>::fnItemCheck __VARIABLE__ fnForEach) = 0;
+        __PUB__ virtual int32              __VARIABLE__ FindIndex(IteratorBase<Elem>::fnItemCheck __VARIABLE__ fnForEach) = 0;
+    };
+
+    template<class Elem>
+    class Iterator final : IteratorBase<Elem>
+    {
         __PRI__ Elem  __POINTER__  _Pointer;
         __PRI__ int32 __VARIABLE__ _Size;
         __PRI__ int32 __VARIABLE__ _Current;
@@ -112,7 +133,7 @@ namespace dty::collection
             if (this->_NeedFree && 0 < it._Size)
                 (__PTR_TO_VAR__(this->_Reference)) += 1;
         }
-        __PUB__ ~Iterator()
+        __PUB__ virtual ~Iterator() override
         {
             if (!this->_NeedFree || 0 == this->_Size)
                 return;
@@ -126,23 +147,23 @@ namespace dty::collection
                 (__PTR_TO_VAR__(this->_Reference)) -= 1;
         }
 
-        __PUB__ int32              __VARIABLE__ Size()
+        __PUB__ virtual int32              __VARIABLE__ Size() override
         {
             return this->_Size;
         }
 
-        __PUB__ void               __VARIABLE__ Reset()
+        __PUB__ virtual void               __VARIABLE__ Reset() override
         {
             this->_Current = 0;
         }
-        __PUB__ SmartPointer<Elem> __VARIABLE__ Current()
+        __PUB__ virtual SmartPointer<Elem> __VARIABLE__ Current() override
         {
             if (0 == this->Size())
                 return SmartPointer<Elem>();
 
             return SmartPointer<Elem>((this->_Pointer) + this->_Current, 1, true);
         }
-        __PUB__ SmartPointer<Elem> __VARIABLE__ Next()
+        __PUB__ virtual SmartPointer<Elem> __VARIABLE__ Next() override
         {
             if (0 == this->Size())
                 return SmartPointer<Elem>();
@@ -152,7 +173,7 @@ namespace dty::collection
 
             return SmartPointer<Elem>((this->_Pointer) + this->_Current, 1, true);
         }
-        __PUB__ SmartPointer<Elem> __VARIABLE__ End()
+        __PUB__ virtual SmartPointer<Elem> __VARIABLE__ End() override
         {
             if (0 == this->Size())
                 return SmartPointer<Elem>();
@@ -160,7 +181,7 @@ namespace dty::collection
             return SmartPointer<Elem>((this->_Pointer) + this->_Size - 1, 1, true);
         }
 
-        __PUB__ void               __VARIABLE__ ForEach(fnItemMap __VARIABLE__ fnForEach)
+        __PUB__ virtual void               __VARIABLE__ ForEach(IteratorBase<Elem>::fnItemMap __VARIABLE__ fnForEach) override
         {
             if (0 == this->Size())
                 return;
@@ -168,7 +189,7 @@ namespace dty::collection
             for (int32 i = 0; i < this->_Size; ++i)
                 fnForEach(this->_Pointer[i]);
         }
-        __PUB__ Elem               __POINTER__  Some(fnItemCheck __VARIABLE__ fnForEach)
+        __PUB__ virtual Elem               __POINTER__  Some(IteratorBase<Elem>::fnItemCheck __VARIABLE__ fnForEach) override
         {
             for (int32 i = 0; i < this->_Size; ++i)
                 if (!fnForEach(this->_Pointer[i]))
@@ -176,7 +197,7 @@ namespace dty::collection
 
             return null;
         }
-        __PUB__ FilterResult<Elem> __VARIABLE__ Filter(fnItemCheck __VARIABLE__ fnForEach)
+        __PUB__ virtual FilterResult<Elem> __VARIABLE__ Filter(IteratorBase<Elem>::fnItemCheck __VARIABLE__ fnForEach) override
         {
             if (0 == this->Size())
                 return FilterResult<Elem>();
@@ -196,7 +217,7 @@ namespace dty::collection
 
             return FilterResult<Elem>(results, length, this->_Size);
         }
-        __PUB__ FilterResult<Elem> __VARIABLE__ Every(fnItemCheck __VARIABLE__ fnForEach)
+        __PUB__ virtual FilterResult<Elem> __VARIABLE__ Every(IteratorBase<Elem>::fnItemCheck __VARIABLE__ fnForEach) override
         {
             if (0 == this->Size())
                 return FilterResult<Elem>();
@@ -216,7 +237,7 @@ namespace dty::collection
 
             return FilterResult<Elem>(results, length, this->_Size);
         }
-        __PUB__ Elem               __POINTER__  Find(fnItemCheck __VARIABLE__ fnForEach)
+        __PUB__ virtual Elem               __POINTER__  Find(IteratorBase<Elem>::fnItemCheck __VARIABLE__ fnForEach) override
         {
             for (int32 i = 0; i < this->_Size; ++i)
                 if (fnForEach(this->_Pointer[i]))
@@ -224,7 +245,7 @@ namespace dty::collection
 
             return null;
         }
-        __PUB__ int32              __VARIABLE__ FindIndex(fnItemCheck __VARIABLE__ fnForEach)
+        __PUB__ virtual int32              __VARIABLE__ FindIndex(IteratorBase<Elem>::fnItemCheck __VARIABLE__ fnForEach) override
         {
             for (int32 i = 0; i < this->_Size; ++i)
                 if (fnForEach(this->_Pointer[i]))
