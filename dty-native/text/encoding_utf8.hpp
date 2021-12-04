@@ -1,5 +1,5 @@
 /**
- * @file encoding_utf8.hpp(utils/text)
+ * @file encoding_utf8.hpp(text)
  * @author senyun.yao
  * @brief
  * @version 0.1
@@ -18,7 +18,20 @@ namespace dty::text
 {
     class UTF8Encoding final : public Encoding
     {
+        __PUB__ UTF8Encoding();
+        __PUB__ virtual ~UTF8Encoding() override;
 
+#pragma region  Encoding Base Functions
+        __PUB__ virtual string __VARIABLE__ GetName() const override;
+
+        __PUB__ virtual byte_ptr __VARIABLE__ GetBytes(byte_ptr __VARIABLE__ bytes) override;
+        __PUB__ virtual byte_ptr __VARIABLE__ GetBytes(byte_ptr __VARIABLE__ bytes, EncodingType __VARIABLE__ codeType) override;
+        __PUB__ virtual byte_ptr __VARIABLE__ GetBytes(String __VARIABLE__ str) override;
+        __PUB__ virtual byte_ptr __VARIABLE__ GetBytes(String __VARIABLE__ str, EncodingType __VARIABLE__ codeType) override;
+
+        __PUB__ virtual String __VARIABLE__ GetString(byte_ptr __VARIABLE__ bytes) override;
+        __PUB__ virtual String __VARIABLE__ GetString(String __VARIABLE__ str) override;
+#pragma endregion
     };
 }
 

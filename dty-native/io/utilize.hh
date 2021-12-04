@@ -1,5 +1,5 @@
 /**
- * @file utilize.hpp(io)
+ * @file utilize.hh(io)
  * @author senyun.yao
  * @brief
  * @version 0.1
@@ -9,8 +9,8 @@
  *
  */
 
-#ifndef __DTY_NATIVE_IO_UTILIZE_H_PLUS_PLUS__
-#define __DTY_NATIVE_IO_UTILIZE_H_PLUS_PLUS__
+#ifndef __DTY_NATIVE_IO_UTILIZE_H_H__
+#define __DTY_NATIVE_IO_UTILIZE_H_H__
 
 #include"../utilize.hpp"
 #include"./utilize.h"
@@ -31,6 +31,16 @@ namespace dty::io
         ReadOnly = 2,
         WriteOnly = 1,
         None = 0
+    };
+
+    enum class FileMode : int32
+    {
+        Append = 6,
+        Create = 2,
+        CreateNew = 1,
+        Open = 3,
+        OpenOrCreate = 4,
+        Truncate = 5
     };
 
     enum class FileAttributes : uint32
@@ -124,52 +134,52 @@ namespace dty::io
     class DirectoryInfo : FileSystemInfo
     {
 #pragma region FileSystemInfo Base
-        __PUB__ virtual string __VARIABLE__ FullPath();
-        __PUB__ virtual string __VARIABLE__ FullPath() const;
-        __PUB__ virtual string __VARIABLE__ OriginalPath();
-        __PUB__ virtual string __VARIABLE__ OriginalPath() const;
+        __PUB__ virtual string __VARIABLE__ FullPath() override;
+        __PUB__ virtual string __VARIABLE__ FullPath() const override;
+        __PUB__ virtual string __VARIABLE__ OriginalPath() override;
+        __PUB__ virtual string __VARIABLE__ OriginalPath() const override;
 
-        __PUB__ virtual FileAttributes __VARIABLE__ GetAttributes();
-        __PUB__ virtual void           __VARIABLE__ SetAttributes(FileAttributes __VARIABLE__ attributes);
-        __PUB__ virtual uint64         __VARIABLE__ CreationTime();
-        __PUB__ virtual uint64         __VARIABLE__ LastAccessTime();
-        __PUB__ virtual uint64         __VARIABLE__ LastWriteTime();
-        __PUB__ virtual bool           __VARIABLE__ Exist();
-        __PUB__ virtual string         __VARIABLE__ Extension();
-        __PUB__ virtual string         __VARIABLE__ Extension() const;
-        __PUB__ virtual string         __VARIABLE__ Name();
-        __PUB__ virtual string         __VARIABLE__ Name() const;
-        __PUB__ virtual string         __VARIABLE__ PureName();
-        __PUB__ virtual string         __VARIABLE__ PureName() const;
+        __PUB__ virtual FileAttributes __VARIABLE__ GetAttributes() override;
+        __PUB__ virtual void           __VARIABLE__ SetAttributes(FileAttributes __VARIABLE__ attributes) override;
+        __PUB__ virtual uint64         __VARIABLE__ CreationTime() override;
+        __PUB__ virtual uint64         __VARIABLE__ LastAccessTime() override;
+        __PUB__ virtual uint64         __VARIABLE__ LastWriteTime() override;
+        __PUB__ virtual bool           __VARIABLE__ Exist() override;
+        __PUB__ virtual string         __VARIABLE__ Extension() override;
+        __PUB__ virtual string         __VARIABLE__ Extension() const override;
+        __PUB__ virtual string         __VARIABLE__ Name() override;
+        __PUB__ virtual string         __VARIABLE__ Name() const override;
+        __PUB__ virtual string         __VARIABLE__ PureName() override;
+        __PUB__ virtual string         __VARIABLE__ PureName() const override;
 
-        __PUB__ virtual void __VARIABLE__ Delete();
-        __PUB__ virtual void __VARIABLE__ Refresh();
+        __PUB__ virtual void __VARIABLE__ Delete() override;
+        __PUB__ virtual void __VARIABLE__ Refresh() override;
 #pragma endregion
     };
 
     class DiskInfo : FileSystemInfo
     {
 #pragma region FileSystemInfo Base
-        __PUB__ virtual string __VARIABLE__ FullPath();
-        __PUB__ virtual string __VARIABLE__ FullPath() const;
-        __PUB__ virtual string __VARIABLE__ OriginalPath();
-        __PUB__ virtual string __VARIABLE__ OriginalPath() const;
+        __PUB__ virtual string __VARIABLE__ FullPath() override;
+        __PUB__ virtual string __VARIABLE__ FullPath() const override;
+        __PUB__ virtual string __VARIABLE__ OriginalPath() override;
+        __PUB__ virtual string __VARIABLE__ OriginalPath() const override;
 
-        __PUB__ virtual FileAttributes __VARIABLE__ GetAttributes();
-        __PUB__ virtual void           __VARIABLE__ SetAttributes(FileAttributes __VARIABLE__ attributes);
-        __PUB__ virtual uint64         __VARIABLE__ CreationTime();
-        __PUB__ virtual uint64         __VARIABLE__ LastAccessTime();
-        __PUB__ virtual uint64         __VARIABLE__ LastWriteTime();
-        __PUB__ virtual bool           __VARIABLE__ Exist();
-        __PUB__ virtual string         __VARIABLE__ Extension();
-        __PUB__ virtual string         __VARIABLE__ Extension() const;
-        __PUB__ virtual string         __VARIABLE__ Name();
-        __PUB__ virtual string         __VARIABLE__ Name() const;
-        __PUB__ virtual string         __VARIABLE__ PureName();
-        __PUB__ virtual string         __VARIABLE__ PureName() const;
+        __PUB__ virtual FileAttributes __VARIABLE__ GetAttributes() override;
+        __PUB__ virtual void           __VARIABLE__ SetAttributes(FileAttributes __VARIABLE__ attributes) override;
+        __PUB__ virtual uint64         __VARIABLE__ CreationTime() override;
+        __PUB__ virtual uint64         __VARIABLE__ LastAccessTime() override;
+        __PUB__ virtual uint64         __VARIABLE__ LastWriteTime() override;
+        __PUB__ virtual bool           __VARIABLE__ Exist() override;
+        __PUB__ virtual string         __VARIABLE__ Extension() override;
+        __PUB__ virtual string         __VARIABLE__ Extension() const override;
+        __PUB__ virtual string         __VARIABLE__ Name() override;
+        __PUB__ virtual string         __VARIABLE__ Name() const override;
+        __PUB__ virtual string         __VARIABLE__ PureName() override;
+        __PUB__ virtual string         __VARIABLE__ PureName() const override;
 
-        __PUB__ virtual void __VARIABLE__ Delete();
-        __PUB__ virtual void __VARIABLE__ Refresh();
+        __PUB__ virtual void __VARIABLE__ Delete() override;
+        __PUB__ virtual void __VARIABLE__ Refresh() override;
 #pragma endregion
     };
 
@@ -179,4 +189,4 @@ namespace dty::io
     };
 }
 
-#endif // !__DTY_NATIVE_IO_UTILIZE_H_PLUS_PLUS__
+#endif // !__DTY_NATIVE_IO_UTILIZE_H_H__
