@@ -12,9 +12,9 @@
 #ifndef __DTY_NATIVE_UTILS_COLLECTION_LIST_H__
 #define __DTY_NATIVE_UTILS_COLLECTION_LIST_H__
 
-#include"../utilize.h"
-#include"../array.h"
-#include"./error.h"
+#include"../../utilize.h"
+#include"../array.hpp"
+#include"./error.hh"
 
 namespace dty::collection
 {
