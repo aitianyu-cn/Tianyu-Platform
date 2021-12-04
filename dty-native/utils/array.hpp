@@ -78,7 +78,7 @@ namespace dty::collection
 
             return this->_Array[index];
         }
-        __PUB__ Iterator<Elem> __VARIABLE__   GetIterator()
+        __PUB__ IteratorBase<Elem> __VARIABLE__   GetIterator()
         {
             return Iterator<Elem>(this->_Array, this->_Count);
         }

@@ -1,7 +1,8 @@
 /**
- * @file encoding.hpp(utils/text)
+ * @file encoding.hpp(text)
  * @author senyun.yao
- * @brief
+ * @brief 用于天宇库/平台的字符串类型转换基类
+ * @brief Abstract class: String encode converter base class for Tianyu library and platform
  * @version 0.1
  * @date 2021-12-03
  *

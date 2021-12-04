@@ -12,8 +12,8 @@
 #ifndef __DTY_NATIVE_UTILS_COLLECTION_QUEUE_H__
 #define __DTY_NATIVE_UTILS_COLLECTION_QUEUE_H__
 
-#include"../utilize.h"
-#include"./error.h"
+#include"../../utilize.h"
+#include"./error.hh"
 
 namespace dty::collection
 {
