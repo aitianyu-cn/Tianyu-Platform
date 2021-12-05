@@ -121,7 +121,7 @@ __CMODE__
 
 #ifdef __cplusplus
 
-#include "../utilize.hh"
+#include "../utilize.hpp"
 #include "./string.hpp"
 #include "iostream"
 
