@@ -12,8 +12,7 @@
 #ifndef __DTY__NATIVE_UTILS_COLLECTION_UTILIZE_H_H__
 #define __DTY__NATIVE_UTILS_COLLECTION_UTILIZE_H_H__
 
-#include"../../utilize.h"
-#include"../../utilize.hh"
+#include"../../utilize.hpp"
 
 namespace dty::collection
 {
