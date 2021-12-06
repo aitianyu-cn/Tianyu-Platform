@@ -12,6 +12,7 @@
 #ifndef __DTY_FRAMEWORK_TIANYU_TEST_UTILS_UTILIZE_H__
 #define __DTY_FRAMEWORK_TIANYU_TEST_UTILS_UTILIZE_H__
 
-#include "commons/native/core/utilize.h"
+ // #include "commons/native/core/utilize.h"
+#include "../../core/utilize.h"
 
 #endif // !__DTY_FRAMEWORK_TIANYU_TEST_UTILS_UTILIZE_H__

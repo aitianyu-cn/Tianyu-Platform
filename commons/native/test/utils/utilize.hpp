@@ -12,7 +12,8 @@
 #ifndef __DTY_FRAMEWORK_TIANYU_TEST_UTILS_UTILIZE_H_PLUS_PLUS__
 #define __DTY_FRAMEWORK_TIANYU_TEST_UTILS_UTILIZE_H_PLUS_PLUS__
 
-#include "commons/native/core/utilize.hpp"
+ // #include "commons/native/core/utilize.hpp"
+#include "../../core/utilize.hpp"
 
 namespace dty::framework::dtest
 {

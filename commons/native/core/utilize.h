@@ -98,7 +98,7 @@ __CMODE__
 {
 #endif // !__cplusplus && __CMODE__ {
 
-    #pragma region 基础数据类型重定义
+#pragma region redefine for base data type
     // 无符号字符 数据类型
     typedef      unsigned char __VARIABLE__ uchar;
 // 有符号字节 数据类型
