@@ -12,7 +12,7 @@
 #ifndef __DTY_NATIVE_UTILS_ALGOR_SUNDAY_H__
 #define __DTY_NATIVE_UTILS_ALGOR_SUNDAY_H__
 
-#include"../utilize.h"
+#include"../../utilize.hpp"
 
 namespace dty::algor
 {

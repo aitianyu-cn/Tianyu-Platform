@@ -13,7 +13,7 @@
 #ifndef __DTY_NATIVE_UTILS_SMARTPOINTER_H_PLUS_PLUS__
 #define __DTY_NATIVE_UTILS_SMARTPOINTER_H_PLUS_PLUS__
 
-#include"../utilize.hh"
+#include"../utilize.hpp"
 #include"./error.hpp"
 
 namespace dty
