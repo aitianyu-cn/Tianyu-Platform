@@ -3,7 +3,8 @@
         {
             "name": "Apple",
             "includePath": [
-                "${workspaceFolder}/dty-native/*"
+                "${workspaceFolder}/dty-native/*",
+                "${workspaceFolder}/*"
             ],
             "defines": [
                 "_DEBUG",
@@ -18,7 +19,8 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/dty-native/*"
+                "${workspaceFolder}/dty-native/*",
+                "${workspaceFolder}/*"
             ],
             "defines": [
                 "_DEBUG",
