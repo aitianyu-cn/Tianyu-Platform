@@ -39,32 +39,32 @@ typedef struct _dty_io_error_package
     int32 __VARIABLE__ ErrorCount;
 }IOErrors;
 
-IOHandle __VARIABLE__ dty_fopen
+IOHandle __VARIABLE__ dty_io_fopen
 (
     const string __VARIABLE__ path,
     int32        __VARIABLE__ sourceType,
     int32        __VARIABLE__ access,
     bool         __VARIABLE__ ignoreCurrent
 );
-void     __VARIABLE__ dty_fclose(IOHandle __VARIABLE__ handle);
-void     __VARIABLE__ dty_fflush(IOHandle __VARIABLE__ handle);
-int32    __VARIABLE__ dty_fread(IOHandle __VARIABLE__ handle, byte __POINTER__ buffer, int32 __VARIABLE__ length);
-void     __VARIABLE__ dty_fwrite(IOHandle __VARIABLE__ handle, byte __POINTER__ buffer, int32 __VARIABLE__ length);
-bool     __VARIABLE__ dty_feof(IOHandle __VARIABLE__ handle);
-uint64   __VARIABLE__ dty_fsize(IOHandle __VARIABLE__ handle);
-uint64   __VARIABLE__ dty_fgetPos(IOHandle __VARIABLE__ handle);
-void     __VARIABLE__ dty_fsetPos(IOHandle __VARIABLE__ handle, uint64 __VARIABLE__ newPos);
-void     __VARIABLE__ dty_frewind(IOHandle __VARIABLE__ handle);
-bool     __VARIABLE__ dty_fhasError(IOHandle __VARIABLE__ handle);
-IOErrors __VARIABLE__ dty_fgetError(IOHandle __VARIABLE__ handle);
-void     __VARIABLE__ dty_fclrError(IOHandle __VARIABLE__ handle);
+void     __VARIABLE__ dty_io_fclose(IOHandle __VARIABLE__ handle);
+void     __VARIABLE__ dty_io_fflush(IOHandle __VARIABLE__ handle);
+int32    __VARIABLE__ dty_io_fread(IOHandle __VARIABLE__ handle, byte __POINTER__ buffer, int32 __VARIABLE__ length);
+void     __VARIABLE__ dty_io_fwrite(IOHandle __VARIABLE__ handle, byte __POINTER__ buffer, int32 __VARIABLE__ length);
+bool     __VARIABLE__ dty_io_feof(IOHandle __VARIABLE__ handle);
+uint64   __VARIABLE__ dty_io_fsize(IOHandle __VARIABLE__ handle);
+uint64   __VARIABLE__ dty_io_fgetPos(IOHandle __VARIABLE__ handle);
+void     __VARIABLE__ dty_io_fsetPos(IOHandle __VARIABLE__ handle, uint64 __VARIABLE__ newPos);
+void     __VARIABLE__ dty_io_frewind(IOHandle __VARIABLE__ handle);
+bool     __VARIABLE__ dty_io_fhasError(IOHandle __VARIABLE__ handle);
+IOErrors __VARIABLE__ dty_io_fgetError(IOHandle __VARIABLE__ handle);
+void     __VARIABLE__ dty_io_fclrError(IOHandle __VARIABLE__ handle);
 
-bool __VARIABLE__ dty_fcreate(const string __VARIABLE__ path, int32 __VARIABLE__ sourceType);
-bool __VARIABLE__ dty_frmFile(const string __VARIABLE__ path);
-bool __VARIABLE__ dty_frmFolder(const string __VARIABLE__ path, bool __VARIABLE__ withSub);
-bool __VARIABLE__ dty_fcopy(const string __VARIABLE__ source, const string __VARIABLE__ target);
-bool __VARIABLE__ dty_fmove(const string __VARIABLE__ source, const string __VARIABLE__ target);
-bool __VARIABLE__ dty_frename(const string __VARIABLE__ source, const string __VARIABLE__ newName);
+bool __VARIABLE__ dty_io_fcreate(const string __VARIABLE__ path, int32 __VARIABLE__ sourceType);
+bool __VARIABLE__ dty_io_frmFile(const string __VARIABLE__ path);
+bool __VARIABLE__ dty_io_frmFolder(const string __VARIABLE__ path, bool __VARIABLE__ withSub);
+bool __VARIABLE__ dty_io_fcopy(const string __VARIABLE__ source, const string __VARIABLE__ target);
+bool __VARIABLE__ dty_io_fmove(const string __VARIABLE__ source, const string __VARIABLE__ target);
+bool __VARIABLE__ dty_io_frename(const string __VARIABLE__ source, const string __VARIABLE__ newName);
 
 #ifdef __cplusplus
 }

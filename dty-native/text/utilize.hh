@@ -1,5 +1,5 @@
 /**
- * @file utilize.h(text)
+ * @file utilize.hh(text)
  * @author senyun.yao
  * @brief
  * @version 0.1
@@ -9,8 +9,8 @@
  *
  */
 
-#ifndef __DTY_NATIVE_TEXT_UTILIZE_H__
-#define __DTY_NATIVE_TEXT_UTILIZE_H__
+#ifndef __DTY_NATIVE_TEXT_UTILIZE_H_H__
+#define __DTY_NATIVE_TEXT_UTILIZE_H_H__
 
 #include"../utilize.hpp"
 #include"../utils/pointer.hpp"
@@ -28,4 +28,4 @@ namespace dty::text
     };
 }
 
-#endif // !__DTY_NATIVE_TEXT_UTILIZE_H__
+#endif // !__DTY_NATIVE_TEXT_UTILIZE_H_H__
