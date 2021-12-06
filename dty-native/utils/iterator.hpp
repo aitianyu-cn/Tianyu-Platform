@@ -12,7 +12,7 @@
 #ifndef __DTY_NATIVE_UTILS_ITERATOR_H_PLUS_PLUS__
 #define __DTY_NATIVE_UTILS_ITERATOR_H_PLUS_PLUS__
 
-#include"../utilize.hh"
+#include"../utilize.hpp"
 #include"./pointer.hpp"
 
  /**

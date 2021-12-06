@@ -12,7 +12,7 @@
 #ifndef __DTY_NATIVE_TEXT_STRING_BUILDER_H_PLUS_PLUS__
 #define __DTY_NATIVE_TEXT_STRING_BUILDER_H_PLUS_PLUS__
 
-#include"./utilize.h"
+#include"./utilize.hh"
 
 namespace dty::text
 {
