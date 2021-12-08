@@ -29,7 +29,7 @@ __DEFAULT__ const int32 __VARIABLE__ dty_fs_internal_error_list_stack_size = 16;
 
 typedef struct dty_fs_internal_error_list
 {
-    int32 __VARIABLE__ _count;
+    int16 __VARIABLE__ _count;
     int32 __VARIABLE__ _errors[dty_fs_internal_error_list_stack_size];
 }_ErrorList;
 

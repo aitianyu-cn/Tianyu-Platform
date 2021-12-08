@@ -16,6 +16,10 @@
 
 #include "./error_list.h"
 
+ // Define the default size for all the TXF cache
+ // default size is 1 millin bytes
+#define __DTY_FS_TXF_CACHE_DEFAULT_SIZE__ 0x100000
+
 #ifdef __cplusplus
 __CMODE__
 {
@@ -40,6 +44,8 @@ __DEFAULT__ const int32 __VARIABLE__ dty_fs_internal_txf_address_segment = 24;
 // each logic TYXF file(s) can contain 65536 pages, all of the pages can save
 // data.
 __DEFAULT__ const int32 __VARIABLE__ dty_fs_internal_txf_address_page = 16;
+
+__DEFAULT__ const int32 __VARIABLE__ dty_fs_internal_txf_section_size_max = 128;
 
 // pre-define for TXF Section list type
 // Section list is used to describe an additional info.
@@ -72,7 +78,7 @@ __PREDEFINE__ typedef struct dty_fs_internal_txf_fact_data_cache _TXFFactDataCac
 // contains:
 // + base configures: Page data, Usage Bitmap data, existed segment count
 // + core data area : section list 
-//                    (250 sections supported includes Data Recording Bootstrap)
+//                    (128 sections supported includes Data Recording Bootstrap)
 // + directory cache: base on the open configure to allocate some memory to keep
 //                    DRB relations and hierarchies.
 // + segment cache  : base on the open configure to allocate some continues space
@@ -151,20 +157,67 @@ typedef struct dty_fs_internal_txf_base
 #pragma endregion
 
 #pragma region sections list
+    // Section list that describes what section is stored in current file and 
+    // provide some sections details
+    // eg:
+    // 1. the name of the section
+    // 2. the index of the section
+    // 3. what the segment(s) is(are) used for this section
     _TXFSectionList __POINTER__  _sectionList;
-    int32           __VARIABLE__ _sectionCount;
+
+    // Section list count describes how many sections are in the file. The size
+    // of Section List is determined by this field.
+    // there are some default sections are used for TYXF itself, and to post
+    // about 128 sections to be customized.
+    byte            __VARIABLE__ _sectionCount;
 #pragma endregion
 
 #pragma region Data Recording Bootstrap Cache
-    _TXFDRBCache    __POINTER__ _cacheForDRB;
+    // Data Recording Bootstrap cache is used to provide a DRB pool to cache
+    // what the user used recently.
+    // Use LRU algor to execute the cache replacement when the cache pool is
+    // full.
+    // The size of DRB is determined by TXF configure when the TXF instance
+    // is creating.
+    // 
+    // to be null, only when the _isMultiPageMode flag is true and _pageIndex
+    // item is not zero.
+    _TXFDRBCache    __POINTER__  _cacheForDRB;
 #pragma endregion
 
 #pragma region Segments Cache (Fact data Cache)
+    // Fact Data Cache is used to cache data what user used recently.
+    // The size of fact data cache is determined by TXF configure then the TXF
+    // instance is creating.
+    //
+    // NOTES:
+    //       1. each cache line is 4 Kilo Bytes
+    //       2. use LRU algor to replace cache line when the cache pool is full.
     _TXFFactDataCache __POINTER__ _cacheForFactData;
 #pragma endregion
-
-    int32    __VARIABLE__ _;
 }_TXFBase;
+
+
+// implement: TXF Section list type
+__PREREALIZ__ struct dty_fs_internal_txf_section_list
+{
+    string __VARIABLE__ _sectionName;
+    int32  __VARIABLE__ _sectionNameLength;
+    int64  __VARIABLE__ _segmentStart;
+    int32  __VARIABLE__ _segmentSpan;
+};
+
+// implement: TXF Data Recording Bootstrap Cache
+__PREREALIZ__ struct dty_fs_internal_txf_drb_cache
+{
+
+};
+
+// implement: TXF Fact Data Cache
+__PREREALIZ__ struct dty_fs_internal_txf_fact_data_cache
+{
+
+};
 
 #ifdef __cplusplus
 }
