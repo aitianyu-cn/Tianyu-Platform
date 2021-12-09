@@ -45,7 +45,14 @@ __DEFAULT__ const int32 __VARIABLE__ dty_fs_internal_txf_address_segment = 24;
 // data.
 __DEFAULT__ const int32 __VARIABLE__ dty_fs_internal_txf_address_page = 16;
 
+// Define TYXF section maximum size for customized area
 __DEFAULT__ const int32 __VARIABLE__ dty_fs_internal_txf_section_size_max = 128;
+
+// Define TYXF block size
+// this is a const value
+// for TYDS(tianyu disk system), this item is a variable value. But for TYXF, 
+// to set a hard code value to reduce the complexity of decoding.
+__DEFAULT__ const int32 __VARIABLE__ dty_fs_internal_txf_block_size = 4096;
 
 // pre-define for TXF Section list type
 // Section list is used to describe an additional info.
@@ -193,7 +200,21 @@ typedef struct dty_fs_internal_txf_base
     // NOTES:
     //       1. each cache line is 4 Kilo Bytes
     //       2. use LRU algor to replace cache line when the cache pool is full.
-    _TXFFactDataCache __POINTER__ _cacheForFactData;
+    _TXFFactDataCache __POINTER__  _cacheForFactData;
+    // Fact Data Cache Bitmap to provide the usage state for fact data cache.
+    // for cache replacement, to follow the steps below:
+    // 1. check the bitmap state
+    //    + firstly, each bit checking will be skiped when the byte is 255
+    //    + other wise, less than 255, that means exist at least one bit is 0
+    // (the cache could be load directly when the bitmap return false (bit = 0))
+    // 2. if all of the bitmap items are used, should to do a full scan to use
+    //    LRU algor to replace a(some) useless block(s).
+    // 3. if the block is explicit unused, the bitmap bit will be set to false
+    //    (bit = 0)
+    byte              __POINTER__  _factDataCacheBitmap;
+    // Fact Data Cache count
+    // to record the actual size of fact data cache items.
+    int32             __VARIABLE__ _factDataCacheCount;
 #pragma endregion
 }_TXFBase;
 
@@ -216,7 +237,28 @@ __PREREALIZ__ struct dty_fs_internal_txf_drb_cache
 // implement: TXF Fact Data Cache
 __PREREALIZ__ struct dty_fs_internal_txf_fact_data_cache
 {
-
+    // Fact Data Item usable state
+    // this item is equivalent to Fact Data Cache bitmap item
+    // if true, that means the cache item is unused and can be write
+    // directly.
+    bool   __VARIABLE__ _usable;
+    // Fact Data Item available state
+    // this item is used for the future feature.
+    // NOT be used currently
+    bool   __VARIABLE__ _available;
+    // Cache Item edited state
+    // if this item is true, that means the cached block should be written
+    // back to file instance before the block is overwritten.
+    bool   __VARIABLE__ _isEdited;
+    // Time Stamp is used to recording the latest operation time of this block
+    // this field is a flag to LRU
+    uint64 __VARIABLE__ _timeStamp;
+    // block code to record the actual block address
+    // absolution address
+    uint64 __VARIABLE__ _blockCode;
+    // block data area
+    // size always be 4096
+    byte   __VARIABLE__ _block[dty_fs_internal_txf_block_size];
 };
 
 #ifdef __cplusplus
