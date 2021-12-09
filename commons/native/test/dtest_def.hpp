@@ -93,13 +93,43 @@
 // Expects define area
 // ========================================================================================
 
+#define __CHECK_CATCH_TEST_STATE_SUCCESS__  Success
+#define __CHECK_CATCH_TEST_STATE_FAILED__   Failed
+#define __CHECK_CATCH_TEST_STATE_UNSTABLE__ UnStable
+#define __CHECK_CATCH_TEST_STATE_ABORTED__  Aborted
+
+
+#define CHECK_CATCH_FOR_STATE_TEMPLATE(exception_, state, type) \
+    catch (exception_)                                          \
+    {                                                           \
+        this->_Test->Notify                                     \
+        (                                                       \
+        __LINE__,                                               \
+        ::dty::framework::dtest::core::DTestCheckType::##type,  \
+        ::dty::framework::dtest::core::DTestState::##state      \
+        );                                                      \
+    }                                                           \
+
+#define CHECK_THROW(statement_block, type)                      \
+    try                                                         \
+    {                                                           \
+        statement_block                                         \
+        this->_Test->Notify                                     \
+        (                                                       \
+        __LINE__,                                               \
+        ::dty::framework::dtest::core::DTestCheckType::##type,  \
+        ::dty::framework::dtest::core::DTestState::Failed       \
+        );                                                      \
+    }                                                           \  
+
+
 // DTest Expect compare template macro-define
 // this compare function is used to compare two values by the indicated
 // way
 // type: EQ, NE, GT, LT
 // val : automated type derivation 
-#define DTEST_EXCEPT_CMP_TEMPLATE(type, val1, val2)             \
-    ::dty::framework::dtest::core::DTEST_CHECKER_GETANEM(type)  \
+#define DTEST_EXPECT_CMP_TEMPLATE(type, val1, val2)             \
+    ::dty::framework::dtest::core::DTEST_CHECKER_GETANEM(type, )\
     ::Checker                                                   \
     (                                                           \
         this->_Test,                                            \
@@ -109,6 +139,22 @@
         val2                                                    \
     )                                                           \
 
+// DTest Expect compare template macro-define
+// this compare function is used to compare two values by the indicated
+// way
+// type: EQ, NE, GT, LT
+// val : automated type derivation 
+#define DTEST_EXPECT_CMP_TEMPLATE_DATA(type, data, val1, val2)      \
+    ::dty::framework::dtest::core::DTEST_CHECKER_GETANEM(type, data)\
+    ::Checker                                                       \
+    (                                                               \
+        this->_Test,                                                \
+        __LINE__,                                                   \
+        ::dty::framework::dtest::core::DTestCheckType::EXPECT,      \
+        val1,                                                       \
+        val2                                                        \
+    )                                                               \
+
 // *******
 // EXPECTs
 // *******
@@ -117,104 +163,218 @@
 // Compare two value whether are equal or not.
 // if failed, only has influence to current check.
 #define EXPECT_EQ(val1, val2)                  \
-    DTEST_EXCEPT_CMP_TEMPLATE(EQ, val1, val2)  \
+    DTEST_EXPECT_CMP_TEMPLATE(EQ, val1, val2)  \
 
 // Expect
 // Compare two value whether are not equal.
 // if failed, only has influence to current check.
 #define EXPECT_NE(val1, val2)                  \
-    DTEST_EXCEPT_CMP_TEMPLATE(NE, val1, val2)  \
+    DTEST_EXPECT_CMP_TEMPLATE(NE, val1, val2)  \
 
 // Expect
 // Compare two value whether the first one is great
 // than another one.
 // if failed, only has influence to current check.
 #define EXPECT_GT(val1, val2)                  \
-    DTEST_EXCEPT_CMP_TEMPLATE(GT, val1, val2)  \
+    DTEST_EXPECT_CMP_TEMPLATE(GT, val1, val2)  \
 
 // Expect
 // Compare two value whether the first one is less
 // than another one.
 // if failed, only has influence to current check.
 #define EXPECT_LT(val1, val2)                  \
-    DTEST_EXCEPT_CMP_TEMPLATE(LT, val1, val2)  \
+    DTEST_EXPECT_CMP_TEMPLATE(LT, val1, val2)  \
 
 // Expect
 // Check the value is null or not.
 // if failed, only has influence to current check.
 #define EXPECT_IS_NULL(val)                    \
-    DTEST_EXCEPT_CMP_TEMPLATE(EQ, val, null)   \
+    DTEST_EXPECT_CMP_TEMPLATE(EQ, val, null)   \
 
 // Expect
 // Check the value whether is not null.
 // if failed, only has influence to current check.
 #define EXPECT_NOT_NULL(val)                   \
-    DTEST_EXCEPT_CMP_TEMPLATE(NE, val, null)   \
+    DTEST_EXPECT_CMP_TEMPLATE(NE, val, null)   \
 
 // Expect
 // Check the value is true or not.
 // if failed, only has influence to current check.
 #define EXPECT_TRUE(val)                       \
-    DTEST_EXCEPT_CMP_TEMPLATE(EQ, val, true)   \
+    DTEST_EXPECT_CMP_TEMPLATE(EQ, val, true)   \
 
 // Expect
 // Check the value whether is false.
 // if failed, only has influence to current check.
 #define EXPECT_FALSE(val)                      \
-    DTEST_EXCEPT_CMP_TEMPLATE(EQ, val, false)  \
+    DTEST_EXPECT_CMP_TEMPLATE(EQ, val, false)  \
 
 // Expect
 // Check the value whether equals to integer(1).
 // if failed, only has influence to current check.
 #define EXPECT_1(val)                      \
-    DTEST_EXCEPT_CMP_TEMPLATE(EQ, val, 1)  \
+    DTEST_EXPECT_CMP_TEMPLATE(EQ, val, 1)  \
 
 // Expect
 // Check the value whether equals to integer(0).
 // if failed, only has influence to current check.
 #define EXPECT_0(val)                      \
-    DTEST_EXCEPT_CMP_TEMPLATE(EQ, val, 0)  \
+    DTEST_EXPECT_CMP_TEMPLATE(EQ, val, 0)  \
 
 
-#define EXPECT_FLOAT_EQ(val1, val2)
-#define EXPECT_FLOAT_GT(val1, val2)
-#define EXPECT_FLOAT_LT(val1, val2)
-#define EXPECT_FLOAT_1(val1, val2)
-#define EXPECT_FLOAT_0(val1, val2)
+#define EXPECT_FLOAT_EQ(val1, val2) \
+    DTEST_EXPECT_CMP_TEMPLATE_DATA(EQ, float, val1, val2)
 
-#define EXPECT_STR_EQ(str1, str2)
-#define EXPECT_STR_NE(str1, str2)
-#define EXPECT_STR_GT(str1, str2)
-#define EXPECT_STR_LT(str1, str2)
-#define EXPECT_STR_IS_EMPTY(str)
-#define EXPECT_STR_NOT_EMPTY(str)
+#define EXPECT_FLOAT_GT(val1, val2) \
+    DTEST_EXPECT_CMP_TEMPLATE_DATA(GT, float, val1, val2)
+
+#define EXPECT_FLOAT_LT(val1, val2) \
+    DTEST_EXPECT_CMP_TEMPLATE_DATA(LT, float, val1, val2)
+
+#define EXPECT_FLOAT_1(val) \
+    DTEST_EXPECT_CMP_TEMPLATE_DATA(EQ, float, val, 1)
+
+#define EXPECT_FLOAT_0(val) \
+    DTEST_EXPECT_CMP_TEMPLATE_DATA(EQ, float, val, 0)
+
+
+#define EXPECT_STR_EQ(str1, str2) \
+    DTEST_EXPECT_CMP_TEMPLATE_DATA(EQ, string, str1, str2)
+
+#define EXPECT_STR_NE(str1, str2) \
+    DTEST_EXPECT_CMP_TEMPLATE_DATA(NE, string, str1, str2)
+
+#define EXPECT_STR_GT(str1, str2) \
+    DTEST_EXPECT_CMP_TEMPLATE_DATA(GT, string, str1, str2)
+
+#define EXPECT_STR_LT(str1, str2) \
+    DTEST_EXPECT_CMP_TEMPLATE_DATA(LT, string, str1, str2)
+
+#define EXPECT_STR_IS_EMPTY(str) \
+    DTEST_EXPECT_CMP_TEMPLATE_DATA(EQ, string, str, "")
+
+#define EXPECT_STR_NOT_EMPTY(str) \
+    DTEST_EXPECT_CMP_TEMPLATE_DATA(NE, string, str, "")
+
+#define EXPECT_CATCH_FOR_STATE(exception_, state)               \
+    CHECK_CATCH_FOR_STATE_TEMPLATE(exception_, state, EXPECT)   \
+
+#define EXPECT_CATCH(exception_)                                \
+    CHECK_CATCH_FOR_STATE_TEMPLATE(exception_, Success, EXPECT) \
+
+#define EXPECT_THROW(statement_block)       \
+    CHECK_THROW(statement_block, EXPECT)    \          
+
 
 // *******
 // ASSERTs
 // *******
 
-#define ASSERT_EQ(val1, val2)
-#define ASSERT_NE(val1, val2)
-#define ASSERT_GT(val1, val2)
-#define ASSERT_LT(val1, val2)
-#define ASSERT_IS_NULL(val)
-#define ASSERT_NOT_NULL(val)
-#define ASSERT_TRUE(val)
-#define ASSERT_FALSE(val)
-#define ASSERT_1(val)
-#define ASSERT_0(val)
 
-#define ASSERT_FLOAT_EQ(val1, val2)
-#define ASSERT_FLOAT_GT(val1, val2)
-#define ASSERT_FLOAT_LT(val1, val2)
-#define ASSERT_FLOAT_1(val1, val2)
-#define ASSERT_FLOAT_0(val1, val2)
+// DTest Assert compare template macro-define
+// this compare function is used to compare two values by the indicated
+// way
+// type: EQ, NE, GT, LT
+// val : automated type derivation 
+#define DTEST_ASSERT_CMP_TEMPLATE(type, val1, val2)             \
+    ::dty::framework::dtest::core::DTEST_CHECKER_GETANEM(type, )\
+    ::Checker                                                   \
+    (                                                           \
+        this->_Test,                                            \
+        __LINE__,                                               \
+        ::dty::framework::dtest::core::DTestCheckType::ASSERT,  \
+        val1,                                                   \
+        val2                                                    \
+    )                                                           \
 
-#define ASSERT_STR_EQ(str1, str2)
-#define ASSERT_STR_NE(str1, str2)
-#define ASSERT_STR_GT(str1, str2)
-#define ASSERT_STR_LT(str1, str2)
-#define ASSERT_STR_IS_EMPTY(str)
-#define ASSERT_STR_NOT_EMPTY(str)
+// DTest Assert compare template macro-define
+// this compare function is used to compare two values by the indicated
+// way
+// type: EQ, NE, GT, LT
+// val : automated type derivation 
+#define DTEST_ASSERT_CMP_TEMPLATE_DATA(type, data, val1, val2)      \
+    ::dty::framework::dtest::core::DTEST_CHECKER_GETANEM(type, data)\
+    ::Checker                                                       \
+    (                                                               \
+        this->_Test,                                                \
+        __LINE__,                                                   \
+        ::dty::framework::dtest::core::DTestCheckType::ASSERT,      \
+        val1,                                                       \
+        val2                                                        \
+    )                                                               \
+
+#define ASSERT_EQ(val1, val2)                  \
+    DTEST_ASSERT_CMP_TEMPLATE(EQ, val1, val2)  \
+
+#define ASSERT_NE(val1, val2)                  \
+    DTEST_ASSERT_CMP_TEMPLATE(NE, val1, val2)  \
+
+#define ASSERT_GT(val1, val2)                  \
+    DTEST_ASSERT_CMP_TEMPLATE(GT, val1, val2)  \
+
+#define ASSERT_LT(val1, val2)                  \
+    DTEST_ASSERT_CMP_TEMPLATE(LT, val1, val2)  \
+
+#define ASSERT_IS_NULL(val)                    \
+    DTEST_ASSERT_CMP_TEMPLATE(EQ, val, null)   \
+
+#define ASSERT_NOT_NULL(val)                   \
+    DTEST_ASSERT_CMP_TEMPLATE(NE, val, null)   \
+
+#define ASSERT_TRUE(val)                       \
+    DTEST_ASSERT_CMP_TEMPLATE(EQ, val, true)   \
+
+#define ASSERT_FALSE(val)                       \
+    DTEST_ASSERT_CMP_TEMPLATE(EQ, val, false)   \
+
+#define ASSERT_1(val)                       \
+    DTEST_ASSERT_CMP_TEMPLATE(EQ, val, 1)   \
+
+#define ASSERT_0(val)                       \
+    DTEST_ASSERT_CMP_TEMPLATE(EQ, val, 0)   \
+
+
+#define ASSERT_FLOAT_EQ(val1, val2) \
+    DTEST_ASSERT_CMP_TEMPLATE_DATA(EQ, float, val1, val2)
+
+#define ASSERT_FLOAT_GT(val1, val2) \
+    DTEST_ASSERT_CMP_TEMPLATE_DATA(GT, float, val1, val2)
+
+#define ASSERT_FLOAT_LT(val1, val2) \
+    DTEST_ASSERT_CMP_TEMPLATE_DATA(LT, float, val1, val2)
+
+#define ASSERT_FLOAT_1(val) \
+    DTEST_ASSERT_CMP_TEMPLATE_DATA(EQ, float, val, 1)
+
+#define ASSERT_FLOAT_0(val) \
+    DTEST_ASSERT_CMP_TEMPLATE_DATA(EQ, float, val, 0)
+
+
+#define ASSERT_STR_EQ(str1, str2) \
+    DTEST_ASSERT_CMP_TEMPLATE_DATA(EQ, string, str1, str2)
+
+#define ASSERT_STR_NE(str1, str2) \
+    DTEST_ASSERT_CMP_TEMPLATE_DATA(NE, string, str1, str2)
+
+#define ASSERT_STR_GT(str1, str2) \
+    DTEST_ASSERT_CMP_TEMPLATE_DATA(GT, string, str1, str2)
+
+#define ASSERT_STR_LT(str1, str2) \
+    DTEST_ASSERT_CMP_TEMPLATE_DATA(LT, string, str1, str2)
+
+#define ASSERT_STR_IS_EMPTY(str) \
+    DTEST_ASSERT_CMP_TEMPLATE_DATA(EQ, string, str, "")
+
+#define ASSERT_STR_NOT_EMPTY(str) \
+    DTEST_ASSERT_CMP_TEMPLATE_DATA(NE, string, str, "")
+
+#define ASSERT_CATCH_FOR_STATE(exception_, state)               \
+    CHECK_CATCH_FOR_STATE_TEMPLATE(exception_, state, ASSERT)   \
+
+#define ASSERT_CATCH(exception_)                                \
+    CHECK_CATCH_FOR_STATE_TEMPLATE(exception_, Success, ASSERT) \
+
+#define ASSERT_THROW(statement_block)       \
+    CHECK_THROW(statement_block, ASSERT)    \      
 
 #endif // !__DTY_FRAMEWORK_TIANYU_TEST_DTEST_DEF_H_PLUS_PLUS__

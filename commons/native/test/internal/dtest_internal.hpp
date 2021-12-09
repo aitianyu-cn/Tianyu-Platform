@@ -52,28 +52,6 @@ namespace dty::framework::dtest::internal
             return __REFERENCE__ T::AfterAll;
         }
     };
-
-    class Test final
-    {
-
-    };
-
-    typedef const object TypeId;
-
-    template<typename T>
-    class TypeIdHelper
-    {
-        __PUB__ static bool _dummy;
-    };
-
-    template<typename T>
-    bool TypeIdHelper<T>::_dummy = false;
-
-    template<typename T>
-    TypeId GetTypeId()
-    {
-        return &(TypeIdHelper<T>::_dummy);
-    }
 }
 
 #endif // !__DTY_FRAMEWORK_TIANYU_TEST_INTERNAL_DTEST_INTERNAL_H_PLUS_PLUS__
