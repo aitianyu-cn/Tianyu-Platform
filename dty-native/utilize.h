@@ -12,6 +12,6 @@
 #ifndef __DTY_NATIVE_UTILS_UTILIZE_H__
 #define __DTY_NATIVE_UTILS_UTILIZE_H__
 
-#include "../commons/native/utilize.h"
+#include "../commons/native/core/utilize.h"
 
 #endif // !__DTY_NATIVE_UTILS_UTILIZE_H__
