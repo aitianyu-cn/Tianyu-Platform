@@ -14,4 +14,17 @@
 
 #include "../commons/native/core/utilize.h"
 
+#ifdef __cplusplus
+__CMODE__
+{
+#endif // !__cplusplus
+
+    // Pure C Mode
+
+__DEFAULT__ const int32 __VARIABLE__ dty_native_id_default_size = 16;
+
+#ifdef __cplusplus
+}
+#endif // !__cplusplus
+
 #endif // !__DTY_NATIVE_UTILS_UTILIZE_H__

@@ -15,6 +15,10 @@
 #include"../utilize.h"
 #include"../dty.io.hxx"
 
+#define __DTY_FS_FIELD_NAME_LENGTH__ 500
+
+#define __DTY_FS_ADDRESSING_LENGTH__ 6
+
 #ifdef __cplusplus
 __CMODE__
 {
