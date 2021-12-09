@@ -12,7 +12,7 @@
 #ifndef __DTY_NATIVE_UTILS_UTILIZE_H_PLUS_PLUS__
 #define __DTY_NATIVE_UTILS_UTILIZE_H_PLUS_PLUS__
 
-#include "../commons/native/utilize.hpp"
+#include "../commons/native/core/utilize.hpp"
 
 namespace dty
 {
