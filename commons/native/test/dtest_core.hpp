@@ -13,6 +13,7 @@
 #define __DTY_FRAMEWORK_TIANYU_TEST_DTEST_CORE_H_PLUS_PLUS__
 
 #include"./utils.hpp"
+#include<string>
 
  // DTEST_SPEC:     用于定义一个Unit Test，包含topic和Unit Test Name
  // DTEST_RUN_SPEC: 用于运行指定的Unit Test，需要提供topic和Unit Test Name
@@ -59,13 +60,21 @@ namespace dty::framework::dtest::core
 
     class CodeLocation final
     {
+        __PRI__ std::string __VARIABLE__ filename;
+        __PRI__ int32       __VARIABLE__ line;
+
         __PUB__ CodeLocation(const string __VARIABLE__ file, int32 __VARIABLE__ line);
+
+        __PUB__ std::string __REFERENCE__ GetName();
+        __PUB__ int32       __VARIABLE__  GetLine();
 
         __PUB__ static CodeLocation __VARIABLE__ GetCodeLocation(const string __VARIABLE__ file, int32 __VARIABLE__ line);
     };
 
     class TestInfo final
     {
+        __PRI__ bool __VARIABLE__ hasError;
+
         __PUB__ TestInfo
         (
             const string        __VARIABLE__ topicNamespace,
@@ -80,7 +89,12 @@ namespace dty::framework::dtest::core
         __PUB__ ~TestInfo();
 
 
-        __PUB__ void Test();
+        __PUB__ void __VARIABLE__ Notify
+        (
+            int32          __VARIABLE__ line,
+            DTestCheckType __VARIABLE__ type,
+            DTestState     __VARIABLE__ state
+        );
     };
 }
 
