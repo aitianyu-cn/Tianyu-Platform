@@ -32,6 +32,17 @@ __CMODE__
 {
 #endif // !__cplusplus
 
+    // Pure C Mode
+
+// IO Handle
+// Provide a 64bits unsigned integer number to indicate a io instance.
+// for for each type of IO instance, some specified operating ways 
+// should be provided.
+// There are some common way to IO base to provide some interface for
+// disk and file. in order to provide a more open way to support additional
+// io instance type, a register is provided as an externed api, by the new
+// api, IOHandle could to support some customized instance not only file
+// and disk.
 typedef uint64 IOHandle;
 typedef struct _dty_io_error_package
 {
@@ -65,6 +76,33 @@ bool __VARIABLE__ dty_io_frmFolder(const string __VARIABLE__ path, bool __VARIAB
 bool __VARIABLE__ dty_io_fcopy(const string __VARIABLE__ source, const string __VARIABLE__ target);
 bool __VARIABLE__ dty_io_fmove(const string __VARIABLE__ source, const string __VARIABLE__ target);
 bool __VARIABLE__ dty_io_frename(const string __VARIABLE__ source, const string __VARIABLE__ newName);
+
+typedef void     __VARIABLE__(__POINTER__ fn_dty_io_ext_operator_n_n)(byte __VARIABLE__ id[dty_native_id_default_size]);
+typedef void     __VARIABLE__(__POINTER__ fn_dty_io_ext_operator_n_ui64)(byte __VARIABLE__ id[dty_native_id_default_size], uint64 __VARIABLE__ value_64);
+typedef bool     __VARIABLE__(__POINTER__ fn_dty_io_ext_operator_rbool)(byte __VARIABLE__ id[dty_native_id_default_size]);
+typedef uint64   __VARIABLE__(__POINTER__ fn_dty_io_ext_operator_rui64)(byte __VARIABLE__ id[dty_native_id_default_size]);
+typedef IOErrors __VARIABLE__(__POINTER__ fn_dty_io_ext_operator_rioerr)(byte __VARIABLE__ id[dty_native_id_default_size]);
+
+typedef int32 __VARIABLE__(__POINTER__ fn_dty_io_ext_read)(byte __VARIABLE__ id[dty_native_id_default_size], byte __POINTER__ buffer, int32 __VARIABLE__ length);
+typedef void  __VARIABLE__(__POINTER__ fn_dty_io_ext_write)(byte __VARIABLE__ id[dty_native_id_default_size], byte __POINTER__ buffer, int32 __VARIABLE__ length);
+
+typedef struct _dty_io_ext_operator
+{
+    fn_dty_io_ext_operator_n_n    __VARIABLE__ io_close;
+    fn_dty_io_ext_operator_n_n    __VARIABLE__ io_flush;
+    fn_dty_io_ext_read            __VARIABLE__ io_read;
+    fn_dty_io_ext_write           __VARIABLE__ io_write;
+    fn_dty_io_ext_operator_rbool  __VARIABLE__ io_eof;
+    fn_dty_io_ext_operator_rui64  __VARIABLE__ io_size;
+    fn_dty_io_ext_operator_rui64  __VARIABLE__ io_getPos;
+    fn_dty_io_ext_operator_n_ui64 __VARIABLE__ io_setPos;
+    fn_dty_io_ext_operator_n_n    __VARIABLE__ io_rewind;
+    fn_dty_io_ext_operator_rbool  __VARIABLE__ io_hasError;
+    fn_dty_io_ext_operator_rioerr __VARIABLE__ io_getError;
+    fn_dty_io_ext_operator_n_n    __VARIABLE__ io_clrError;
+}IOExtOperator;
+
+IOHandle __VARIABLE__ dty_io_ext_open(byte __VARIABLE__ id[dty_native_id_default_size], IOExtOperator __VARIABLE__ extOperator);
 
 #ifdef __cplusplus
 }
