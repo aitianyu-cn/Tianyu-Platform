@@ -13,8 +13,7 @@
 #define __DTY_FRAMEWORK_TIANYU_TEST_DTEST_DEF_H_PLUS_PLUS__
 
 #include"./internal/dtest_internal.hpp"
-
-#define DTEST_GET_STRING(source) #source
+#include"./dtest_excpt.hpp"
 
  // Define the basic Topic class
  // the topic class(abstract class) must to be used for all topics
@@ -33,13 +32,19 @@
 // any error will be caused if the abstract function is realized)
 #define DTEST_TOPIC(topic_name)            \
         class DTEST_TOPIC_NAME(topic_name) \
-        : public DTEST_TOPIC_BASE
+        : public DTEST_TOPIC_BASE          \
 
-#define DTEST_TOPIC_BEFORE_TEST() \
-    __PUB__ virtual void __VARIABLE__ BeforeTest() override
+// Define the override replacement
+// Used for topic to realize the BeforeTest function
+// to get a unified defination for all topic
+#define DTEST_TOPIC_BEFORE_TEST()                           \
+    __PUB__ virtual void __VARIABLE__ BeforeTest() override \
 
-#define DTEST_TOPIC_AFTER_TEST() \
-    __PUB__ virtual void __VARIABLE__ AfterTest() override
+// Define the override replacement
+// Used for topic to realize the AfterTest function
+// to get a unified defination for all topic
+#define DTEST_TOPIC_AFTER_TEST()                            \
+    __PUB__ virtual void __VARIABLE__ AfterTest() override  \
 
 // Get a unique spec name for new spec from specified topic and spec
 // name
@@ -47,7 +52,7 @@
 #define DTEST_SPEC_NAME(topic, spec) DTEST_##topic##_##spec##_SPEC
 
 #define DTEST_SPEC_NAMESPACE_CONCAT(topic_namespace, topic_name) \
-    topic_namespace::topic_name
+    topic_namespace::topic_name                                  \
 
 // Get a spec type that uses specified topic
 // To get a whole defination and only post a function implementation
@@ -82,16 +87,134 @@
     {                                                                                   \
             return #description;                                                        \
     }                                                                                   \
-    void   __VARIABLE__ DTEST_SPEC_NAME(topic_name, spec_name)::Run()
+    void   __VARIABLE__ DTEST_SPEC_NAME(topic_name, spec_name)::Run()                   \
 
-void Expect
-(
-    const ::dty::framework::dtest::core::TestInfo __POINTER__ test,
-    bool val1,
-    bool val2
-);
+// ========================================================================================
+// Expects define area
+// ========================================================================================
 
-#define EXPECT_EQ(val1, val2) \
-    Expect(this->_Test, val1, val2)
+// DTest Expect compare template macro-define
+// this compare function is used to compare two values by the indicated
+// way
+// type: EQ, NE, GT, LT
+// val : automated type derivation 
+#define DTEST_EXCEPT_CMP_TEMPLATE(type, val1, val2)             \
+    ::dty::framework::dtest::core::DTEST_CHECKER_GETANEM(type)  \
+    ::Checker                                                   \
+    (                                                           \
+        this->_Test,                                            \
+        __LINE__,                                               \
+        ::dty::framework::dtest::core::DTestCheckType::EXPECT,  \
+        val1,                                                   \
+        val2                                                    \
+    )                                                           \
+
+// *******
+// EXPECTs
+// *******
+
+// Expect
+// Compare two value whether are equal or not.
+// if failed, only has influence to current check.
+#define EXPECT_EQ(val1, val2)                  \
+    DTEST_EXCEPT_CMP_TEMPLATE(EQ, val1, val2)  \
+
+// Expect
+// Compare two value whether are not equal.
+// if failed, only has influence to current check.
+#define EXPECT_NE(val1, val2)                  \
+    DTEST_EXCEPT_CMP_TEMPLATE(NE, val1, val2)  \
+
+// Expect
+// Compare two value whether the first one is great
+// than another one.
+// if failed, only has influence to current check.
+#define EXPECT_GT(val1, val2)                  \
+    DTEST_EXCEPT_CMP_TEMPLATE(GT, val1, val2)  \
+
+// Expect
+// Compare two value whether the first one is less
+// than another one.
+// if failed, only has influence to current check.
+#define EXPECT_LT(val1, val2)                  \
+    DTEST_EXCEPT_CMP_TEMPLATE(LT, val1, val2)  \
+
+// Expect
+// Check the value is null or not.
+// if failed, only has influence to current check.
+#define EXPECT_IS_NULL(val)                    \
+    DTEST_EXCEPT_CMP_TEMPLATE(EQ, val, null)   \
+
+// Expect
+// Check the value whether is not null.
+// if failed, only has influence to current check.
+#define EXPECT_NOT_NULL(val)                   \
+    DTEST_EXCEPT_CMP_TEMPLATE(NE, val, null)   \
+
+// Expect
+// Check the value is true or not.
+// if failed, only has influence to current check.
+#define EXPECT_TRUE(val)                       \
+    DTEST_EXCEPT_CMP_TEMPLATE(EQ, val, true)   \
+
+// Expect
+// Check the value whether is false.
+// if failed, only has influence to current check.
+#define EXPECT_FALSE(val)                      \
+    DTEST_EXCEPT_CMP_TEMPLATE(EQ, val, false)  \
+
+// Expect
+// Check the value whether equals to integer(1).
+// if failed, only has influence to current check.
+#define EXPECT_1(val)                      \
+    DTEST_EXCEPT_CMP_TEMPLATE(EQ, val, 1)  \
+
+// Expect
+// Check the value whether equals to integer(0).
+// if failed, only has influence to current check.
+#define EXPECT_0(val)                      \
+    DTEST_EXCEPT_CMP_TEMPLATE(EQ, val, 0)  \
+
+
+#define EXPECT_FLOAT_EQ(val1, val2)
+#define EXPECT_FLOAT_GT(val1, val2)
+#define EXPECT_FLOAT_LT(val1, val2)
+#define EXPECT_FLOAT_1(val1, val2)
+#define EXPECT_FLOAT_0(val1, val2)
+
+#define EXPECT_STR_EQ(str1, str2)
+#define EXPECT_STR_NE(str1, str2)
+#define EXPECT_STR_GT(str1, str2)
+#define EXPECT_STR_LT(str1, str2)
+#define EXPECT_STR_IS_EMPTY(str)
+#define EXPECT_STR_NOT_EMPTY(str)
+
+// *******
+// ASSERTs
+// *******
+
+#define ASSERT_EQ(val1, val2)
+#define ASSERT_NE(val1, val2)
+#define ASSERT_GT(val1, val2)
+#define ASSERT_LT(val1, val2)
+#define ASSERT_IS_NULL(val)
+#define ASSERT_NOT_NULL(val)
+#define ASSERT_TRUE(val)
+#define ASSERT_FALSE(val)
+#define ASSERT_1(val)
+#define ASSERT_0(val)
+
+#define ASSERT_FLOAT_EQ(val1, val2)
+#define ASSERT_FLOAT_GT(val1, val2)
+#define ASSERT_FLOAT_LT(val1, val2)
+#define ASSERT_FLOAT_1(val1, val2)
+#define ASSERT_FLOAT_0(val1, val2)
+
+#define ASSERT_STR_EQ(str1, str2)
+#define ASSERT_STR_NE(str1, str2)
+#define ASSERT_STR_GT(str1, str2)
+#define ASSERT_STR_LT(str1, str2)
+#define ASSERT_STR_IS_EMPTY(str)
+#define ASSERT_STR_NOT_EMPTY(str)
 
 #endif // !__DTY_FRAMEWORK_TIANYU_TEST_DTEST_DEF_H_PLUS_PLUS__
