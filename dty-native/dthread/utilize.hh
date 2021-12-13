@@ -22,13 +22,13 @@
 
 namespace dty::thread
 {
-    uint32 __VARIABLE__ ThreadSleep(uint32 __VARIABLE__ milliseconds)
+    uint32 __VARIABLE__ Sleep(uint32 __VARIABLE__ milliseconds)
     {
 #ifdef __DTY_WIN
-        Sleep(milliseconds);
+        ::Sleep(milliseconds);
         return 0;
 #else
-        return sleep(milliseconds / 1000);
+        return ::sleep(milliseconds / 1000);
 #endif // !__DTY_WIN __DTY_APF __DTY_LNX
     }
 }
