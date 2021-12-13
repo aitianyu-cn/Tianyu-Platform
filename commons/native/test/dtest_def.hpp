@@ -120,7 +120,7 @@
         ::dty::framework::dtest::core::DTestCheckType::##type,  \
         ::dty::framework::dtest::core::DTestState::Failed       \
         );                                                      \
-    }                                                           \  
+    }                                                             
 
 
 // DTest Expect compare template macro-define
@@ -263,7 +263,7 @@
     CHECK_CATCH_FOR_STATE_TEMPLATE(exception_, Success, EXPECT) \
 
 #define EXPECT_THROW(statement_block)       \
-    CHECK_THROW(statement_block, EXPECT)    \          
+    CHECK_THROW(statement_block, EXPECT)              
 
 
 // *******
@@ -375,6 +375,6 @@
     CHECK_CATCH_FOR_STATE_TEMPLATE(exception_, Success, ASSERT) \
 
 #define ASSERT_THROW(statement_block)       \
-    CHECK_THROW(statement_block, ASSERT)    \      
+    CHECK_THROW(statement_block, ASSERT)          
 
 #endif // !__DTY_FRAMEWORK_TIANYU_TEST_DTEST_DEF_H_PLUS_PLUS__
