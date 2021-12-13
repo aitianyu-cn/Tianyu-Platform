@@ -6,7 +6,10 @@
  * @date 2021-12-06
  *
  * @copyright aitianyu.cn Copyright (c) 2021
- *
+ * @link https://docs.microsoft.com/zh-cn/dotnet/api/system.operatingsystem?view=net-6.0
+ * @link https://docs.microsoft.com/zh-cn/dotnet/api/system.eventhandler?view=net-6.0
+ * @link https://docs.microsoft.com/zh-cn/dotnet/api/system.eventargs?view=net-6.0
+ * @link https://docs.microsoft.com/zh-cn/dotnet/api/system.random?view=net-6.0
  */
 
 #ifndef __DTY_NATIVE_UTILS_UTILIZE_H_PLUS_PLUS__
@@ -18,6 +21,11 @@
 
 namespace dty
 {
+    class OperationSystem final
+    {
+
+    };
+
     _interface IObjectConverter
     {
         __PUB__ virtual object __VARIABLE__ TryConvert(byte __POINTER__ obj, int32 __VARIABLE__ objSize) = 0;
@@ -134,6 +142,11 @@ namespace dty
         {
 
         }
+    };
+
+    class Random final
+    {
+
     };
 }
 

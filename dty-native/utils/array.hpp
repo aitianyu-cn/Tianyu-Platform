@@ -6,7 +6,7 @@
  * @date 2021-11-22
  *
  * @copyright aitianyu.cn Copyright (c) 2021
- *
+ * @link https://docs.microsoft.com/zh-cn/dotnet/api/system.array?view=net-6.0
  */
 
 #ifndef __DTY_NATIVE_UTILS_ARRAY_H_PLUS_PLUS__

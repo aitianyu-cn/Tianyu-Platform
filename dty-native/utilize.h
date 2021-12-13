@@ -6,7 +6,8 @@
  * @date 2021-12-06
  *
  * @copyright aitianyu.cn Copyright (c) 2021
- *
+ * @link https://docs.microsoft.com/zh-cn/dotnet/api/system.operatingsystem?view=net-6.0
+ * @link https://docs.microsoft.com/zh-cn/dotnet/api/system.random?view=net-6.0
  */
 
 #ifndef __DTY_NATIVE_UTILS_UTILIZE_H__
@@ -22,6 +23,8 @@ __CMODE__
     // Pure C Mode
 
 __DEFAULT__ const int32 __VARIABLE__ dty_native_id_default_size = 16;
+
+
 
 #ifdef __cplusplus
 }

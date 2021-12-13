@@ -12,6 +12,8 @@
 #ifndef __DTY_NATIVE_API_UTILS_H_PLUS_PLUS__
 #define __DTY_NATIVE_API_UTILS_H_PLUS_PLUS__
 
+#include"./utils/datetime.hpp"
+
 #ifdef __cplusplus
 #include"./utils/error.hpp"
 #include"./utils/pointer.hpp"
@@ -19,7 +21,6 @@
 #include"./utils/iterator.hpp"
 #include"./utils/array.hpp"
 #include"./utils/string.hpp"
-#include"./utils/datetime.hpp"
 #endif // !__cplusplus
 
 #endif // !__DTY_NATIVE_API_UTILS_H_PLUS_PLUS__
