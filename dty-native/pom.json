@@ -1,0 +1,8 @@
+{
+  "sources": [
+    {
+      "name": "dty-native",
+      "repo": "git@github.com:aitianyu-cn/dty-native.git"
+    }
+  ]
+}
